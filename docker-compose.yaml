@@ -1,0 +1,37 @@
+version: "3.3"
+services:
+  backend:
+    container_name: data-analysis-backend
+    image: python:latest
+    restart: on-failure
+    command: sh -c "pip install -r requirements.txt && flask run --host 0.0.0.0"
+    ports:
+      - "5000:5000"
+    working_dir: /usr/app
+    volumes:
+      - "./backend/src:/usr/app/src"
+      - "./backend/requirements.txt:/usr/app/requirements.txt"
+    environment:
+      FLASK_APP: "src"
+  frontend:
+    container_name: data-analysis-frontend
+    image: node:16.17-alpine
+    restart: on-failure
+    command: sh -c "npm install && npm start"
+    ports:
+      - "80:3000"
+    working_dir: /usr/app
+    volumes:
+      - "./frontend/package.json:/usr/app/package.json"
+      - "./frontend/package-lock.json:/usr/app/package-lock.json"
+      - "./frontend/tsconfig.json:/usr/app/tsconfig.json"
+      - "./frontend/src:/usr/app/src:cached"
+      - "./frontend/public:/usr/app/public:cached"
+      - frontend_node_modules:/usr/app/node_modules
+    depends_on:
+      - backend
+    environment:
+      CHOKIDAR_USEPOLLING: 1
+      CHOKIDAR_POLLINTERVAL: 3000
+volumes:
+  frontend_node_modules:
