@@ -1,6 +1,6 @@
 ## What to install
 
-To run our project you would need to install Docker Desktop (v. 20.10.18).
+To run our project you would need to install Docker Desktop (v. 20.10.x).
 
 ## How to run the project
 
