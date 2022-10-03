@@ -1,10 +1,9 @@
 import defaultTheme from "./defaultTheme";
-import { ColorsThemeType } from "./greyTheme";
 
-const blueTheme: ColorsThemeType = {
+const greyTheme = {
   colors: {
-    background: "#2D3142",
-    secondary: "#EF8354",
+    background: "#363732",
+    secondary: "#53D8FB",
     aside: {
       background: "#2C2D28",
     },
@@ -13,8 +12,10 @@ const blueTheme: ColorsThemeType = {
       fill: "#000000",
     },
   },
-} as const;
+};
 
-const theme = { ...defaultTheme, ...blueTheme };
+const theme = { ...defaultTheme, ...greyTheme };
 
 export default theme;
+
+export type ColorsThemeType = typeof greyTheme;

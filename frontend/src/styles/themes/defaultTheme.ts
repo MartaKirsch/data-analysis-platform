@@ -1,4 +1,4 @@
-import { ColorsThemeType } from "./greenTheme";
+import { ColorsThemeType } from "./greyTheme";
 
 const defaultTheme = {
   dimensions: {

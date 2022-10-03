@@ -1,14 +1,14 @@
 import React, { FC, useState } from "react";
 import { ThemeProvider } from "styled-components";
-import greenTheme from "../../styles/themes/greenTheme";
+import greyTheme from "../../styles/themes/greyTheme";
 import blueTheme from "../../styles/themes/blueTheme";
 import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import ThemePicker from "../common/ThemePicker";
 import { ThemePickerBox } from "./ThemeChanger.components";
 
 const ThemeChanger: FC<ComponentWithChildren> = ({ children }) => {
-  const themes = [greenTheme, blueTheme];
-  const [selectedTheme, setSelectedTheme] = useState(greenTheme);
+  const themes = [greyTheme, blueTheme];
+  const [selectedTheme, setSelectedTheme] = useState(greyTheme);
 
   return (
     <ThemeProvider theme={selectedTheme}>
