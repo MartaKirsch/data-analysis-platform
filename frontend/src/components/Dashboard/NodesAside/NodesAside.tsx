@@ -17,7 +17,10 @@ const NodesAside: FC<NodesAsideProps> = ({
   addSumCalculationNodeButtonRef,
 }) => {
   const [, dragFileData] = useDrag(() => ({
-    type: DraggableType.AddFileDataNode,
+    type: DraggableType.AddDataNode,
+    item: {
+      dataType: NodeDataType.File,
+    },
   }));
 
   const [, dragCalculationSum] = useDrag(() => ({

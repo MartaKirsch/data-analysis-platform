@@ -8,6 +8,8 @@ import {
   CalculationType,
   CalculationNode as CalculationNodeType,
   Node,
+  NodeDataType,
+  DataNode as DataNodeType,
 } from "../../../types/Node";
 import { createCalculationNode } from "../../../utils/nodes/createCalculationNode";
 import { createDataNode } from "../../../utils/nodes/createDataNode";
@@ -53,8 +55,8 @@ const Board: FC<BoardProps> = ({
     addCalculationNode(calculationNode);
   };
 
-  const handleAddDataNode = (offset: XYCoord) => {
-    const dataNode = createDataNode();
+  const handleAddDataNode = (offset: XYCoord, dataType: NodeDataType) => {
+    const dataNode = createDataNode(dataType);
     addCoordinates({
       nodeId: dataNode.id,
       ...offset,
@@ -66,7 +68,7 @@ const Board: FC<BoardProps> = ({
   const [, drop] = useDrop<Node>(
     () => ({
       accept: [
-        DraggableType.AddFileDataNode,
+        DraggableType.AddDataNode,
         DraggableType.AddCalculationNode,
         DraggableType.DataNode,
         DraggableType.CalculationNode,
@@ -92,12 +94,15 @@ const Board: FC<BoardProps> = ({
         const offset = subXYCoords(delta, boardOffset);
 
         switch (itemType) {
-          case DraggableType.AddFileDataNode:
+          case DraggableType.AddDataNode:
             const addDataNodeButtonOffset = {
               x: addFileDataNodeButtonRef.current?.offsetLeft || 0,
               y: addFileDataNodeButtonRef.current?.offsetTop || 0,
             };
-            handleAddDataNode(addXYCoords(offset, addDataNodeButtonOffset));
+            handleAddDataNode(
+              addXYCoords(offset, addDataNodeButtonOffset),
+              (item as DataNodeType).dataType
+            );
             break;
           case DraggableType.AddCalculationNode:
             let parentsOffsetTop = 0;
