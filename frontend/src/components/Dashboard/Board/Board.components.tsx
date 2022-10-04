@@ -5,4 +5,6 @@ export const BoardWrapper = styled.div`
   height: 100vh;
 
   position: relative;
+
+  overflow: auto;
 `;
