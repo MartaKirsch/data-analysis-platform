@@ -15,6 +15,9 @@ const defaultTheme = {
       width: "50px",
       height: "50px",
     },
+    aside: {
+      width: "364px",
+    },
   },
 };
 

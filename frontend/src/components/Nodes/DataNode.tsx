@@ -40,7 +40,7 @@ const DataNode: FC<Props> = ({ top, left, id, modal, icon }) => {
       <Node
         left={left}
         top={top}
-        nodeType={NodeType.Calculation}
+        nodeType={NodeType.Data}
         ref={mergeRefs([drag, drop])}
         title={`Data node with id ${id}`}
       >

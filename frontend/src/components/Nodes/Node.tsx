@@ -32,18 +32,8 @@ export const NodeBase = styled.div<{
   }
 `;
 
-export const Node = styled(NodeBase)<{ left?: number; top?: number }>`
-  left: ${({ left }) => (left ? `${left}` : undefined)};
-  top: ${({ top }) => (top ? `${top}` : undefined)};
+export const Node = styled(NodeBase)<{ left: number; top: number }>`
+  left: ${({ left }) => `${left}px`};
+  top: ${({ top }) => `${top}px`};
   position: absolute;
 `;
-
-// export const Node = styled.div<{
-//   left?: number;
-//   top?: number;
-//   nodeType: NodeType;
-// }>`
-//   left: ${({ left }) => (left ? `${left}` : undefined)};
-//   top: ${({ top }) => (top ? `${top}` : undefined)};
-//   position: absolute;
-// `;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const NodesAsideWrapper = styled.aside`
-  width: var(--nodes-aside-width);
+  width: ${({ theme }) => theme.dimensions.aside.width};
   height: 100vh;
 
   background-color: ${({ theme }) => theme.colors.aside.background};
