@@ -5,12 +5,15 @@ import { DraggableType } from "../types/DraggableType";
 import {
   CalculationNode as CalculationNodeType,
   DataNode as DataNodeType,
+  ResultNode as ResultNodeType,
   NodeDataType,
   Node,
   CalculationType,
+  ResultType,
 } from "../types/Node";
 import { createCalculationNode } from "../utils/nodes/createCalculationNode";
 import { createDataNode } from "../utils/nodes/createDataNode";
+import { createResultNode } from "../utils/nodes/createResultNode";
 import { addXYCoords } from "../utils/xyCoords/addXYCoords";
 import { subXYCoords } from "../utils/xyCoords/subXYCoords";
 
@@ -20,6 +23,7 @@ export const useBoard = () => {
   const {
     addCalculationNode,
     addDataNode,
+    addResultNode,
     coordinates,
     moveNode,
     addCoordinates,
@@ -47,6 +51,16 @@ export const useBoard = () => {
     });
     initiateConnections(dataNode.id);
     addDataNode(dataNode);
+  };
+
+  const handleAddResultNode = (offset: XYCoord, resultType: ResultType) => {
+    const resultNode = createResultNode(resultType);
+    addCoordinates({
+      nodeId: resultNode.id,
+      ...offset,
+    });
+    initiateConnections(resultNode.id);
+    addResultNode(resultNode);
   };
 
   const calculateParentsCumulativeOffset = (
@@ -80,6 +94,8 @@ export const useBoard = () => {
         DraggableType.AddCalculationNode,
         DraggableType.DataNode,
         DraggableType.CalculationNode,
+        DraggableType.AddResultNode,
+        DraggableType.ResultNode,
       ],
       drop: (item, monitor) => {
         if (monitor.didDrop()) return;
@@ -116,8 +132,16 @@ export const useBoard = () => {
               (item as CalculationNodeType).calculationType
             );
             break;
+          case DraggableType.AddResultNode:
+            const addResultNodeButtonOffset = calculateButtonOffset(item.ref);
+            handleAddResultNode(
+              addXYCoords(offset, addResultNodeButtonOffset),
+              (item as ResultNodeType).resultType
+            );
+            break;
           case DraggableType.DataNode:
           case DraggableType.CalculationNode:
+          case DraggableType.ResultNode:
             const left = Math.round((itemCoordinates?.x || 0) + delta.x);
             const top = Math.round((itemCoordinates?.y || 0) + delta.y);
 

@@ -23,7 +23,7 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
     item: calculationNodes.find((calculationNode) => calculationNode.id === id),
   }));
 
-  const [, drop] = useDrop<DataNode>(
+  const [, dropDataNode] = useDrop<DataNode>(
     () => ({
       accept: DraggableType.DataNode,
       drop: (item) => {
@@ -34,12 +34,23 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
     [connect, connections]
   );
 
+  const [, dropResultNode] = useDrop<DataNode>(
+    () => ({
+      accept: DraggableType.ResultNode,
+      drop: (item) => {
+        connect({ nodeId: item.id, prevId: id });
+      },
+      canDrop: (item) => !connections.find((c) => c.nodeId === item.id)?.prevId,
+    }),
+    [connect, connections]
+  );
+
   return (
     <Node
       left={left}
       top={top}
       nodeType={NodeType.Calculation}
-      ref={mergeRefs([drag, drop])}
+      ref={mergeRefs([drag, dropDataNode, dropResultNode])}
       title={`Calculation node with id ${id}`}
     >
       {renderCalculationNodeIcon(calculationType)}

@@ -1,11 +1,14 @@
 import { useRef } from "react";
 import { useDrag } from "react-dnd";
 import { DraggableType } from "../types/DraggableType";
-import { CalculationType, NodeDataType } from "../types/Node";
+import { CalculationType, NodeDataType, ResultType } from "../types/Node";
 
 export const useNodesAside = () => {
   const addFileDataNodeButtonRef = useRef<HTMLDivElement>(null);
+
   const addSumCalculationNodeButtonRef = useRef<HTMLDivElement>(null);
+
+  const addScatterPlotResultNodeButtonRef = useRef<HTMLDivElement>(null);
 
   const [, dragFileData] = useDrag(() => ({
     type: DraggableType.AddDataNode,
@@ -23,12 +26,22 @@ export const useNodesAside = () => {
     },
   }));
 
+  const [, dragScatterPlotResult] = useDrag(() => ({
+    type: DraggableType.AddResultNode,
+    item: {
+      resultType: ResultType.ScatterPlot,
+      ref: addScatterPlotResultNodeButtonRef,
+    },
+  }));
+
   return {
     dragFileData,
     dragCalculationSum,
+    dragScatterPlotResult,
     buttonRefs: {
       addFileData: addFileDataNodeButtonRef,
       addSumCalculation: addSumCalculationNodeButtonRef,
+      addScatterPlotResult: addScatterPlotResultNodeButtonRef,
     },
   };
 };

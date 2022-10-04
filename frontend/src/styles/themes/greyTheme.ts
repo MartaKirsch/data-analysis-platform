@@ -15,7 +15,7 @@ const greyTheme = {
     node: {
       data: { background: "#BCFC9A", backgroundHover: "#ABEB89" },
       calculation: { background: "#53D8FB", backgroundHover: "#42C7EA" },
-      visualization: { background: "#D4AFB9", backgroundHover: "#C39EA8" },
+      result: { background: "#D4AFB9", backgroundHover: "#C39EA8" },
       fill: "#000000",
       connection: "orange",
     },

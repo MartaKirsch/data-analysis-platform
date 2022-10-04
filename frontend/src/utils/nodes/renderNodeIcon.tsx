@@ -1,10 +1,17 @@
-import { NodeDataType, NodeType, CalculationType } from "../../types/Node";
+import {
+  NodeDataType,
+  NodeType,
+  CalculationType,
+  ResultType,
+} from "../../types/Node";
 import { renderCalculationNodeIcon } from "./renderCalculationNodeIcon";
 import { renderDataNodeIcon } from "./renderDataNodeIcon";
+import { renderResultNodeIcon } from "./renderResultNodeIcon";
 
 export type RenderNodeIconOptions = {
   dataType?: NodeDataType;
   calculationType?: CalculationType;
+  resultType?: ResultType;
 };
 
 export const renderNodeIcon = (
@@ -20,5 +27,7 @@ export const renderNodeIcon = (
       ) : (
         <></>
       );
+    case NodeType.Result:
+      return opts.resultType ? renderResultNodeIcon(opts.resultType) : <></>;
   }
 };

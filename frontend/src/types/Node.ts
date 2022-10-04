@@ -1,19 +1,24 @@
 import { RefObject } from "react";
 
 export enum NodeType {
-  Data = "Data",
-  Calculation = "Calculation",
-  Visualization = "Visualization",
+  Data = "DATA_NODE",
+  Calculation = "CALCULATION_NODE",
+  Result = "RESULT_NODE",
 }
 
 export enum NodeDataType {
-  Manual = "Manual",
-  File = "File",
+  Manual = "MANUAL_NODE_DATA_TYPE",
+  File = "FILE_NODE_DATA_TYPE",
 }
 
 export enum CalculationType {
-  Sum = "Sum",
-  Substract = "Substract",
+  Sum = "SUM_CALCULATION_TYPE",
+  Substract = "SUBSTRACT_CALCULATION_TYPE",
+}
+
+export enum ResultType {
+  File = "FILE_RESULT_TYPE",
+  ScatterPlot = "SCATTER_PLOT_RESULT_TYPE",
 }
 
 export type NodeData = number[][] | File | undefined;
@@ -34,8 +39,9 @@ export type CalculationNode = NodeBase & {
   calculationType: CalculationType;
 };
 
-export type VisualizationNode = NodeBase & {
-  type: NodeType.Visualization;
+export type ResultNode = NodeBase & {
+  type: NodeType.Result;
+  resultType: ResultType;
 };
 
-export type Node = DataNode | CalculationNode | VisualizationNode;
+export type Node = DataNode | CalculationNode | ResultNode;

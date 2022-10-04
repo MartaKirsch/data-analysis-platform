@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { BoardContext } from "./BoardContext";
-import { CalculationNode, DataNode, NodeData } from "../types/Node";
+import { CalculationNode, DataNode, NodeData, ResultNode } from "../types/Node";
 import { ComponentWithChildren } from "../types/ComponentWithChildren";
 import { XYCoord } from "react-dnd";
 import { Coordinate } from "../types/Coordinate";
@@ -13,6 +13,7 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
   const [calculationNodes, setCalculationNodes] = useState<CalculationNode[]>(
     []
   );
+  const [resultNodes, setResultNodes] = useState<ResultNode[]>([]);
   const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
   const [connections, setConnections] = useState<Connection[]>([]);
 
@@ -22,6 +23,10 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
 
   const addCalculationNode = (node: CalculationNode) => {
     setCalculationNodes([...calculationNodes, node]);
+  };
+
+  const addResultNode = (node: ResultNode) => {
+    setResultNodes([...resultNodes, node]);
   };
 
   const updateNodeOffset = (coordinate: Coordinate, offset: XYCoord) => {
@@ -81,6 +86,8 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
         initiateConnections,
         disconnect,
         setNodeData,
+        resultNodes,
+        addResultNode,
       }}
     >
       {children}

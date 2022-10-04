@@ -17,8 +17,8 @@ export const NodeBase = styled.div<{
         return theme.colors.node.data.background;
       case NodeType.Calculation:
         return theme.colors.node.calculation.background;
-      case NodeType.Visualization:
-        return theme.colors.node.visualization.background;
+      case NodeType.Result:
+        return theme.colors.node.result.background;
     }
   }};
 
@@ -68,8 +68,8 @@ export const NodeBase = styled.div<{
           return theme.colors.node.data.backgroundHover;
         case NodeType.Calculation:
           return theme.colors.node.calculation.backgroundHover;
-        case NodeType.Visualization:
-          return theme.colors.node.visualization.backgroundHover;
+        case NodeType.Result:
+          return theme.colors.node.result.backgroundHover;
       }
     }};
   }
