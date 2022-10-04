@@ -20,15 +20,9 @@ import DataNode from "../../Nodes/DataNode";
 import ConnectionsBoard from "../ConnectionsBoard";
 import { BoardWrapper } from "./Board.components";
 
-interface BoardProps extends ComponentWithChildren {
-  addFileDataNodeButtonRef: RefObject<HTMLDivElement>;
-  addSumCalculationNodeButtonRef: RefObject<HTMLDivElement>;
-}
+interface BoardProps extends ComponentWithChildren {}
 
-const Board: FC<BoardProps> = ({
-  addFileDataNodeButtonRef,
-  addSumCalculationNodeButtonRef,
-}) => {
+const Board: FC<BoardProps> = () => {
   const boardRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -65,6 +59,30 @@ const Board: FC<BoardProps> = ({
     addDataNode(dataNode);
   };
 
+  const calculateParentsCumulativeOffset = (
+    element?: HTMLElement | null
+  ): XYCoord => {
+    let parentsOffsetTop = 0;
+    let parentsOffsetLeft = 0;
+    let parent = element?.parentElement;
+    while (parent) {
+      parentsOffsetTop += parent.offsetTop;
+      parentsOffsetLeft += parent.offsetLeft;
+      parent = parent.parentElement;
+    }
+    return { x: parentsOffsetLeft, y: parentsOffsetTop };
+  };
+
+  const calculateButtonOffset = (buttonRef?: RefObject<HTMLDivElement>) => {
+    const parentsOffset = calculateParentsCumulativeOffset(buttonRef?.current);
+    const addCalculationNodeButtonOffset = addXYCoords(parentsOffset, {
+      x: buttonRef?.current?.offsetLeft || 0,
+      y: buttonRef?.current?.offsetTop || 0,
+    });
+
+    return addCalculationNodeButtonOffset;
+  };
+
   const [, drop] = useDrop<Node>(
     () => ({
       accept: [
@@ -95,40 +113,22 @@ const Board: FC<BoardProps> = ({
 
         switch (itemType) {
           case DraggableType.AddDataNode:
-            const addDataNodeButtonOffset = {
-              x: addFileDataNodeButtonRef.current?.offsetLeft || 0,
-              y: addFileDataNodeButtonRef.current?.offsetTop || 0,
-            };
+            const addDataNodeButtonOffset = calculateButtonOffset(item.ref);
             handleAddDataNode(
               addXYCoords(offset, addDataNodeButtonOffset),
               (item as DataNodeType).dataType
             );
             break;
           case DraggableType.AddCalculationNode:
-            let parentsOffsetTop = 0;
-            let parentsOffsetLeft = 0;
-            let parent = addSumCalculationNodeButtonRef.current?.parentElement;
-            while (parent) {
-              parentsOffsetTop += parent.offsetTop;
-              parentsOffsetLeft += parent.offsetLeft;
-              parent = parent.parentElement;
-            }
-            const addCalculationNodeButtonOffset = {
-              x:
-                parentsOffsetLeft +
-                (addSumCalculationNodeButtonRef.current?.offsetLeft || 0),
-              y:
-                parentsOffsetTop +
-                (addSumCalculationNodeButtonRef.current?.offsetTop || 0),
-            };
+            const addCalculationNodeButtonOffset = calculateButtonOffset(
+              item.ref
+            );
             handleAddCalculationNode(
               addXYCoords(offset, addCalculationNodeButtonOffset),
               (item as CalculationNodeType).calculationType
             );
             break;
           case DraggableType.DataNode:
-            moveNode(item.id, { x: left, y: top });
-            break;
           case DraggableType.CalculationNode:
             moveNode(item.id, { x: left, y: top });
             break;

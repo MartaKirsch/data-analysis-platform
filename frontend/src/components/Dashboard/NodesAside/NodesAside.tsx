@@ -1,4 +1,4 @@
-import React, { FC, RefObject } from "react";
+import React, { FC, useRef } from "react";
 import { ComponentWithChildren } from "../../../types/ComponentWithChildren";
 import { NodesAsideRow, NodesAsideWrapper } from "./NodesAside.components";
 import NodeButton from "../../Nodes/NodeButton";
@@ -7,25 +7,26 @@ import { useDrag } from "react-dnd";
 import { DraggableType } from "../../../types/DraggableType";
 import { mergeRefs } from "react-merge-refs";
 
-interface NodesAsideProps extends ComponentWithChildren {
-  addFileDataNodeButtonRef: RefObject<HTMLDivElement>;
-  addSumCalculationNodeButtonRef: RefObject<HTMLDivElement>;
-}
+interface NodesAsideProps extends ComponentWithChildren {}
 
-const NodesAside: FC<NodesAsideProps> = ({
-  addFileDataNodeButtonRef,
-  addSumCalculationNodeButtonRef,
-}) => {
+const NodesAside: FC<NodesAsideProps> = () => {
+  const addFileDataNodeButtonRef = useRef<HTMLDivElement>(null);
+  const addSumCalculationNodeButtonRef = useRef<HTMLDivElement>(null);
+
   const [, dragFileData] = useDrag(() => ({
     type: DraggableType.AddDataNode,
     item: {
       dataType: NodeDataType.File,
+      ref: addFileDataNodeButtonRef,
     },
   }));
 
   const [, dragCalculationSum] = useDrag(() => ({
     type: DraggableType.AddCalculationNode,
-    item: { calculationType: CalculationType.Sum },
+    item: {
+      calculationType: CalculationType.Sum,
+      ref: addSumCalculationNodeButtonRef,
+    },
   }));
   return (
     <NodesAsideWrapper>

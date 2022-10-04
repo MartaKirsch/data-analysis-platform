@@ -1,3 +1,5 @@
+import { RefObject } from "react";
+
 export enum NodeType {
   Data = "Data",
   Calculation = "Calculation",
@@ -19,6 +21,7 @@ export type NodeData = number[][] | File | undefined;
 type NodeBase = {
   id: string;
   type: NodeType;
+  ref?: RefObject<HTMLDivElement>;
 };
 
 export type DataNode = NodeBase & {
