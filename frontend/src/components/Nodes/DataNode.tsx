@@ -4,7 +4,8 @@ import { mergeRefs } from "react-merge-refs";
 import { useBoardContext } from "../../context/useBoardContext";
 import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
-import { CalculationNode, NodeType } from "../../types/Node";
+import { CalculationNode, NodeType, NodeDataType } from "../../types/Node";
+import { renderDataNodeIcon } from "../../utils/nodes/renderDataNodeIcon";
 import { Node } from "./Node";
 
 interface Props extends ComponentWithChildren {
@@ -12,10 +13,10 @@ interface Props extends ComponentWithChildren {
   left: number;
   id: string;
   modal?: JSX.Element;
-  icon: JSX.Element;
+  dataType: NodeDataType;
 }
 
-const DataNode: FC<Props> = ({ top, left, id, modal, icon }) => {
+const DataNode: FC<Props> = ({ top, left, id, modal, dataType }) => {
   const { dataNodes, connections, connect } = useBoardContext();
 
   const [, drag] = useDrag(() => ({
@@ -44,7 +45,7 @@ const DataNode: FC<Props> = ({ top, left, id, modal, icon }) => {
         ref={mergeRefs([drag, drop])}
         title={`Data node with id ${id}`}
       >
-        {icon}
+        {renderDataNodeIcon(dataType)}
       </Node>
     </>
   );

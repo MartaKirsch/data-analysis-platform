@@ -1,10 +1,8 @@
 import React, { FC, RefObject } from "react";
 import { ComponentWithChildren } from "../../../types/ComponentWithChildren";
 import { NodesAsideRow, NodesAsideWrapper } from "./NodesAside.components";
-import { ReactComponent as FileIcon } from "../../../img/nodeIcons/file.svg";
-import { ReactComponent as SumIcon } from "../../../img/nodeIcons/sum.svg";
 import NodeButton from "../../Nodes/NodeButton";
-import { CalculationType, NodeType } from "../../../types/Node";
+import { CalculationType, NodeDataType, NodeType } from "../../../types/Node";
 import { useDrag } from "react-dnd";
 import { DraggableType } from "../../../types/DraggableType";
 import { mergeRefs } from "react-merge-refs";
@@ -30,14 +28,14 @@ const NodesAside: FC<NodesAsideProps> = ({
     <NodesAsideWrapper>
       <NodesAsideRow>
         <NodeButton
-          icon={<FileIcon />}
+          dataType={NodeDataType.File}
           nodeType={NodeType.Data}
           ref={mergeRefs([addFileDataNodeButtonRef, dragFileData])}
         />
       </NodesAsideRow>
       <NodesAsideRow>
         <NodeButton
-          icon={<SumIcon />}
+          calculationType={CalculationType.Sum}
           nodeType={NodeType.Calculation}
           ref={mergeRefs([addSumCalculationNodeButtonRef, dragCalculationSum])}
         />

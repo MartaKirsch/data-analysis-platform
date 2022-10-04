@@ -146,7 +146,7 @@ const Board: FC<BoardProps> = ({
             id={dn.id}
             top={coordinate.y}
             left={coordinate.x}
-            icon={<></>}
+            dataType={dn.dataType}
           />
         );
       })}

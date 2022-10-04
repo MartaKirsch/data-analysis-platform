@@ -1,17 +1,17 @@
 export enum NodeType {
-  Data,
-  Calculation,
-  Visualization,
+  Data = "Data",
+  Calculation = "Calculation",
+  Visualization = "Visualization",
 }
 
 export enum NodeDataType {
-  Manual,
-  File,
+  Manual = "Manual",
+  File = "File",
 }
 
 export enum CalculationType {
-  Sum,
-  Substract,
+  Sum = "Sum",
+  Substract = "Substract",
 }
 
 export type NodeData = number[][] | File | undefined;

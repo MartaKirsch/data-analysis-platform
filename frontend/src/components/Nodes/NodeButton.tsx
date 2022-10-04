@@ -1,18 +1,20 @@
 import React, { forwardRef } from "react";
 import { ComponentWithChildren } from "../../types/ComponentWithChildren";
-import { NodeType } from "../../types/Node";
+import { NodeDataType, NodeType, CalculationType } from "../../types/Node";
+import { renderNodeIcon } from "../../utils/nodes/renderNodeIcon";
 import { NodeBase } from "./Node";
 
 interface NodeButtonProps extends ComponentWithChildren {
   nodeType: NodeType;
-  icon: JSX.Element;
+  dataType?: NodeDataType;
+  calculationType?: CalculationType;
 }
 
 const NodeButton = forwardRef<HTMLDivElement, NodeButtonProps>(
-  ({ nodeType, icon }, ref) => {
+  ({ nodeType, dataType, calculationType }, ref) => {
     return (
       <NodeBase nodeType={nodeType} ref={ref}>
-        {icon}
+        {renderNodeIcon(nodeType, { dataType, calculationType })}
       </NodeBase>
     );
   }
