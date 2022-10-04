@@ -28,7 +28,7 @@ export const ConnectionBar = styled.div<{
   height: ${({ top, bottom, left, right }) =>
     calculateLength(left, top, right, bottom)}px;
 
-  background-color: orange;
+  background-color: ${({ theme }) => theme.colors.node.connection};
 
   cursor: pointer;
 `;

@@ -17,6 +17,7 @@ const greyTheme = {
       calculation: { background: "#53D8FB" },
       visualization: { background: "#D4AFB9" },
       fill: "#000000",
+      connection: "orange",
     },
   },
 };

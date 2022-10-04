@@ -18,6 +18,7 @@ const blueTheme: ColorsThemeType = {
       calculation: { background: "#81B29A" },
       visualization: { background: "#8ECAE6" },
       fill: "#FFFFFF",
+      connection: "#FDFFB6",
     },
   },
 } as const;
