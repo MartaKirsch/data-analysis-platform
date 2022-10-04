@@ -3,6 +3,7 @@ import { ThemeType } from "../../../styles/themes/defaultTheme";
 
 export const IconButtonWrapper = styled.button<{
   size: keyof ThemeType["dimensions"]["iconButton"];
+  shouldResize?: boolean;
 }>`
   background-color: ${({ theme }) => theme.colors.iconButton.background};
 
@@ -17,10 +18,17 @@ export const IconButtonWrapper = styled.button<{
   justify-content: center;
   align-items: center;
 
+  &:hover svg {
+    transform: scale(${({ shouldResize }) => (shouldResize ? 0.9 : 1)});
+  }
+
   svg {
     fill: ${({ theme }) => theme.colors.iconButton.fill};
 
     height: 100%;
     width: 100%;
+
+    transform-origin: 50% 50%;
+    transition: transform 0.1s ease-out;
   }
 `;

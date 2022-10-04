@@ -26,10 +26,52 @@ export const NodeBase = styled.div<{
 
   cursor: move;
 
+  position: relative;
+  z-index: 1;
+
   svg {
     height: ${({ theme }) => theme.dimensions.icon.height};
     width: ${({ theme }) => theme.dimensions.icon.width};
     fill: ${({ theme }) => theme.colors.node.fill};
+
+    transform-origin: 50% 50%;
+    transition: transform 0.2s ease-out;
+  }
+
+  &:hover svg {
+    transform: scale(0.85);
+  }
+
+  &:hover::after {
+    transform: scale(1);
+  }
+
+  &::after {
+    content: "";
+
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    transform: scale(0);
+    transition: transform 0.2s ease-out;
+    transform-origin: 50% 50%;
+
+    background-color: ${({ theme, nodeType }) => {
+      switch (nodeType) {
+        case NodeType.Data:
+          return theme.colors.node.data.backgroundHover;
+        case NodeType.Calculation:
+          return theme.colors.node.calculation.backgroundHover;
+        case NodeType.Visualization:
+          return theme.colors.node.visualization.backgroundHover;
+      }
+    }};
   }
 `;
 

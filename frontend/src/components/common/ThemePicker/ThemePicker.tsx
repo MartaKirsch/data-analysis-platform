@@ -65,6 +65,7 @@ const ThemePicker: FC<ThemePickerProps> = ({ themes, onThemeChange }) => {
           icon={<ColorPaletteIcon />}
           size="lg"
           onClick={() => setAreThemesVisible(!areThemesVisible)}
+          shouldResize
         />
       </PaletteButtonWrapper>
     </ThemePickerWrapper>
