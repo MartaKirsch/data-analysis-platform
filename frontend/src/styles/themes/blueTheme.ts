@@ -15,8 +15,9 @@ const blueTheme: ColorsThemeType = {
     },
     node: {
       data: { background: "#EF8354" },
-      calculation: { background: "#53D8FB" },
-      visualization: { background: "#D4AFB9" },
+      calculation: { background: "#81B29A" },
+      visualization: { background: "#8ECAE6" },
+      fill: "#FFFFFF",
     },
   },
 } as const;

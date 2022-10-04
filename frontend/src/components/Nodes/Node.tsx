@@ -29,6 +29,7 @@ export const NodeBase = styled.div<{
   svg {
     height: ${({ theme }) => theme.dimensions.icon.height};
     width: ${({ theme }) => theme.dimensions.icon.width};
+    fill: ${({ theme }) => theme.colors.node.fill};
   }
 `;
 

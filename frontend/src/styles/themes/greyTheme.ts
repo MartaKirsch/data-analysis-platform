@@ -16,6 +16,7 @@ const greyTheme = {
       data: { background: "#BCFC9A" },
       calculation: { background: "#53D8FB" },
       visualization: { background: "#D4AFB9" },
+      fill: "#000000",
     },
   },
 };
