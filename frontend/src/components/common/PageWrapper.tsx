@@ -6,5 +6,7 @@ export const PageWrapper = styled.div`
   height: 100vh;
   width: 100vw;
 
+  display: flex;
+
   position: relative;
 `;

@@ -4,7 +4,7 @@ import { mergeRefs } from "react-merge-refs";
 import { useBoardContext } from "../../context/useBoardContext";
 import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
-import { CalculationType, DataNode } from "../../types/Node";
+import { CalculationType, DataNode, NodeType } from "../../types/Node";
 import { Node } from "./Node";
 
 interface Props extends ComponentWithChildren {
@@ -56,7 +56,7 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
     <Node
       left={left}
       top={top}
-      bgColor="skyblue"
+      nodeType={NodeType.Calculation}
       ref={mergeRefs([drag, drop])}
       title={`Calculation node with id ${id}`}
       onClick={() => alert(`Calculation result is: ${calculationResult}`)}

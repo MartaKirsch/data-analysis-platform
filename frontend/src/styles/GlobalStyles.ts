@@ -1,6 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
+    /* variables */
+    :root {
+        --nodes-aside-width: 364px;
+    }
 
     *, *::after, *::before {
         box-sizing:border-box;
