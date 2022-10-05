@@ -19,6 +19,12 @@ const defaultTheme = {
       width: "364px",
     },
   },
+  fonts: {
+    sizes: {
+      base: "18px",
+      m: "20px",
+    },
+  },
 };
 
 export default defaultTheme;

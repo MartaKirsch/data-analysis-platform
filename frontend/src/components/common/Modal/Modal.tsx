@@ -1,20 +1,36 @@
 import React, { FC } from "react";
 import { ComponentWithChildren } from "../../../types/ComponentWithChildren";
-import { ModalCloseButton, ModalWrapper } from "./Modal.components";
+import {
+  ModalCloseButton,
+  ModalHeader,
+  ModalInnerWrapper,
+  ModalWrapper,
+} from "./Modal.components";
 import { ReactComponent as CloseIcon } from "../../../img/close.svg";
 
 export interface ModalProps extends ComponentWithChildren {
   backgroundColor: string;
   onClose: () => void;
+  modalHeader: { text: string; backgroundColor: string };
 }
 
-const Modal: FC<ModalProps> = ({ backgroundColor, onClose, children }) => {
+const Modal: FC<ModalProps> = ({
+  backgroundColor,
+  onClose,
+  modalHeader,
+  children,
+}) => {
   return (
-    <ModalWrapper backgroundColor={backgroundColor}>
-      {children}
-      <ModalCloseButton onClick={onClose}>
-        <CloseIcon />
-      </ModalCloseButton>
+    <ModalWrapper>
+      <ModalInnerWrapper backgroundColor={backgroundColor}>
+        <ModalHeader backgroundColor={modalHeader.backgroundColor}>
+          {modalHeader.text}
+        </ModalHeader>
+        {children}
+        <ModalCloseButton onClick={onClose}>
+          <CloseIcon />
+        </ModalCloseButton>
+      </ModalInnerWrapper>
     </ModalWrapper>
   );
 };

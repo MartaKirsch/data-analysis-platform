@@ -1,4 +1,4 @@
-import FileDataNodeModal from "../../components/Modals/DataNodeModals/FileDataNodeModal";
+import FileDataNodeModal from "../../components/Modals/FileDataNodeModal";
 import { NodeDataType } from "../../types/Node";
 
 export const renderDataModal = (

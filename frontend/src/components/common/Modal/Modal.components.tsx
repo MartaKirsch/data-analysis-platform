@@ -1,11 +1,28 @@
 import styled from "styled-components";
 
-export const ModalWrapper = styled.div<{ backgroundColor: string }>`
-  position: absolute;
-  top: 50%;
-  left: 50%;
+export const ModalWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
 
-  padding: 35px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ModalInnerWrapper = styled.div<{ backgroundColor: string }>`
+  -webkit-box-shadow: 0px 0px 150px 150px
+    ${({ theme }) => theme.colors.background};
+  -moz-box-shadow: 0px 0px 150px 150px ${({ theme }) => theme.colors.background};
+  box-shadow: 0px 0px 150px 150px ${({ theme }) => theme.colors.background};
+
+  position: relative;
+
+  padding: 40px;
   border-radius: 15px;
 
   background-color: ${({ backgroundColor }) => backgroundColor};
@@ -27,4 +44,23 @@ export const ModalCloseButton = styled.button`
   }
 
   background-color: transparent;
+`;
+
+export const ModalHeader = styled.h1<{ backgroundColor: string }>`
+  font-size: ${({ theme }) => theme.fonts.sizes.m};
+  position: relative;
+
+  padding-bottom: 5px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    height: 3px;
+    width: 100%;
+
+    background-color: ${({ backgroundColor }) => backgroundColor};
+  }
 `;

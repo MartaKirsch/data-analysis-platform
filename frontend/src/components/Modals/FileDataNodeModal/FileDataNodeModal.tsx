@@ -1,8 +1,15 @@
 import React, { FC } from "react";
 import { useTheme } from "styled-components";
-import { getNodeBackgroundColor } from "../../../styles/mixins";
+import {
+  getNodeBackgroundColor,
+  getNodeBackgroundHoverColor,
+} from "../../../styles/mixins";
 import { NodeType } from "../../../types/Node";
 import Modal from "../../common/Modal/Modal";
+import {
+  UploadFileInput,
+  UploadFileInputWrapper,
+} from "./FileDataNodeModal.components";
 
 interface FileDataNodeModalProps {
   onClose: () => void;
@@ -10,15 +17,23 @@ interface FileDataNodeModalProps {
 
 const FileDataNodeModal: FC<FileDataNodeModalProps> = ({ onClose }) => {
   const theme = useTheme();
+  const nodeType = NodeType.Data;
+
   return (
     <Modal
       backgroundColor={getNodeBackgroundColor({
         theme,
-        nodeType: NodeType.Data,
+        nodeType,
       })}
       onClose={onClose}
+      modalHeader={{
+        text: "Upload data file",
+        backgroundColor: getNodeBackgroundHoverColor({ theme, nodeType }),
+      }}
     >
-      test test
+      <UploadFileInputWrapper>
+        <UploadFileInput type="file" />
+      </UploadFileInputWrapper>
     </Modal>
   );
 };
