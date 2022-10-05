@@ -20,10 +20,8 @@ const defaultTheme = {
     },
   },
   fonts: {
-    sizes: {
-      base: "18px",
-      m: "20px",
-    },
+    sizes: { s: "16px", base: "18px", m: "20px" },
+    weights: { thin: 300, normal: 400 },
   },
 };
 

@@ -19,6 +19,14 @@ const greyTheme = {
       fill: "#000000",
       connection: "orange",
     },
+    modal: {
+      button: {
+        background: "white",
+        text: "black",
+        backgroundHover: "#F0F0F0",
+      },
+      closeIconFill: "#363732",
+    },
   },
 };
 

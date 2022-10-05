@@ -41,6 +41,8 @@ export const ModalCloseButton = styled.button`
   svg {
     height: 100%;
     width: 100%;
+
+    fill: ${({ theme }) => theme.colors.modal.closeIconFill};
   }
 
   background-color: transparent;

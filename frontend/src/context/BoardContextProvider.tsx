@@ -5,6 +5,7 @@ import { ComponentWithChildren } from "../types/ComponentWithChildren";
 import { XYCoord } from "react-dnd";
 import { Coordinate } from "../types/Coordinate";
 import { Connection } from "../types/Connection";
+import { useDeepCompareCallback } from "use-deep-compare";
 
 export const BoardContextProvider: FC<ComponentWithChildren> = ({
   children,
@@ -64,12 +65,15 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
     connect({ nodeId });
   };
 
-  const setNodeData = (nodeId: string, data: NodeData) => {
-    const newDataNodes = [...dataNodes];
-    const node = newDataNodes.find((dn) => dn.id === nodeId)!;
-    node.data = data;
-    setDataNodes(newDataNodes);
-  };
+  const setNodeData = useDeepCompareCallback(
+    (nodeId: string, data: NodeData) => {
+      const newDataNodes = [...dataNodes];
+      const node = newDataNodes.find((dn) => dn.id === nodeId)!;
+      node.data = data;
+      setDataNodes(newDataNodes);
+    },
+    [dataNodes]
+  );
 
   return (
     <BoardContext.Provider

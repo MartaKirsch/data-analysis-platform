@@ -42,7 +42,7 @@ const DataNode: FC<Props> = ({ top, left, id, dataType }) => {
       top={top}
       nodeType={NodeType.Data}
       ref={mergeRefs([drag, drop])}
-      modal={renderDataModal(dataType, () => setIsModalOpen(false))}
+      modal={renderDataModal(dataType, () => setIsModalOpen(false), id)}
       onNodeClick={() => setIsModalOpen(true)}
       isModalOpen={isModalOpen}
     >

@@ -20,6 +20,14 @@ const blueTheme: ColorsThemeType = {
       fill: "#FFFFFF",
       connection: "#C7E5F3",
     },
+    modal: {
+      button: {
+        background: "white",
+        text: "black",
+        backgroundHover: "#EEEEEE",
+      },
+      closeIconFill: "white",
+    },
   },
 } as const;
 

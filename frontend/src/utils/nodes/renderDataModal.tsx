@@ -3,11 +3,12 @@ import { NodeDataType } from "../../types/Node";
 
 export const renderDataModal = (
   dataType: NodeDataType,
-  onCloseModal: () => void
+  onCloseModal: () => void,
+  nodeId: string
 ) => {
   switch (dataType) {
     case NodeDataType.File:
-      return <FileDataNodeModal onClose={onCloseModal} />;
+      return <FileDataNodeModal onClose={onCloseModal} nodeId={nodeId} />;
     default:
       return <></>;
   }
