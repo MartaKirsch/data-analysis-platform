@@ -13,6 +13,12 @@ export const NodesAsideRow = styled.div`
 
   position: relative;
 
+  display: flex;
+
+  & > *:not(:first-child) {
+    margin-left: 20px;
+  }
+
   &:not(:last-child)::after {
     background-color: ${({ theme }) => theme.colors.aside.rowSeparator};
     content: "";

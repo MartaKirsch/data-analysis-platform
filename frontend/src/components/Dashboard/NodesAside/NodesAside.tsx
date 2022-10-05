@@ -15,9 +15,10 @@ interface NodesAsideProps extends ComponentWithChildren {}
 
 const NodesAside: FC<NodesAsideProps> = () => {
   const {
-    dragCalculationSum,
+    dragPlotResult,
     dragFileData,
-    dragScatterPlotResult,
+    dragLinearRegression,
+    dragFileResult,
     buttonRefs,
   } = useNodesAside();
 
@@ -32,19 +33,24 @@ const NodesAside: FC<NodesAsideProps> = () => {
       </NodesAsideRow>
       <NodesAsideRow>
         <NodeButton
-          calculationType={CalculationType.Sum}
+          calculationType={CalculationType.LinearRegression}
           nodeType={NodeType.Calculation}
-          ref={mergeRefs([buttonRefs.addSumCalculation, dragCalculationSum])}
+          ref={mergeRefs([
+            buttonRefs.addLinearRegressionCalculation,
+            dragLinearRegression,
+          ])}
         />
       </NodesAsideRow>
       <NodesAsideRow>
         <NodeButton
-          resultType={ResultType.ScatterPlot}
+          resultType={ResultType.Plot}
           nodeType={NodeType.Result}
-          ref={mergeRefs([
-            buttonRefs.addScatterPlotResult,
-            dragScatterPlotResult,
-          ])}
+          ref={mergeRefs([buttonRefs.addPlotResult, dragPlotResult])}
+        />
+        <NodeButton
+          resultType={ResultType.File}
+          nodeType={NodeType.Result}
+          ref={mergeRefs([buttonRefs.addFileResult, dragFileResult])}
         />
       </NodesAsideRow>
     </NodesAsideWrapper>

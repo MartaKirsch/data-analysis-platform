@@ -6,9 +6,10 @@ import { CalculationType, NodeDataType, ResultType } from "../types/Node";
 export const useNodesAside = () => {
   const addFileDataNodeButtonRef = useRef<HTMLDivElement>(null);
 
-  const addSumCalculationNodeButtonRef = useRef<HTMLDivElement>(null);
+  const addLinearRegressionNodeButtonRef = useRef<HTMLDivElement>(null);
 
-  const addScatterPlotResultNodeButtonRef = useRef<HTMLDivElement>(null);
+  const addPlotResultNodeButtonRef = useRef<HTMLDivElement>(null);
+  const addFileResultNodeButtonRef = useRef<HTMLDivElement>(null);
 
   const [, dragFileData] = useDrag(() => ({
     type: DraggableType.AddDataNode,
@@ -18,30 +19,40 @@ export const useNodesAside = () => {
     },
   }));
 
-  const [, dragCalculationSum] = useDrag(() => ({
+  const [, dragLinearRegression] = useDrag(() => ({
     type: DraggableType.AddCalculationNode,
     item: {
-      calculationType: CalculationType.Sum,
-      ref: addSumCalculationNodeButtonRef,
+      calculationType: CalculationType.LinearRegression,
+      ref: addLinearRegressionNodeButtonRef,
     },
   }));
 
-  const [, dragScatterPlotResult] = useDrag(() => ({
+  const [, dragPlotResult] = useDrag(() => ({
     type: DraggableType.AddResultNode,
     item: {
-      resultType: ResultType.ScatterPlot,
-      ref: addScatterPlotResultNodeButtonRef,
+      resultType: ResultType.Plot,
+      ref: addPlotResultNodeButtonRef,
+    },
+  }));
+
+  const [, dragFileResult] = useDrag(() => ({
+    type: DraggableType.AddResultNode,
+    item: {
+      resultType: ResultType.File,
+      ref: addFileResultNodeButtonRef,
     },
   }));
 
   return {
     dragFileData,
-    dragCalculationSum,
-    dragScatterPlotResult,
+    dragLinearRegression,
+    dragPlotResult,
+    dragFileResult,
     buttonRefs: {
       addFileData: addFileDataNodeButtonRef,
-      addSumCalculation: addSumCalculationNodeButtonRef,
-      addScatterPlotResult: addScatterPlotResultNodeButtonRef,
+      addLinearRegressionCalculation: addLinearRegressionNodeButtonRef,
+      addPlotResult: addPlotResultNodeButtonRef,
+      addFileResult: addFileResultNodeButtonRef,
     },
   };
 };

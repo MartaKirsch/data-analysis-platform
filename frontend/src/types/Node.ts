@@ -7,18 +7,17 @@ export enum NodeType {
 }
 
 export enum NodeDataType {
-  Manual = "MANUAL_NODE_DATA_TYPE",
-  File = "FILE_NODE_DATA_TYPE",
+  Manual = "MANUAL_DATA_TYPE",
+  File = "FILE_DATA_TYPE",
 }
 
 export enum CalculationType {
-  Sum = "SUM_CALCULATION_TYPE",
-  Substract = "SUBSTRACT_CALCULATION_TYPE",
+  LinearRegression = "LINEAR_REGRESSION",
 }
 
 export enum ResultType {
   File = "FILE_RESULT_TYPE",
-  ScatterPlot = "SCATTER_PLOT_RESULT_TYPE",
+  Plot = "PLOT_RESULT_TYPE",
 }
 
 export type NodeData = number[][] | File | undefined;
