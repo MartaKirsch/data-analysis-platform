@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { getNodeBackgroundColor } from "../../styles/mixins";
 import { NodeType } from "../../types/Node";
 
 export const NodeBase = styled.div<{
@@ -11,16 +12,8 @@ export const NodeBase = styled.div<{
   justify-content: center;
   align-items: center;
 
-  background-color: ${({ theme, nodeType }) => {
-    switch (nodeType) {
-      case NodeType.Data:
-        return theme.colors.node.data.background;
-      case NodeType.Calculation:
-        return theme.colors.node.calculation.background;
-      case NodeType.Result:
-        return theme.colors.node.result.background;
-    }
-  }};
+  background-color: ${({ theme, nodeType }) =>
+    getNodeBackgroundColor({ theme, nodeType })};
 
   border-radius: 50%;
 
