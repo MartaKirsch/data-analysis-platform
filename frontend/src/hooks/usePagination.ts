@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type UsePaginationDeps<T> = {
   pageSize?: number;
@@ -10,30 +10,22 @@ export const usePagination = <T>({
   items,
 }: UsePaginationDeps<T>) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [currentPage, setCurrentPage] = useState(
-    items.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
-  );
+  const [currentPage, setCurrentPage] = useState<T[]>([]);
+
+  useEffect(() => {
+    setCurrentPage(
+      items.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
+    );
+  }, [items, pageNumber, pageSize]);
 
   const goNextPage = () => {
     const newPageNumber = pageNumber + 1;
     setPageNumber(newPageNumber);
-
-    const newPage = items.slice(
-      (newPageNumber - 1) * pageSize,
-      newPageNumber * pageSize
-    );
-    setCurrentPage(newPage);
   };
 
   const goPrevPage = () => {
     const newPageNumber = pageNumber - 1;
     setPageNumber(newPageNumber);
-
-    const newPage = items.slice(
-      (newPageNumber - 1) * pageSize,
-      newPageNumber * pageSize
-    );
-    setCurrentPage(newPage);
   };
 
   const canGoPrevPage = useMemo(() => pageNumber > 1, [pageNumber]);

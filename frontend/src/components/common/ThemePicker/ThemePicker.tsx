@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useMemo, useState } from "react";
 import IconButton from "../IconButton";
 import {
   ArrowWrapper,
@@ -10,32 +10,42 @@ import {
 import { ReactComponent as ColorPaletteIcon } from "../../../img/colorPalette.svg";
 import { ReactComponent as LeftArrowIcon } from "../../../img/leftArrow.svg";
 import { ReactComponent as DownArrowIcon } from "../../../img/downArrow.svg";
-import { ThemeType } from "../../../styles/themes/defaultTheme";
 import ThemeIcon from "../ThemeIcon";
 import { usePagination } from "../../../hooks/usePagination";
+import { ThemeListItem } from "../../../types/ThemeListItem";
 
 type ThemePickerProps = {
-  themes: ThemeType[];
-  onThemeChange: (theme: ThemeType) => void;
+  selectedTheme: ThemeListItem;
+  themes: ThemeListItem[];
+  onThemeChange: (theme: ThemeListItem) => void;
 };
 
-const ThemePicker: FC<ThemePickerProps> = ({ themes, onThemeChange }) => {
+const ThemePicker: FC<ThemePickerProps> = ({
+  themes,
+  onThemeChange,
+  selectedTheme,
+}) => {
   const [areThemesVisible, setAreThemesVisible] = useState(false);
 
-  const buttons = themes.map((theme, i) => (
-    <ThemeButtonWrapper index={i % 3} key={i}>
-      <IconButton
-        icon={
-          <ThemeIcon
-            $primaryColor={theme.colors.background}
-            $secondaryColor={theme.colors.secondary}
+  const buttons = useMemo(
+    () =>
+      themes.map((theme, i) => (
+        <ThemeButtonWrapper index={i % 3} key={i}>
+          <IconButton
+            icon={
+              <ThemeIcon
+                $primaryColor={theme.Theme.colors.background}
+                $secondaryColor={theme.Theme.colors.secondary}
+                $isSelected={theme.Id === selectedTheme.Id}
+              />
+            }
+            size="sm"
+            onClick={() => onThemeChange(theme)}
           />
-        }
-        size="sm"
-        onClick={() => onThemeChange(theme)}
-      />
-    </ThemeButtonWrapper>
-  ));
+        </ThemeButtonWrapper>
+      )),
+    [themes, selectedTheme, onThemeChange]
+  );
 
   const { currentPage, canGoPrevPage, goPrevPage, canGoNextPage, goNextPage } =
     usePagination({
