@@ -3,7 +3,7 @@ import { ComponentWithChildren } from "../../../types/ComponentWithChildren";
 import { ModalCloseButton, ModalWrapper } from "./Modal.components";
 import { ReactComponent as CloseIcon } from "../../../img/close.svg";
 
-interface ModalProps extends ComponentWithChildren {
+export interface ModalProps extends ComponentWithChildren {
   backgroundColor: string;
   onClose: () => void;
 }

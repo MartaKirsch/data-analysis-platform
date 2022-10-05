@@ -5,9 +5,9 @@ import { useBoardContext } from "../../context/useBoardContext";
 import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
 import { CalculationNode, NodeType, NodeDataType } from "../../types/Node";
+import { renderDataModal } from "../../utils/nodes/renderDataModal";
 import { renderDataNodeIcon } from "../../utils/nodes/renderDataNodeIcon";
-import FileDataNodeModal from "../Modals/DataNodeModals/FileDataNodeModal";
-import { Node } from "./Node";
+import Node from "./Node";
 
 interface Props extends ComponentWithChildren {
   top: number;
@@ -37,20 +37,17 @@ const DataNode: FC<Props> = ({ top, left, id, dataType }) => {
   );
 
   return (
-    <>
-      {isModalOpen && (
-        <FileDataNodeModal onClose={() => setIsModalOpen(false)} />
-      )}
-      <Node
-        left={left}
-        top={top}
-        nodeType={NodeType.Data}
-        ref={mergeRefs([drag, drop])}
-        onClick={() => setIsModalOpen(true)}
-      >
-        {renderDataNodeIcon(dataType)}
-      </Node>
-    </>
+    <Node
+      left={left}
+      top={top}
+      nodeType={NodeType.Data}
+      ref={mergeRefs([drag, drop])}
+      modal={renderDataModal(dataType, () => setIsModalOpen(false))}
+      onNodeClick={() => setIsModalOpen(true)}
+      isModalOpen={isModalOpen}
+    >
+      {renderDataNodeIcon(dataType)}
+    </Node>
   );
 };
 

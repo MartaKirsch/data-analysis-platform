@@ -7,7 +7,7 @@ import {
   ResultType,
 } from "../../types/Node";
 import { renderNodeIcon } from "../../utils/nodes/renderNodeIcon";
-import { NodeBase } from "./Node";
+import { NodeBase } from "./Node/Node.components";
 
 interface NodeButtonProps extends ComponentWithChildren {
   nodeType: NodeType;

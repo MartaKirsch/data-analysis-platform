@@ -19,10 +19,12 @@ export const ModalCloseButton = styled.button`
   height: 20px;
   width: 20px;
 
+  padding: 0;
+
   svg {
     height: 100%;
     width: 100%;
   }
 
-  background-color: none;
+  background-color: transparent;
 `;

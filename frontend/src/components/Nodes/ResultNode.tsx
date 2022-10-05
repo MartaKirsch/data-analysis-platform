@@ -6,7 +6,7 @@ import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
 import { CalculationNode, NodeType, ResultType } from "../../types/Node";
 import { renderResultNodeIcon } from "../../utils/nodes/renderResultNodeIcon";
-import { Node } from "./Node";
+import Node from "./Node";
 
 interface Props extends ComponentWithChildren {
   top: number;
@@ -43,7 +43,9 @@ const ResultNode: FC<Props> = ({ top, left, id, modal, resultType }) => {
         top={top}
         nodeType={NodeType.Result}
         ref={mergeRefs([drag, drop])}
-        title={`Data node with id ${id}`}
+        modal={<></>}
+        isModalOpen={false}
+        onNodeClick={() => {}}
       >
         {renderResultNodeIcon(resultType)}
       </Node>

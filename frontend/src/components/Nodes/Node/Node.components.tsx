@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { getNodeBackgroundColor } from "../../styles/mixins";
-import { NodeType } from "../../types/Node";
+import { getNodeBackgroundColor } from "../../../styles/mixins";
+import { NodeType } from "../../../types/Node";
 
 export const NodeBase = styled.div<{
   nodeType: NodeType;
@@ -68,7 +68,7 @@ export const NodeBase = styled.div<{
   }
 `;
 
-export const Node = styled(NodeBase)<{ left: number; top: number }>`
+export const NodeWrapper = styled(NodeBase)<{ left: number; top: number }>`
   left: ${({ left }) => `${left}px`};
   top: ${({ top }) => `${top}px`};
   position: absolute;
