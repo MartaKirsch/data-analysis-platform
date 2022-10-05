@@ -2,9 +2,15 @@ import React, { FC } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { mergeRefs } from "react-merge-refs";
 import { useBoardContext } from "../../context/useBoardContext";
+import { useCanDropNode } from "../../hooks/useCanDropNode";
 import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
-import { CalculationType, DataNode, NodeType } from "../../types/Node";
+import {
+  CalculationType,
+  DataNode,
+  NodeType,
+  ResultNode,
+} from "../../types/Node";
 import { renderCalculationNodeIcon } from "../../utils/nodes/renderCalculationNodeIcon";
 import Node from "./Node";
 
@@ -17,6 +23,8 @@ interface Props extends ComponentWithChildren {
 
 const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
   const { calculationNodes, connect, connections } = useBoardContext();
+
+  const { canDropNode } = useCanDropNode();
 
   const [, drag] = useDrag(() => ({
     type: DraggableType.CalculationNode,
@@ -34,13 +42,15 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
     [connect, connections]
   );
 
-  const [, dropResultNode] = useDrop<DataNode>(
+  const [, dropResultNode] = useDrop<ResultNode>(
     () => ({
       accept: DraggableType.ResultNode,
       drop: (item) => {
         connect({ nodeId: item.id, prevId: id });
       },
-      canDrop: (item) => !connections.find((c) => c.nodeId === item.id)?.prevId,
+      canDrop: (item) =>
+        !connections.find((c) => c.nodeId === item.id)?.prevId &&
+        canDropNode(calculationType, item.resultType),
     }),
     [connect, connections]
   );
