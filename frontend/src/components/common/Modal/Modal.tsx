@@ -23,13 +23,13 @@ const Modal: FC<ModalProps> = ({
   return (
     <ModalWrapper>
       <ModalInnerWrapper backgroundColor={backgroundColor}>
+        <ModalCloseButton onClick={onClose}>
+          <CloseIcon />
+        </ModalCloseButton>
         <ModalHeader backgroundColor={modalHeader.backgroundColor}>
           {modalHeader.text}
         </ModalHeader>
         {children}
-        <ModalCloseButton onClick={onClose}>
-          <CloseIcon />
-        </ModalCloseButton>
       </ModalInnerWrapper>
     </ModalWrapper>
   );

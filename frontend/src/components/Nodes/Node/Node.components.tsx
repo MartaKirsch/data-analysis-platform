@@ -31,11 +31,13 @@ export const NodeBase = styled.div<{
     transition: transform 0.2s ease-out;
   }
 
-  &:hover svg {
+  &:hover svg,
+  &:focus svg {
     transform: scale(0.85);
   }
 
-  &:hover::after {
+  &:hover::after,
+  &:focus::after {
     transform: scale(1);
   }
 

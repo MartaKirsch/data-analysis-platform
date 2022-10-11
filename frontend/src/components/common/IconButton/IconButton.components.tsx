@@ -18,7 +18,8 @@ export const IconButtonWrapper = styled.button<{
   justify-content: center;
   align-items: center;
 
-  &:hover svg {
+  &:hover svg,
+  &:focus svg {
     transform: scale(${({ shouldResize }) => (shouldResize ? 0.9 : 1)});
   }
 

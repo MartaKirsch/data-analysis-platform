@@ -40,11 +40,20 @@ export const ModalCloseButton = styled.button`
 
   padding: 0;
 
+  &:hover svg,
+  &:focus svg {
+    transform: scale(1.2);
+  }
+
   svg {
     height: 100%;
     width: 100%;
 
     fill: ${({ theme }) => theme.colors.modal.closeIconFill};
+
+    transform: scale(1);
+    transform-origin: 50% 50%;
+    transition: transform ease-out 0.2s;
   }
 
   background-color: transparent;

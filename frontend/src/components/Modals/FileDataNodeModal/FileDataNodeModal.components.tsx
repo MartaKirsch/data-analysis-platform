@@ -23,7 +23,8 @@ export const UploadFileInput = styled.input`
 
   cursor: pointer;
 
-  &:hover + button::after {
+  &:hover + button::after,
+  &:focus + button::after {
     transform: scaleX(1);
     transform-origin: 0% 50%;
   }
