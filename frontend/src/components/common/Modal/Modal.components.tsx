@@ -26,6 +26,8 @@ export const ModalInnerWrapper = styled.div<{ backgroundColor: string }>`
   border-radius: 15px;
 
   background-color: ${({ backgroundColor }) => backgroundColor};
+
+  min-width: 450px;
 `;
 
 export const ModalCloseButton = styled.button`
