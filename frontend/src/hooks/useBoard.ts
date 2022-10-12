@@ -6,10 +6,7 @@ import {
   CalculationNode as CalculationNodeType,
   DataNode as DataNodeType,
   ResultNode as ResultNodeType,
-  NodeDataType,
   Node,
-  CalculationType,
-  ResultType,
 } from "../types/Node";
 import { createCalculationNode } from "../utils/nodes/createCalculationNode";
 import { createDataNode } from "../utils/nodes/createDataNode";
@@ -22,34 +19,12 @@ export const useBoard = () => {
 
   const { addNode, coordinates, moveNode, addCoordinates } = useBoardContext();
 
-  const handleAddCalculationNode = (
-    offset: XYCoord,
-    calculationType: CalculationType
-  ) => {
-    const calculationNode = createCalculationNode(calculationType);
+  const handleAddNode = (offset: XYCoord, node: Node) => {
     addCoordinates({
-      nodeId: calculationNode.id,
+      nodeId: node.id,
       ...offset,
     });
-    addNode(calculationNode);
-  };
-
-  const handleAddDataNode = (offset: XYCoord, dataType: NodeDataType) => {
-    const dataNode = createDataNode(dataType);
-    addCoordinates({
-      nodeId: dataNode.id,
-      ...offset,
-    });
-    addNode(dataNode);
-  };
-
-  const handleAddResultNode = (offset: XYCoord, resultType: ResultType) => {
-    const resultNode = createResultNode(resultType);
-    addCoordinates({
-      nodeId: resultNode.id,
-      ...offset,
-    });
-    addNode(resultNode);
+    addNode(node);
   };
 
   const calculateParentsCumulativeOffset = (
@@ -107,25 +82,32 @@ export const useBoard = () => {
         switch (itemType) {
           case DraggableType.AddDataNode:
             const addDataNodeButtonOffset = calculateButtonOffset(item.ref);
-            handleAddDataNode(
+            const dataNode = createDataNode((item as DataNodeType).dataType);
+            handleAddNode(
               addXYCoords(offset, addDataNodeButtonOffset),
-              (item as DataNodeType).dataType
+              dataNode
             );
             break;
           case DraggableType.AddCalculationNode:
             const addCalculationNodeButtonOffset = calculateButtonOffset(
               item.ref
             );
-            handleAddCalculationNode(
-              addXYCoords(offset, addCalculationNodeButtonOffset),
+            const calculationNode = createCalculationNode(
               (item as CalculationNodeType).calculationType
+            );
+            handleAddNode(
+              addXYCoords(offset, addCalculationNodeButtonOffset),
+              calculationNode
             );
             break;
           case DraggableType.AddResultNode:
             const addResultNodeButtonOffset = calculateButtonOffset(item.ref);
-            handleAddResultNode(
-              addXYCoords(offset, addResultNodeButtonOffset),
+            const resultNode = createResultNode(
               (item as ResultNodeType).resultType
+            );
+            handleAddNode(
+              addXYCoords(offset, addResultNodeButtonOffset),
+              resultNode
             );
             break;
           case DraggableType.DataNode:
@@ -141,7 +123,7 @@ export const useBoard = () => {
         }
       },
     }),
-    [handleAddCalculationNode, handleAddCalculationNode, moveNode]
+    [handleAddNode, moveNode]
   );
 
   return { boardRef, drop };
