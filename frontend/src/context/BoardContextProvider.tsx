@@ -48,21 +48,29 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
     setCoordinates([...coordinates, coordinate]);
   };
 
-  const initiateConnections = (nodeId: string) => {
-    setConnections([...connections, { nodeId }]);
-  };
-
   const connect = (connection: Connection) => {
     const newConnections = [...connections];
-    const connectionToUpdate = newConnections.find(
-      (c) => c.nodeId === connection.nodeId
-    )!;
-    connectionToUpdate.prevId = connection.prevId;
+    newConnections.push(connection);
     setConnections(newConnections);
   };
 
-  const disconnect = (nodeId: string) => {
-    connect({ nodeId });
+  const isConnectionWithIds = (
+    connection: Connection,
+    id: string,
+    secondId: string
+  ) => {
+    const connectionIds = connection.map((el) => el.id);
+    return (
+      connectionIds.some((connectionId) => connectionId === id) &&
+      connectionIds.some((connectionId) => connectionId === secondId)
+    );
+  };
+
+  const disconnect = (nodeId: string, secondNodeId: string) => {
+    const newConnections = [...connections].filter(
+      (connection) => !isConnectionWithIds(connection, nodeId, secondNodeId)
+    );
+    setConnections(newConnections);
   };
 
   const setNodeData = useDeepCompareCallback(
@@ -87,7 +95,6 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
         moveNode,
         addCoordinates,
         connect,
-        initiateConnections,
         disconnect,
         setNodeData,
         resultNodes,

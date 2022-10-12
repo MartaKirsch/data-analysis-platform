@@ -2,17 +2,20 @@ import React, { FC } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { mergeRefs } from "react-merge-refs";
 import { useBoardContext } from "../../context/useBoardContext";
-import { useCanDropNode } from "../../hooks/useCanDropNode";
+import { useCanDropCalculationNode } from "../../hooks/useCanDropCalculationNode";
+import { useCanDropDataNode } from "../../hooks/useCanDropDataNode";
+import { useCanDropResultNode } from "../../hooks/useCanDropResultNode";
 import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
 import {
+  CalculationNode as CalculationNodeType,
   CalculationType,
   DataNode,
   NodeType,
   ResultNode,
 } from "../../types/Node";
 import { renderCalculationNodeIcon } from "../../utils/nodes/renderCalculationNodeIcon";
-import Node from "./Node";
+import NodeComponent from "./Node";
 
 interface Props extends ComponentWithChildren {
   top: number;
@@ -22,9 +25,11 @@ interface Props extends ComponentWithChildren {
 }
 
 const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
-  const { calculationNodes, connect, connections } = useBoardContext();
+  const { calculationNodes, connect } = useBoardContext();
 
-  const { canDropNode } = useCanDropNode();
+  const { canDropDataNode } = useCanDropDataNode();
+  const { canDropCalculationNode } = useCanDropCalculationNode();
+  const { canDropResultNode } = useCanDropResultNode();
 
   const [, drag] = useDrag(() => ({
     type: DraggableType.CalculationNode,
@@ -34,39 +39,65 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
   const [, dropDataNode] = useDrop<DataNode>(
     () => ({
       accept: DraggableType.DataNode,
-      drop: (item) => {
-        connect({ nodeId: id, prevId: item.id });
+      drop: (draggedItem) => {
+        connect([
+          { id, nodeType: NodeType.Calculation },
+          { id: draggedItem.id, nodeType: draggedItem.type },
+        ]);
       },
-      canDrop: (_item) => !connections.find((c) => c.nodeId === id)?.prevId,
+      canDrop: (draggedItem) => canDropDataNode(draggedItem.id, id),
     }),
-    [connect, connections]
+    [connect, canDropDataNode]
+  );
+
+  const [, dropCalculationNode] = useDrop<CalculationNodeType>(
+    () => ({
+      accept: DraggableType.CalculationNode,
+      drop: (draggedItem) => {
+        connect([
+          { id, nodeType: NodeType.Calculation },
+          { id: draggedItem.id, nodeType: draggedItem.type },
+        ]);
+      },
+      canDrop: (draggedItem) =>
+        canDropCalculationNode(
+          { id, calculationType },
+          { id: draggedItem.id, calculationType: draggedItem.calculationType }
+        ),
+    }),
+    [connect, canDropCalculationNode]
   );
 
   const [, dropResultNode] = useDrop<ResultNode>(
     () => ({
       accept: DraggableType.ResultNode,
-      drop: (item) => {
-        connect({ nodeId: item.id, prevId: id });
+      drop: (draggedItem) => {
+        connect([
+          { id, nodeType: NodeType.Calculation },
+          { id: draggedItem.id, nodeType: draggedItem.type },
+        ]);
       },
-      canDrop: (item) =>
-        !connections.find((c) => c.nodeId === item.id)?.prevId &&
-        canDropNode(calculationType, item.resultType),
+      canDrop: (draggedItem) =>
+        canDropResultNode(
+          { id, calculationType },
+          { id: draggedItem.id, resultType: draggedItem.resultType }
+        ),
     }),
-    [connect, connections]
+    [connect, canDropResultNode]
   );
 
   return (
-    <Node
+    <NodeComponent
       left={left}
       top={top}
       nodeType={NodeType.Calculation}
-      ref={mergeRefs([drag, dropDataNode, dropResultNode])}
+      ref={mergeRefs([drag, dropDataNode, dropResultNode, dropCalculationNode])}
       modal={<></>}
       isModalOpen={false}
       onNodeClick={() => {}}
     >
       {renderCalculationNodeIcon(calculationType)}
-    </Node>
+    </NodeComponent>
   );
 };
 

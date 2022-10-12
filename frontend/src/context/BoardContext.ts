@@ -15,9 +15,8 @@ type Context = {
   addResultNode: (node: ResultNode) => void;
   moveNode: (id: string, offset: XYCoord) => void;
   addCoordinates: (coordinates: Coordinate) => void;
-  initiateConnections: (nodeId: string) => void;
   connect: (connection: Connection) => void;
-  disconnect: (nodeId: string) => void;
+  disconnect: (nodeId: string, secondNodeId: string) => void;
   setNodeData: (nodeId: string, data: NodeData) => void;
 };
 
@@ -32,7 +31,6 @@ export const BoardContext = createContext<Context>({
   addResultNode: () => {},
   moveNode: () => {},
   addCoordinates: () => {},
-  initiateConnections: () => {},
   connect: () => {},
   disconnect: () => {},
   setNodeData: () => {},

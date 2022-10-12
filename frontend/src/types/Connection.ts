@@ -1,4 +1,8 @@
-export type Connection = {
-  nodeId: string;
-  prevId?: string;
+import { NodeType } from "./Node";
+
+export type Connection = [ConnectionItem, ConnectionItem];
+
+export type ConnectionItem = {
+  id: string;
+  nodeType: NodeType;
 };

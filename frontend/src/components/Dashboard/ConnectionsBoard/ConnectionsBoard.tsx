@@ -15,8 +15,6 @@ const ConnectionsBoard: FC = () => {
   const findCoordinatesByNodeId = (nodeId: string) =>
     coordinates.find((coords) => coords.nodeId === nodeId);
 
-  const hasPreviousNode = (connection: Connection) => !!connection.prevId;
-
   const getNumberPartsOfString = (str: string): string[] => {
     const numRegExp = /^[0-9]+$/;
     return str.match(numRegExp) || [];
@@ -34,8 +32,11 @@ const ConnectionsBoard: FC = () => {
     connection: Connection,
     index: number
   ) => {
-    const coordinates1 = findCoordinatesByNodeId(connection.nodeId)!;
-    const coordinates2 = findCoordinatesByNodeId(connection.prevId!)!;
+    const nodeId1 = connection[0].id;
+    const nodeId2 = connection[1].id;
+
+    const coordinates1 = findCoordinatesByNodeId(nodeId1)!;
+    const coordinates2 = findCoordinatesByNodeId(nodeId2)!;
 
     const width = parseThemeDimensionToInt(theme.dimensions.node.width);
     const height = parseThemeDimensionToInt(theme.dimensions.node.height);
@@ -89,14 +90,14 @@ const ConnectionsBoard: FC = () => {
         right={centerX}
         rotate={radians}
         key={index}
-        onClick={() => disconnect(connection.nodeId)}
+        onClick={() => disconnect(nodeId1, nodeId2)}
       />
     );
   };
 
   return (
     <ConnectionsBoardWrapper>
-      {connections.filter(hasPreviousNode).map(mapConnectionToConnectionBar)}
+      {connections.map(mapConnectionToConnectionBar)}
     </ConnectionsBoardWrapper>
   );
 };

@@ -27,7 +27,6 @@ export const useBoard = () => {
     coordinates,
     moveNode,
     addCoordinates,
-    initiateConnections,
   } = useBoardContext();
 
   const handleAddCalculationNode = (
@@ -39,7 +38,6 @@ export const useBoard = () => {
       nodeId: calculationNode.id,
       ...offset,
     });
-    initiateConnections(calculationNode.id);
     addCalculationNode(calculationNode);
   };
 
@@ -49,7 +47,6 @@ export const useBoard = () => {
       nodeId: dataNode.id,
       ...offset,
     });
-    initiateConnections(dataNode.id);
     addDataNode(dataNode);
   };
 
@@ -59,7 +56,6 @@ export const useBoard = () => {
       nodeId: resultNode.id,
       ...offset,
     });
-    initiateConnections(resultNode.id);
     addResultNode(resultNode);
   };
 
