@@ -18,13 +18,13 @@ interface Props extends ComponentWithChildren {
 }
 
 const ResultNode: FC<Props> = ({ top, left, id, modal, resultType }) => {
-  const { resultNodes, connect } = useBoardContext();
+  const { nodes, connect } = useBoardContext();
 
   const { canDropResultNode } = useCanDropResultNode();
 
   const [, drag] = useDrag(() => ({
     type: DraggableType.ResultNode,
-    item: resultNodes.find((resultNode) => resultNode.id === id),
+    item: nodes.find((node) => node.id === id),
   }));
 
   const [, drop] = useDrop<CalculationNode>(

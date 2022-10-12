@@ -31,6 +31,7 @@ type NodeBase = {
 export type DataNode = NodeBase & {
   dataType: NodeDataType;
   data: NodeData;
+  type: NodeType.Data;
 };
 
 export type CalculationNode = NodeBase & {

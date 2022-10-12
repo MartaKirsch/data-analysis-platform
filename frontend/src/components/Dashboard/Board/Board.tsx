@@ -3,6 +3,14 @@ import { mergeRefs } from "react-merge-refs";
 import { useBoardContext } from "../../../context/useBoardContext";
 import { useBoard } from "../../../hooks/useBoard";
 import { ComponentWithChildren } from "../../../types/ComponentWithChildren";
+import { Coordinate } from "../../../types/Coordinate";
+import {
+  DataNode as DataNodeType,
+  CalculationNode as CalculationNodeType,
+  ResultNode as ResultNodeType,
+  NodeType,
+  Node,
+} from "../../../types/Node";
 import CalculationNode from "../../Nodes/CalculationNode";
 import DataNode from "../../Nodes/DataNode";
 import ResultNode from "../../Nodes/ResultNode";
@@ -13,48 +21,57 @@ interface BoardProps extends ComponentWithChildren {}
 
 const Board: FC<BoardProps> = () => {
   const { boardRef, drop } = useBoard();
-  const { dataNodes, coordinates, calculationNodes, resultNodes } =
-    useBoardContext();
+  const { nodes, coordinates } = useBoardContext();
+
+  const renderDataNode = (node: DataNodeType, coordinate: Coordinate) => (
+    <DataNode
+      key={node.id}
+      id={node.id}
+      top={coordinate.y}
+      left={coordinate.x}
+      dataType={node.dataType}
+    />
+  );
+
+  const renderCalculationNode = (
+    node: CalculationNodeType,
+    coordinate: Coordinate
+  ) => (
+    <CalculationNode
+      key={node.id}
+      id={node.id}
+      top={coordinate.y}
+      left={coordinate.x}
+      calculationType={node.calculationType}
+    />
+  );
+
+  const renderResultNode = (node: ResultNodeType, coordinate: Coordinate) => (
+    <ResultNode
+      key={node.id}
+      id={node.id}
+      top={coordinate.y}
+      left={coordinate.x}
+      resultType={node.resultType}
+    />
+  );
+
+  const renderNodeByType = (node: Node) => {
+    const coordinate = coordinates.find((coord) => coord.nodeId === node.id)!;
+    switch (node.type) {
+      case NodeType.Data:
+        return renderDataNode(node, coordinate);
+      case NodeType.Calculation:
+        return renderCalculationNode(node, coordinate);
+      case NodeType.Result:
+        return renderResultNode(node, coordinate);
+    }
+  };
 
   return (
     <BoardWrapper ref={mergeRefs([boardRef, drop])}>
       <ConnectionsBoard />
-      {dataNodes.map((dn) => {
-        const coordinate = coordinates.find((coord) => coord.nodeId === dn.id)!;
-        return (
-          <DataNode
-            key={dn.id}
-            id={dn.id}
-            top={coordinate.y}
-            left={coordinate.x}
-            dataType={dn.dataType}
-          />
-        );
-      })}
-      {calculationNodes.map((cn) => {
-        const coordinate = coordinates.find((coord) => coord.nodeId === cn.id)!;
-        return (
-          <CalculationNode
-            key={cn.id}
-            id={cn.id}
-            top={coordinate.y}
-            left={coordinate.x}
-            calculationType={cn.calculationType}
-          />
-        );
-      })}
-      {resultNodes.map((cn) => {
-        const coordinate = coordinates.find((coord) => coord.nodeId === cn.id)!;
-        return (
-          <ResultNode
-            key={cn.id}
-            id={cn.id}
-            top={coordinate.y}
-            left={coordinate.x}
-            resultType={cn.resultType}
-          />
-        );
-      })}
+      {nodes.map(renderNodeByType)}
     </BoardWrapper>
   );
 };

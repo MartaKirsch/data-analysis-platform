@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { BoardContext } from "./BoardContext";
-import { CalculationNode, DataNode, NodeData, ResultNode } from "../types/Node";
+import { DataNode, Node, NodeData, NodeType } from "../types/Node";
 import { ComponentWithChildren } from "../types/ComponentWithChildren";
 import { XYCoord } from "react-dnd";
 import { Coordinate } from "../types/Coordinate";
@@ -10,24 +10,12 @@ import { useDeepCompareCallback } from "use-deep-compare";
 export const BoardContextProvider: FC<ComponentWithChildren> = ({
   children,
 }) => {
-  const [dataNodes, setDataNodes] = useState<DataNode[]>([]);
-  const [calculationNodes, setCalculationNodes] = useState<CalculationNode[]>(
-    []
-  );
-  const [resultNodes, setResultNodes] = useState<ResultNode[]>([]);
+  const [nodes, setNodes] = useState<Node[]>([]);
   const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
   const [connections, setConnections] = useState<Connection[]>([]);
 
-  const addDataNode = (node: DataNode) => {
-    setDataNodes([...dataNodes, node]);
-  };
-
-  const addCalculationNode = (node: CalculationNode) => {
-    setCalculationNodes([...calculationNodes, node]);
-  };
-
-  const addResultNode = (node: ResultNode) => {
-    setResultNodes([...resultNodes, node]);
+  const addNode = (node: Node) => {
+    setNodes([...nodes, node]);
   };
 
   const updateNodeOffset = (coordinate: Coordinate, offset: XYCoord) => {
@@ -75,30 +63,28 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
 
   const setNodeData = useDeepCompareCallback(
     (nodeId: string, data: NodeData) => {
-      const newDataNodes = [...dataNodes];
-      const node = newDataNodes.find((dn) => dn.id === nodeId)!;
+      const newNodes = [...nodes];
+      const node = newNodes.find(
+        (node) => node.id === nodeId && node.type === NodeType.Data
+      )! as DataNode;
       node.data = data;
-      setDataNodes(newDataNodes);
+      setNodes(newNodes);
     },
-    [dataNodes]
+    [nodes]
   );
 
   return (
     <BoardContext.Provider
       value={{
-        dataNodes,
-        addDataNode,
-        calculationNodes,
+        nodes,
+        addNode,
         connections,
         coordinates,
-        addCalculationNode,
         moveNode,
         addCoordinates,
         connect,
         disconnect,
         setNodeData,
-        resultNodes,
-        addResultNode,
       }}
     >
       {children}

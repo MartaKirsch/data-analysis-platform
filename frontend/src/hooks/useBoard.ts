@@ -20,14 +20,7 @@ import { subXYCoords } from "../utils/xyCoords/subXYCoords";
 export const useBoard = () => {
   const boardRef = useRef<HTMLDivElement>(null);
 
-  const {
-    addCalculationNode,
-    addDataNode,
-    addResultNode,
-    coordinates,
-    moveNode,
-    addCoordinates,
-  } = useBoardContext();
+  const { addNode, coordinates, moveNode, addCoordinates } = useBoardContext();
 
   const handleAddCalculationNode = (
     offset: XYCoord,
@@ -38,7 +31,7 @@ export const useBoard = () => {
       nodeId: calculationNode.id,
       ...offset,
     });
-    addCalculationNode(calculationNode);
+    addNode(calculationNode);
   };
 
   const handleAddDataNode = (offset: XYCoord, dataType: NodeDataType) => {
@@ -47,7 +40,7 @@ export const useBoard = () => {
       nodeId: dataNode.id,
       ...offset,
     });
-    addDataNode(dataNode);
+    addNode(dataNode);
   };
 
   const handleAddResultNode = (offset: XYCoord, resultType: ResultType) => {
@@ -56,7 +49,7 @@ export const useBoard = () => {
       nodeId: resultNode.id,
       ...offset,
     });
-    addResultNode(resultNode);
+    addNode(resultNode);
   };
 
   const calculateParentsCumulativeOffset = (

@@ -2,17 +2,13 @@ import { createContext } from "react";
 import { XYCoord } from "react-dnd";
 import { Connection } from "../types/Connection";
 import { Coordinate } from "../types/Coordinate";
-import { CalculationNode, DataNode, NodeData, ResultNode } from "../types/Node";
+import { Node, NodeData } from "../types/Node";
 
 type Context = {
-  dataNodes: DataNode[];
-  calculationNodes: CalculationNode[];
-  resultNodes: ResultNode[];
+  nodes: Node[];
   connections: Connection[];
   coordinates: Coordinate[];
-  addDataNode: (node: DataNode) => void;
-  addCalculationNode: (node: CalculationNode) => void;
-  addResultNode: (node: ResultNode) => void;
+  addNode: (node: Node) => void;
   moveNode: (id: string, offset: XYCoord) => void;
   addCoordinates: (coordinates: Coordinate) => void;
   connect: (connection: Connection) => void;
@@ -21,14 +17,10 @@ type Context = {
 };
 
 export const BoardContext = createContext<Context>({
-  dataNodes: [],
-  calculationNodes: [],
-  resultNodes: [],
+  nodes: [],
   connections: [],
   coordinates: [],
-  addDataNode: () => {},
-  addCalculationNode: () => {},
-  addResultNode: () => {},
+  addNode: () => {},
   moveNode: () => {},
   addCoordinates: () => {},
   connect: () => {},

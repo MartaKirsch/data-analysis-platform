@@ -18,14 +18,14 @@ interface Props extends ComponentWithChildren {
 }
 
 const DataNode: FC<Props> = ({ top, left, id, dataType }) => {
-  const { dataNodes, connect } = useBoardContext();
+  const { nodes, connect } = useBoardContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { canDropDataNode } = useCanDropDataNode();
 
   const [, drag] = useDrag(() => ({
     type: DraggableType.DataNode,
-    item: dataNodes.find((dataNode) => dataNode.id === id),
+    item: nodes.find((node) => node.id === id),
   }));
 
   const [, drop] = useDrop<CalculationNode>(

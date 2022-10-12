@@ -25,7 +25,7 @@ interface Props extends ComponentWithChildren {
 }
 
 const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
-  const { calculationNodes, connect } = useBoardContext();
+  const { nodes, connect } = useBoardContext();
 
   const { canDropDataNode } = useCanDropDataNode();
   const { canDropCalculationNode } = useCanDropCalculationNode();
@@ -33,7 +33,7 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
 
   const [, drag] = useDrag(() => ({
     type: DraggableType.CalculationNode,
-    item: calculationNodes.find((calculationNode) => calculationNode.id === id),
+    item: nodes.find((node) => node.id === id),
   }));
 
   const [, dropDataNode] = useDrop<DataNode>(

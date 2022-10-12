@@ -1,11 +1,11 @@
 import { useBoardContext } from "../context/useBoardContext";
 import { Connection } from "../types/Connection";
+import { NodeType } from "../types/Node";
 import { findDuplicates } from "../utils/arrays/findDuplicates";
 import { useTraverseGraph, TraverseGraphConnection } from "./useTraverseGraph";
 
 export const useCanDropNode = () => {
-  const { connections, dataNodes, calculationNodes, resultNodes } =
-    useBoardContext();
+  const { connections, nodes } = useBoardContext();
   const { traverseFromNode } = useTraverseGraph();
 
   const mapConnectionToTraverseGraphConnection = (
@@ -14,8 +14,10 @@ export const useCanDropNode = () => {
 
   const willHaveOnlyOneDataNode = (visitedNodesIds: string[]) => {
     return (
-      dataNodes.filter((dataNode) => visitedNodesIds.includes(dataNode.id))
-        .length <= 1
+      nodes.filter(
+        (node) =>
+          visitedNodesIds.includes(node.id) && node.type === NodeType.Data
+      ).length <= 1
     );
   };
 
@@ -35,8 +37,6 @@ export const useCanDropNode = () => {
       mapConnectionToTraverseGraphConnection
     );
     traverseGraphConnections.push(newConnection);
-
-    const nodes = [...dataNodes, ...calculationNodes, ...resultNodes];
 
     for (const node of nodes) {
       const visitedNodesIds = traverseFromNode(

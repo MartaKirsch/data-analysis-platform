@@ -6,7 +6,7 @@ import {
   getNodeBackgroundColor,
   getNodeBackgroundHoverColor,
 } from "../../../styles/mixins";
-import { NodeType } from "../../../types/Node";
+import { DataNode, NodeType } from "../../../types/Node";
 import Modal from "../../common/Modal/Modal";
 import {
   UploadFileButton,
@@ -23,11 +23,11 @@ interface FileDataNodeModalProps {
 type FormData = { File?: FileList };
 
 const FileDataNodeModal: FC<FileDataNodeModalProps> = ({ onClose, nodeId }) => {
-  const { dataNodes, setNodeData } = useBoardContext();
+  const { nodes, setNodeData } = useBoardContext();
 
   const dataNode = useMemo(
-    () => dataNodes.find((dn) => dn.id === nodeId)!,
-    [dataNodes, nodeId]
+    () => nodes.find((node) => node.id === nodeId)! as DataNode,
+    [nodes, nodeId]
   );
 
   const theme = useTheme();
