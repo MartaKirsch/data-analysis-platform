@@ -17,7 +17,7 @@ import { ThemeListItem } from "../../../types/ThemeListItem";
 type ThemePickerProps = {
   selectedTheme: ThemeListItem;
   themes: ThemeListItem[];
-  onThemeChange: (theme: ThemeListItem) => void;
+  onThemeChange: (themeId: string) => void;
 };
 
 const ThemePicker: FC<ThemePickerProps> = ({
@@ -40,7 +40,7 @@ const ThemePicker: FC<ThemePickerProps> = ({
               />
             }
             size="sm"
-            onClick={() => onThemeChange(theme)}
+            onClick={() => onThemeChange(theme.Id)}
           />
         </ThemeButtonWrapper>
       )),
