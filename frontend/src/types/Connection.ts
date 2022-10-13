@@ -6,3 +6,5 @@ export type ConnectionItem = {
   id: string;
   nodeType: NodeType;
 };
+
+export type IdBasedConnection = [string, string];

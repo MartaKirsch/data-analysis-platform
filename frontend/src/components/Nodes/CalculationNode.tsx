@@ -61,8 +61,8 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
       },
       canDrop: (draggedItem) =>
         canDropCalculationNode(
-          { id, calculationType },
-          { id: draggedItem.id, calculationType: draggedItem.calculationType }
+          { id: draggedItem.id, calculationType: draggedItem.calculationType },
+          { id, calculationType }
         ),
     }),
     [connect, canDropCalculationNode]

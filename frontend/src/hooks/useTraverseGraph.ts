@@ -1,9 +1,9 @@
-export type TraverseGraphConnection = [string, string];
+import { IdBasedConnection } from "../types/Connection";
 
 export const useTraverseGraph = () => {
   const getConnectedNodesIds = (
     id: string,
-    connections: TraverseGraphConnection[]
+    connections: IdBasedConnection[]
   ) => {
     const nodeConnections = connections.filter((connection) =>
       connection.some((connectionId) => connectionId === id)
@@ -15,7 +15,7 @@ export const useTraverseGraph = () => {
 
   const traverseFromNode = (
     nodeId: string,
-    connections: TraverseGraphConnection[]
+    connections: IdBasedConnection[]
   ): string[] => {
     const visitedNodesIds: string[] = [nodeId];
     const connectedNodesIds = getConnectedNodesIds(nodeId, connections);

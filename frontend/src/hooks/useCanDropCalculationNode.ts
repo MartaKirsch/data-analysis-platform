@@ -6,8 +6,9 @@ type CalculationNodeConnections = {
   [key in CalculationType]: CalculationType[];
 };
 
-const POSSIBLE_CONNECTIONS: CalculationNodeConnections = {
+export const POSSIBLE_CALCULATION_CONNECTIONS: CalculationNodeConnections = {
   [CalculationType.LinearRegression]: [],
+  [CalculationType.Other]: [CalculationType.LinearRegression],
 };
 
 export const useCanDropCalculationNode = () => {
@@ -17,20 +18,20 @@ export const useCanDropCalculationNode = () => {
     calculationType: CalculationType,
     secondCalculationType: CalculationType
   ) => {
-    return POSSIBLE_CONNECTIONS[calculationType].some(
+    return POSSIBLE_CALCULATION_CONNECTIONS[calculationType].some(
       (possibleToConnectType) => possibleToConnectType === secondCalculationType
     );
   };
 
   const canDropCalculationNode = (
-    calculationNode: CalculationNodeReference,
-    secondCalculationNode: CalculationNodeReference
+    draggedCalculationNode: CalculationNodeReference,
+    calculationNodeDroppedOn: CalculationNodeReference
   ) => {
     return (
-      canDropNode(calculationNode.id, secondCalculationNode.id) &&
+      canDropNode(draggedCalculationNode.id, calculationNodeDroppedOn.id) &&
       isConnectionPossible(
-        calculationNode.calculationType,
-        secondCalculationNode.calculationType
+        draggedCalculationNode.calculationType,
+        calculationNodeDroppedOn.calculationType
       )
     );
   };
