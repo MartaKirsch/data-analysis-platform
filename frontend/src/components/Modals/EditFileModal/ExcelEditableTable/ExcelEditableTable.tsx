@@ -34,7 +34,6 @@ const ExcelEditableTable: FC<ExcelEditableTableProps> = ({ worksheet }) => {
       columnHelper.accessor(key, {
         id: key,
         header: key,
-        cell: (cell) => <div>{cell.getValue()}</div>,
       })
     );
 
