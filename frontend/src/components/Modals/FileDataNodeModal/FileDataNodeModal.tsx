@@ -16,7 +16,7 @@ import {
   UploadRow,
 } from "./FileDataNodeModal.components";
 import IconButton from "../../common/IconButton";
-import { ReactComponent as EditIcon } from "../../../img/edit.svg";
+import { ReactComponent as EyeIcon } from "../../../img/eye.svg";
 import EditFileModal from "../EditFileModal";
 
 interface FileDataNodeModalProps {
@@ -84,7 +84,7 @@ const FileDataNodeModal: FC<FileDataNodeModalProps> = ({ onClose, nodeId }) => {
           </UploadFileInputWrapper>
           {dataNode.data && (
             <IconButton
-              icon={<EditIcon />}
+              icon={<EyeIcon />}
               shouldResize
               size="sm"
               onClick={() => setIsEditFileModalOpen(true)}

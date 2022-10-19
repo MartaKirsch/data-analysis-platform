@@ -28,11 +28,11 @@ const greyTheme = {
       closeIconFill: "#363732",
     },
     sheetNameButton: {
-      activeBackground: "#F0F0F0",
+      activeBackground: "#FFFFFF",
       notActiveBackground: "#9BD67C",
     },
     editableTable: {
-      background: "#F0F0F0",
+      background: "#FFFFFF",
       cellSeparatorColor: "#363732",
     },
   },

@@ -28,6 +28,7 @@ export const ModalInnerWrapper = styled.div<{ backgroundColor: string }>`
   background-color: ${({ backgroundColor }) => backgroundColor};
 
   min-width: 450px;
+  min-height: 205px;
 
   max-width: 90vw;
   max-height: 90vh;

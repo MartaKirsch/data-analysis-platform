@@ -29,11 +29,11 @@ const blueTheme: ColorsThemeType = {
       closeIconFill: "white",
     },
     sheetNameButton: {
-      activeBackground: "#F0F0F0",
+      activeBackground: "#DCE1E9",
       notActiveBackground: "#CA6438",
     },
     editableTable: {
-      background: "#F0F0F0",
+      background: "#DCE1E9",
       cellSeparatorColor: "#363732",
     },
   },

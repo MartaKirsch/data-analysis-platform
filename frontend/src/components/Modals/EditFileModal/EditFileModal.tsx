@@ -27,7 +27,6 @@ const EditFileModal: FC<EditFileModalProps> = ({ onClose, file }) => {
   const [selectedWorksheetName, setSelectedWorksheetName] = useState("");
 
   useEffect(() => {
-    console.log(file);
     if (!file) return;
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
@@ -35,16 +34,6 @@ const EditFileModal: FC<EditFileModalProps> = ({ onClose, file }) => {
       const workbook = XLSX.read(reader.result, { type: "binary" });
       setWorkbook(workbook);
       setSelectedWorksheetName(workbook.SheetNames[0]);
-
-      // save to File
-      // const a: ArrayBuffer = XLSX.write(workbook, { type: "array" });
-      // let blob1 = new Blob([a], { type: file.type });
-      // console.log(new File([blob1], file.name, { type: file.type }));
-      // console.log(file);
-
-      // get worksheet data
-      //   const worksheet = workbook.Sheets["Sheet1"];
-      //   const data = XLSX.utils.sheet_to_json<ExcelData[]>(worksheet);
     };
     return () => reader.abort();
   }, [file]);
@@ -57,7 +46,7 @@ const EditFileModal: FC<EditFileModalProps> = ({ onClose, file }) => {
       })}
       onClose={onClose}
       modalHeader={{
-        text: "Edit uploaded file",
+        text: "View uploaded file",
         backgroundColor: getNodeBackgroundHoverColor({ theme, nodeType }),
       }}
     >
@@ -72,7 +61,7 @@ const EditFileModal: FC<EditFileModalProps> = ({ onClose, file }) => {
           </SheetNameButton>
         ))}
       </SheetNameButtonsWrapper>
-      {!workbook && "the data is being loaded"}
+      {!workbook && "We are loading your file, please wait. "}
       {workbook?.Sheets[selectedWorksheetName] && (
         <ExcelEditableTable
           worksheet={workbook.Sheets[selectedWorksheetName]}
