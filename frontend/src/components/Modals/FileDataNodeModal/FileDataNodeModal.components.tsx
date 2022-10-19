@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const UploadFileInputWrapper = styled.div`
-  margin-top: 56px;
-
   position: relative;
 
   display: flex;
@@ -69,4 +67,13 @@ export const UploadFileText = styled.span`
   font-weight: ${({ theme }) => theme.fonts.weights.thin};
 
   margin-left: 10px;
+`;
+
+export const UploadRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  margin-top: 56px;
 `;

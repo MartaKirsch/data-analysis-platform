@@ -28,6 +28,10 @@ const blueTheme: ColorsThemeType = {
       },
       closeIconFill: "white",
     },
+    sheetNameButton: {
+      activeBackground: "#F0F0F0",
+      notActiveBackground: "#CA6438",
+    },
   },
 } as const;
 

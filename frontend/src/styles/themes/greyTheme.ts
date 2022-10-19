@@ -27,6 +27,10 @@ const greyTheme = {
       },
       closeIconFill: "#363732",
     },
+    sheetNameButton: {
+      activeBackground: "#F0F0F0",
+      notActiveBackground: "#9BD67C",
+    },
   },
 };
 
