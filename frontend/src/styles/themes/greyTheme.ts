@@ -31,6 +31,10 @@ const greyTheme = {
       activeBackground: "#F0F0F0",
       notActiveBackground: "#9BD67C",
     },
+    editableTable: {
+      background: "#F0F0F0",
+      cellSeparatorColor: "#363732",
+    },
   },
 };
 

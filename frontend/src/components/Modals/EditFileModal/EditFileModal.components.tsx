@@ -15,4 +15,5 @@ export const SheetNameButton = styled.button<{ isActive: boolean }>`
 
 export const SheetNameButtonsWrapper = styled.div`
   display: flex;
+  margin-top: 20px;
 `;

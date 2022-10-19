@@ -32,6 +32,10 @@ const blueTheme: ColorsThemeType = {
       activeBackground: "#F0F0F0",
       notActiveBackground: "#CA6438",
     },
+    editableTable: {
+      background: "#F0F0F0",
+      cellSeparatorColor: "#363732",
+    },
   },
 } as const;
 

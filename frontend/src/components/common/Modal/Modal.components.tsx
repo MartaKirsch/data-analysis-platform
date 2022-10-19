@@ -28,6 +28,11 @@ export const ModalInnerWrapper = styled.div<{ backgroundColor: string }>`
   background-color: ${({ backgroundColor }) => backgroundColor};
 
   min-width: 450px;
+
+  max-width: 90vw;
+  max-height: 90vh;
+
+  overflow: hidden;
 `;
 
 export const ModalCloseButton = styled.button`

@@ -12,6 +12,7 @@ import {
   SheetNameButton,
   SheetNameButtonsWrapper,
 } from "./EditFileModal.components";
+import ExcelEditableTable from "./ExcelEditableTable";
 
 interface EditFileModalProps extends ComponentWithChildren {
   onClose: () => void;
@@ -71,6 +72,12 @@ const EditFileModal: FC<EditFileModalProps> = ({ onClose, file }) => {
           </SheetNameButton>
         ))}
       </SheetNameButtonsWrapper>
+      {!workbook && "the data is being loaded"}
+      {workbook?.Sheets[selectedWorksheetName] && (
+        <ExcelEditableTable
+          worksheet={workbook.Sheets[selectedWorksheetName]}
+        />
+      )}
     </Modal>
   );
 };
