@@ -28,6 +28,14 @@ const blueTheme: ColorsThemeType = {
       },
       closeIconFill: "white",
     },
+    sheetNameButton: {
+      activeBackground: "#DCE1E9",
+      notActiveBackground: "#CA6438",
+    },
+    editableTable: {
+      background: "#DCE1E9",
+      cellSeparatorColor: "#363732",
+    },
   },
 } as const;
 

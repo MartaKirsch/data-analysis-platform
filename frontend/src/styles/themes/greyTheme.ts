@@ -27,6 +27,14 @@ const greyTheme = {
       },
       closeIconFill: "#363732",
     },
+    sheetNameButton: {
+      activeBackground: "#FFFFFF",
+      notActiveBackground: "#9BD67C",
+    },
+    editableTable: {
+      background: "#FFFFFF",
+      cellSeparatorColor: "#363732",
+    },
   },
 };
 
