@@ -1,16 +1,12 @@
 from flask import Flask
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+from src import linear_regression
+from src import routes
 
 
-@app.route("/path")
-def goOnPath():
-    return "<p>This is path</p>"
-
-@app.route("/data")
-def getData():
-    return [1,2,3,4]
+app.debug = True
+CORS(app)
