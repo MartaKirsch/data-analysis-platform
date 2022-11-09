@@ -1,60 +1,86 @@
-from flask import Flask, request, jsonify, abort, send_file
+from flask import Flask, request, jsonify, abort, send_file, Response, make_response
 import pandas as pd
 from src import app
-from .linear_regression import DataProcessing,change_learning_rate, SGD, makeLinReg
+from .linear_regression import makeLinReg
 import json
 import io
+import csv
+from PIL import Image
 
 
-# function mappings, use them for file upload(multipart/form-data should have a key value named method so for ex. method="pca")
+# dictionary of function mappings
 function_mappings = {
     'linear_regression': makeLinReg,
 }
 
-# dictionary of calculation results, probably should be a database tbh?
+
 calculation_node_dict = {}
 
+#basic error handling tbd
 @app.errorhandler(400)
 def resource_not_found(e):
     return jsonify(error=str(e)), 400
 
-# node_id is the id of calculation node, method is the specific calculation
-@app.route("/upload_file/<node_id>" , methods = ["POST"])
+# node_id is the id of calculation node in all instances
+@app.route("/calculate/<node_id>" , methods = ["POST"])
 def upload_file(node_id):
     data = request.files['file']
-    method = request.form['method']
-    type = request.form['type']
+    method = request.form['calculationType']
+    #mimetype = data.content_type()
+    mimetype = "text/csv"
     if data:
-        if type == "text/csv":
+        if mimetype == "text/csv":
             result = function_mappings[method](data)
             calculation_node_dict[str(node_id)] = result
-            print(calculation_node_dict["h1"])
         else:
-            abort(400, description="Wrong type of file")
+            abort(400, description="Wrong filetype.")
     else:
-        abort(400, description="File not found")
-    return json.dumps({'success': True}), 200, {'ContentType':'application/json'}
+        abort(400, description="File not found.")
+    return Response(response="Success!", status=200)
 
-# get plot png
-@app.route("/get_plot/<node_id>" , methods = ["GET"])
-def get_plot(node_id):
-    try:
-        dict = calculation_node_dict[str(node_id)]
-        plot = io.BytesIO(dict[0]["plot"].read())
-        img_name = str(node_id) + ".png"
-        return send_file(io.BytesIO(plot.read()),
-                            download_name=img_name,
-                            mimetype='image/png')
-    except:
-        abort(400, description = "Node not found")
+@app.route("/result/<node_id>" , methods=['GET', 'POST'])
+def get_result(node_id):
+    req = request.get_json()
+    if req["resultType"] == "file":
+        try:
+            #prepare dictionary values for a csv file
+            dict = calculation_node_dict[str(node_id)]
+            numeric_dict = dict[0]["file"]
 
+            bytes_file = io.BytesIO()
+            numeric_dict.to_csv(bytes_file, index=False)
+            bytes_file.seek(0)
 
-# get numeric results(later will change from json to csv probably)
-@app.route("/get_numeric/<node_id>" , methods = ["GET"])
-def get_numeric(node_id):
-    try:
-        dict = calculation_node_dict[str(node_id)]
-        numeric = dict[0]["numeric"]
-        return json.dumps(numeric), 200, {'ContentType':'application/json'}
-    except:
-        abort(400, description = "Node not found")
+            return send_file(bytes_file,
+                             download_name=str(node_id) + ".csv",
+                             mimetype='text/csv')
+
+        except Exception as ex:
+            abort(400, description = ex)
+
+    elif req["resultType"] == "plot":
+        try:
+            dict = calculation_node_dict[str(node_id)]
+            plot = dict[0]["plot"]
+
+            bytes_image = io.BytesIO()
+            plot.save(bytes_image, format = "PNG")
+            bytes_image.seek(0)
+
+            img_name = str(node_id) + ".png"
+
+            return send_file(bytes_image,
+                             download_name=img_name,
+                             mimetype='image/png')
+
+        except Exception as ex:
+            abort(400, description = ex)
+
+    else:
+        abort(400, description="Incorrect type of result expected.")
+
+#board wipe after exit
+@app.route("/wipe_board" , methods=['POST'])
+def wipe_board():
+    calculation_node_dict.clear()
+    return Response(response="Success!", status=200)

@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression
 from statistics import mean
 import math
 import io
+from PIL import Image
 
 
 class DataProcessing:
@@ -31,6 +32,15 @@ class DataProcessing:
 #funkcja odpwoiedzialna za zmianę wartości współczynnika uczenia
 def change_learning_rate(t, t0, t1):
         return t0 / (t + t1)
+
+#funkcja konwertująca pyplot do PIL Image
+def fig2img(fig):
+    import io
+    buf = io.BytesIO()
+    fig.savefig(buf)
+    buf.seek(0)
+    img = Image.open(buf)
+    return img
 
 # funkcja implementująca metodę stochastycznego spadku wzdłuż gradientu
 def SGD(X_train,
@@ -81,16 +91,14 @@ def makeLinReg(csvFile):
     plt.plot(teX, pred, color='blue', linewidth=2)
     # plt.show()
 
-    # zmiana formatu, by ułatwić przesłanie na front
-    bytes_image = io.BytesIO()
-    plt.savefig(bytes_image, format='png')
-    #zwraca bytesIO
-    bytes_image.seek(0)
+    #konwertowanie wyników na odpowiedni format
+    plot = fig2img(plt)
+    result["plot"] = plot
+    coef_dict = {"a": [float(coef[1])],
+                "b": [float(coef[0])]}
+    coef_df = pd.DataFrame.from_dict(coef_dict)
+    result["file"] = coef_df
 
-    result["plot"] = bytes_image
-    coef_dict = {"a": float(coef[1]),
-                "b": float(coef[0])}
-    result["numeric"] = coef_dict
 
     plt.close()
 
@@ -100,6 +108,6 @@ def makeLinReg(csvFile):
 
 # format zwracanych wartości:
 # result = {
-#    "plot":  <_io.BytesIO object at 0x7f9f65b851c0>
-#    "numeric": {'a': float, 'b': float}"}
+#    "plot":  PIL image
+#    "file": dataframe
 # }
