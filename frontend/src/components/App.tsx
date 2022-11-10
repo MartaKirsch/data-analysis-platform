@@ -11,7 +11,7 @@ function App() {
   axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 
   const handlePageUnload = useCallback(() => {
-    navigator.sendBeacon(`${process.env.REACT_APP_BACKEND_URL}/`);
+    navigator.sendBeacon(`${process.env.REACT_APP_BACKEND_URL}/wipe_board`);
   }, []);
 
   useEffect(() => {
