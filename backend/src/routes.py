@@ -33,9 +33,9 @@ def upload_file(node_id):
             result = function_mappings[method](data)
             calculation_node_dict[str(node_id)] = result
         else:
-            abort(400, description="Wrong filetype.")
+            abort(415, description="Wrong filetype.")
     else:
-        abort(400, description="File not found.")
+        abort(422, description="File is empty.")
     return Response(response="Success!", status=200)
 
 @app.route("/result/<node_id>" , methods=['GET', 'POST'])
@@ -53,7 +53,8 @@ def get_result(node_id):
 
             return send_file(bytes_file,
                              download_name=str(node_id) + ".csv",
-                             mimetype='text/csv')
+                             mimetype='text/csv',
+                             as_attachment=True)
 
         except Exception as ex:
             abort(400, description = ex)
@@ -71,16 +72,17 @@ def get_result(node_id):
 
             return send_file(bytes_image,
                              download_name=img_name,
-                             mimetype='image/png')
+                             mimetype='image/png',
+                             as_attachment=True)
 
         except Exception as ex:
             abort(400, description = ex)
 
     else:
-        abort(400, description="Incorrect type of result expected.")
+        abort(415, description="Incorrect type of result expected.")
 
 #board wipe after exit
 @app.route("/wipe_board" , methods=['POST'])
 def wipe_board():
     calculation_node_dict.clear()
-    return Response(response="Success!", status=200)
+    return Response(response="Board wiped!", status=200)
