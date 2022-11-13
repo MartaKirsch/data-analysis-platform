@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd #do obslugi plikow CSV
-from sklearn.linear_model import LinearRegression
-from statistics import mean
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
 import math
 import io
 from PIL import Image
@@ -29,7 +28,7 @@ class DataProcessing:
                                                                                                        -1].reshape(-1,
                                                                                                                    1)
 
-#funkcja odpwoiedzialna za zmianę wartości współczynnika uczenia
+#funkcja odpowiedzialna za zmianę wartości współczynnika uczenia
 def change_learning_rate(t, t0, t1):
         return t0 / (t + t1)
 
@@ -60,35 +59,46 @@ def SGD(X_train,
             y_sample = np.expand_dims(y_train[indexes[i]], axis=0)
             # jedna próbka, stąd mnożenie tylko przez 2.
             gradient = 2 * X_sample.T.dot(X_sample.dot(theta) - y_sample)
+            #print(gradient)
             # aktualizacja współczynnika uczenia
             learning_rate = change_learning_rate(epoch * length + i, 1, 50)
             # aktualizacja parametrów theta
-
+            #print([X_sample, y_sample, gradient,learning_rate])
             theta = theta - learning_rate * gradient
 
     return theta
 
-def makeLinReg(csvFile):
-    # słownik rozwiązań ("plot" i "numeric")
+def makeLinReg(data):
+    # słownik rozwiązań ("plot" i "file")
     result = {}
     # wczytanie danych
-    data = np.loadtxt(csvFile, delimiter=';', skiprows=1)
-
-    # wymieszanie i podzial na zbior treningowy i testowy
+    data = data.to_numpy()
     data = DataProcessing.shuffleData(data)
+
+    # podzial na zbior treningowy i testowy
     trX, trY, teX, teY = DataProcessing.splitData(data, 0.6)
+
+    # standaryzacja danych
+    scaler = StandardScaler().fit(trX)
+    scaled_trX, scaled_teX = scaler.transform(trX), scaler.transform(teX)
+
     # dodajemy jeden wymiar do próbek, a mianowicie "1" odpowiadające za współczynnik przy wyrazie wolnym
-    trXplus = np.c_[np.ones((trX.shape[0], 1)), trX]
+    trXplus = np.c_[np.ones((scaled_trX.shape[0], 1)), scaled_trX]
+
     # wykorzystanie algorytmu SGD
-    coef = SGD(trXplus, trY, 10)
+    coef = SGD(trXplus, trY, 50)
 
     # predykcja wyuczonego modelu na zbiorze testowym
-    pred = coef[1] * teX + coef[0]
+    pred = coef[1] * scaled_teX + coef[0]
 
+    coef = scaler.transform(coef)
+
+    # przygotowanie i zapisanie wykresu
     plt.figure(figsize=(5, 5))
     plt.title('Linear Regression')
-    plt.scatter(teX, teY, color='red')
+    plt.scatter(data[:, 0], data[:, 1], color='red')
     plt.plot(teX, pred, color='blue', linewidth=2)
+
     # plt.show()
 
     #konwertowanie wyników na odpowiedni format
@@ -102,7 +112,6 @@ def makeLinReg(csvFile):
 
     plt.close()
 
-    # print(f'Współczynniki regresji y=a*x + b;  a={coef[1]}, b={coef[0]}')
 
     return [result]
 
