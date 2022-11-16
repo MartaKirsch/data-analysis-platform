@@ -29,6 +29,11 @@ def resource_not_found(e):
 def resource_not_found(e):
     return jsonify(error=str(e)), 500
 
+def request_handler(message, status_code):
+    response = jsonify({'response': message})
+    response.status_code = status_code
+    return response
+
 # node_id is the id of calculation node in all instances
 @app.route("/calculate/<node_id>" , methods = ["POST"])
 def upload_file(node_id):
@@ -49,14 +54,14 @@ def upload_file(node_id):
                     result = FUNCTION_MAPPINGS[method](df_data)
                     calculation_node_dict[str(node_id)] = result
                 else:
-                    abort(422, description="Incorrect number of columns.")
+                    return (request_handler("Incorrect number of columns.", 422))
             else:
-                abort(422, description="Wrong data type in at least one of the columns.")
+                return (request_handler("Wrong data type in at least one of the columns.", 422))
         else:
-            abort(415, description="Wrong filetype.")
+            return(request_handler("Wrong filetype.", 415))
     else:
-        abort(422, description="File is empty.")
-    return Response(response="Success!", status=200)
+        return (request_handler("File is empty.", 422))
+    return (request_handler("Success!", 200))
 
 @app.route("/result/<node_id>" , methods=['GET', 'POST'])
 def get_result(node_id):
@@ -77,7 +82,7 @@ def get_result(node_id):
                              as_attachment=True)
 
         except Exception as ex:
-            abort(500, description = ex)
+            return (request_handler(ex, 500))
 
     elif req["resultType"] == "plot":
         try:
@@ -96,16 +101,16 @@ def get_result(node_id):
                              as_attachment=True)
 
         except Exception as ex:
-            abort(500, description = ex)
+            return (request_handler(ex, 500))
 
     else:
-        abort(415, description="Incorrect type of result expected.")
+        return (request_handler("Incorrect type of result expected.", 415))
 
 #board wipe after exit
 @app.route("/wipe_board" , methods=['POST'])
 def wipe_board():
     try:
         calculation_node_dict.clear()
-        return Response(response="Board wiped!", status=200)
+        return (request_handler("Board wiped!", 200))
     except Exception as ex:
-        abort(500, description=ex)
+        return (request_handler(ex, 500))
