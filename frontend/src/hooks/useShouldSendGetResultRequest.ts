@@ -30,7 +30,8 @@ export const useShouldSendGetResultRequest = (
 
     const hasDataNodeConnected = !!connectedDataNode;
     const hasDataUploaded = !!connectedDataNode.data;
-    return hasDataNodeConnected && hasDataUploaded;
+    const hasCorrectDataUploaded = !connectedDataNode.error;
+    return hasDataNodeConnected && hasDataUploaded && hasCorrectDataUploaded;
   });
 
   return { shouldSendGetResultRequest: shouldSendGetResultRequest.current() };

@@ -75,3 +75,9 @@ export const NodeWrapper = styled(NodeBase)<{ left: number; top: number }>`
   top: ${({ top }) => `${top}px`};
   position: absolute;
 `;
+
+export const ErrorIconWrapper = styled.div`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+`;

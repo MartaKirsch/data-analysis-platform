@@ -3,6 +3,7 @@ import { ColorsThemeType } from "./greyTheme";
 const defaultTheme = {
   dimensions: {
     iconButton: {
+      xs: "30px",
       sm: "40px",
       md: "43px",
       lg: "50px",
@@ -21,7 +22,7 @@ const defaultTheme = {
   },
   fonts: {
     sizes: { s: "16px", base: "18px", m: "20px" },
-    weights: { thin: 300, normal: 400 },
+    weights: { thin: 300, normal: 400, bold: 600 },
   },
 };
 

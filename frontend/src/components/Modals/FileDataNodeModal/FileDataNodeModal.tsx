@@ -18,15 +18,21 @@ import {
 import IconButton from "../../common/IconButton";
 import { ReactComponent as EyeIcon } from "../../../img/eye.svg";
 import EditFileModal from "../EditFileModal";
+import ErrorMessageBar from "../../common/ErrorMessageBar";
 
 interface FileDataNodeModalProps {
   onClose: () => void;
   nodeId: string;
+  error?: string;
 }
 
 type FormData = { File?: FileList };
 
-const FileDataNodeModal: FC<FileDataNodeModalProps> = ({ onClose, nodeId }) => {
+const FileDataNodeModal: FC<FileDataNodeModalProps> = ({
+  onClose,
+  nodeId,
+  error,
+}) => {
   const { nodes, setNodeData } = useBoardContext();
   const [isEditFileModalOpen, setIsEditFileModalOpen] = useState(false);
 
@@ -68,29 +74,32 @@ const FileDataNodeModal: FC<FileDataNodeModalProps> = ({ onClose, nodeId }) => {
           backgroundColor: getNodeBackgroundHoverColor({ theme, nodeType }),
         }}
       >
-        <UploadRow>
-          <UploadFileInputWrapper>
-            <UploadFileInput
-              type="file"
-              accept={acceptedMimeTypes.join(",")}
-              {...register("File")}
-            />
-            <UploadFileButton>Upload</UploadFileButton>
-            <UploadFileText>
-              {dataNode.data
-                ? (dataNode.data as File).name
-                : "Click here to browse files..."}
-            </UploadFileText>
-          </UploadFileInputWrapper>
-          {dataNode.data && (
-            <IconButton
-              icon={<EyeIcon />}
-              shouldResize
-              size="sm"
-              onClick={() => setIsEditFileModalOpen(true)}
-            />
-          )}
-        </UploadRow>
+        <>
+          {error && <ErrorMessageBar message={error} />}
+          <UploadRow>
+            <UploadFileInputWrapper>
+              <UploadFileInput
+                type="file"
+                accept={acceptedMimeTypes.join(",")}
+                {...register("File")}
+              />
+              <UploadFileButton>Upload</UploadFileButton>
+              <UploadFileText>
+                {dataNode.data
+                  ? (dataNode.data as File).name
+                  : "Click here to browse files..."}
+              </UploadFileText>
+            </UploadFileInputWrapper>
+            {dataNode.data && (
+              <IconButton
+                icon={<EyeIcon />}
+                shouldResize
+                size="sm"
+                onClick={() => setIsEditFileModalOpen(true)}
+              />
+            )}
+          </UploadRow>
+        </>
       </Modal>
       {isEditFileModalOpen && (
         <EditFileModal

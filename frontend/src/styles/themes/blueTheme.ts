@@ -13,6 +13,8 @@ const blueTheme: ColorsThemeType = {
       background: "#FFFFFF",
       fill: "#000000",
     },
+    errorText: "#CD1919",
+    errorIcon: { background: "#CD1919", fill: "#FFFFFF" },
     node: {
       data: { background: "#EF8354", backgroundHover: "#DE7243" },
       calculation: { background: "#81B29A", backgroundHover: "#70A189" },

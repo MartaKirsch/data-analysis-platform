@@ -22,9 +22,10 @@ interface Props extends ComponentWithChildren {
   id: string;
   dataType: NodeDataType;
   data: NodeData;
+  error?: string;
 }
 
-const DataNode: FC<Props> = ({ top, left, id, dataType, data }) => {
+const DataNode: FC<Props> = ({ top, left, id, dataType, data, error }) => {
   const { nodes, connect, connections } = useBoardContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const prevData = useRef(data);
@@ -62,7 +63,8 @@ const DataNode: FC<Props> = ({ top, left, id, dataType, data }) => {
           sendDataCalculationConnectedRequest(
             data as File,
             node.calculationType,
-            node.id
+            node.id,
+            id
           )
         );
 
@@ -89,7 +91,8 @@ const DataNode: FC<Props> = ({ top, left, id, dataType, data }) => {
       await sendDataCalculationConnectedRequest(
         data as File,
         draggedItem.calculationType,
-        draggedItem.id
+        draggedItem.id,
+        id
       );
   };
 
@@ -115,9 +118,10 @@ const DataNode: FC<Props> = ({ top, left, id, dataType, data }) => {
       top={top}
       nodeType={NodeType.Data}
       ref={mergeRefs([drag, drop])}
-      modal={renderDataModal(dataType, () => setIsModalOpen(false), id)}
+      modal={renderDataModal(dataType, () => setIsModalOpen(false), id, error)}
       onNodeClick={() => setIsModalOpen(true)}
       isModalOpen={isModalOpen}
+      error={error}
     >
       {renderDataNodeIcon(dataType)}
     </Node>

@@ -1,11 +1,16 @@
 import axios from "axios";
+import { useBoardContext } from "../context/useBoardContext";
 import { CalculationType } from "../types/Node";
 import {
   DataCalculationConnectedRequest,
   DataCalculationConnectedRequestBody,
 } from "../types/requests/DataCalculationConnectedRequest";
+import { isAxiosError } from "../types/responses/isAxiosError";
+import { isServerResponse } from "../types/responses/ServerResponse";
 
 export const useSendDataCalculationConnected = () => {
+  const { setNodeError } = useBoardContext();
+
   const createDataCalculationConnectedRequestBody = (
     file: File,
     calculationType: CalculationType
@@ -28,16 +33,22 @@ export const useSendDataCalculationConnected = () => {
   const sendDataCalculationConnectedRequest = (
     file: File,
     calculationType: CalculationType,
-    nodeId: string
+    calculationNodeId: string,
+    dataNodeId: string
   ) => {
+    setNodeError(dataNodeId, undefined);
     const reqBody = createDataCalculationConnectedRequestBody(
       file,
       calculationType
     );
     const request = createDataCalculationConnectedRequest(reqBody);
-    return axios.post<object>(`/calculate/${nodeId}`, request).then((res) => {
-      console.log(res);
-    });
+    return axios
+      .post<object>(`/calculate/${calculationNodeId}`, request)
+      .catch((e) => {
+        if (isAxiosError(e) && isServerResponse(e))
+          setNodeError(dataNodeId, e.response?.data.response);
+        else setNodeError(dataNodeId, "An unexpected error happened!");
+      });
   };
 
   return { sendDataCalculationConnectedRequest };

@@ -9,6 +9,7 @@ import {
 } from "../../../styles/mixins";
 import { NodeType, ResultType } from "../../../types/Node";
 import { mapConnectionToIdBased } from "../../../utils/nodes/mapConnectionToIdBased";
+import ErrorMessageBar from "../../common/ErrorMessageBar";
 import Modal from "../../common/Modal/Modal";
 import {
   PlotResultModalBody,
@@ -61,7 +62,10 @@ const PlotResultModal: FC<PlotResultModalProps> = ({
       }}
     >
       {!shouldSendGetResultRequest && (
-        <>No Data Node has been connected or it has no data provided!</>
+        <ErrorMessageBar
+          message="No Data Node has been connected, it has no data provided or the
+       provided data is invalid!"
+        />
       )}
       {shouldSendGetResultRequest && (
         <PlotResultModalBody>

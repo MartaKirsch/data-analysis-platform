@@ -2,10 +2,13 @@ import axios, { AxiosResponseHeaders } from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { ResultType } from "../types/Node";
 import { GetResultRequest } from "../types/requests/GetResultRequest";
+import { isAxiosError } from "../types/responses/isAxiosError";
+import { isServerResponse } from "../types/responses/ServerResponse";
 
 export const useSendGetResultRequest = () => {
   const [plotUrl, setPlotUrl] = useState("");
   const [plotFilename, setPlotFilename] = useState("");
+  const [error, setError] = useState<string>();
 
   const sendGetPlotRequest = useCallback(
     (nodeId: string, resultType: ResultType) => {
@@ -22,7 +25,11 @@ export const useSendGetResultRequest = () => {
           setPlotFilename(filename);
           setPlotUrl(link);
         })
-        .catch((e) => console.log("e ", e.data));
+        .catch((e) => {
+          if (isAxiosError(e) && isServerResponse(e))
+            setError(e.response?.data.response);
+          else setError("An unexpected error happened!");
+        });
     },
     []
   );
@@ -43,5 +50,5 @@ export const useSendGetResultRequest = () => {
     return filename;
   };
 
-  return { sendGetPlotRequest, plotUrl, plotFilename };
+  return { sendGetPlotRequest, plotUrl, plotFilename, error };
 };

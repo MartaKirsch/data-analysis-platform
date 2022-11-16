@@ -26,6 +26,7 @@ type NodeBase = {
   id: string;
   type: NodeType;
   ref?: RefObject<HTMLDivElement>;
+  error?: string;
 };
 
 export type DataNode = NodeBase & {

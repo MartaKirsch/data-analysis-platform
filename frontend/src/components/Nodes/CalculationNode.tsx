@@ -42,7 +42,8 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
       await sendDataCalculationConnectedRequest(
         draggedItem.data as File,
         calculationType,
-        id
+        id,
+        draggedItem.id
       );
   };
 

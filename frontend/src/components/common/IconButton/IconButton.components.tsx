@@ -9,6 +9,8 @@ export const IconButtonWrapper = styled.button<{
 
   height: ${({ theme, size }) => theme.dimensions.iconButton[size]};
   width: ${({ theme, size }) => theme.dimensions.iconButton[size]};
+  min-height: ${({ theme, size }) => theme.dimensions.iconButton[size]};
+  min-width: ${({ theme, size }) => theme.dimensions.iconButton[size]};
 
   padding: 4px;
 

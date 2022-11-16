@@ -1,7 +1,8 @@
 import React, { forwardRef } from "react";
 import { ComponentWithChildren } from "../../../types/ComponentWithChildren";
 import { NodeType } from "../../../types/Node";
-import { NodeWrapper } from "./Node.components";
+import { NodeWrapper, ErrorIconWrapper } from "./Node.components";
+import ErrorIcon from "../../common/ErrorIcon";
 
 interface NodeProps extends ComponentWithChildren {
   left: number;
@@ -10,10 +11,14 @@ interface NodeProps extends ComponentWithChildren {
   modal: JSX.Element;
   isModalOpen: boolean;
   onNodeClick: () => void;
+  error?: string;
 }
 
 const Node = forwardRef<HTMLDivElement, NodeProps>(
-  ({ top, left, nodeType, modal, children, isModalOpen, onNodeClick }, ref) => {
+  (
+    { top, left, nodeType, modal, children, isModalOpen, onNodeClick, error },
+    ref
+  ) => {
     return (
       <>
         {isModalOpen && modal}
@@ -24,6 +29,11 @@ const Node = forwardRef<HTMLDivElement, NodeProps>(
           ref={ref}
           onClick={onNodeClick}
         >
+          {error && (
+            <ErrorIconWrapper>
+              <ErrorIcon />
+            </ErrorIconWrapper>
+          )}
           {children}
         </NodeWrapper>
       </>

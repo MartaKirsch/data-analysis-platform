@@ -73,6 +73,18 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
     [nodes]
   );
 
+  const setNodeError = useDeepCompareCallback(
+    (nodeId: string, error?: string) => {
+      const newNodes = [...nodes];
+      const node = newNodes.find(
+        (node) => node.id === nodeId && node.type === NodeType.Data
+      )! as DataNode;
+      node.error = error;
+      setNodes(newNodes);
+    },
+    [nodes]
+  );
+
   return (
     <BoardContext.Provider
       value={{
@@ -85,6 +97,7 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
         connect,
         disconnect,
         setNodeData,
+        setNodeError,
       }}
     >
       {children}

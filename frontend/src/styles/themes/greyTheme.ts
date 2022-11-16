@@ -12,6 +12,8 @@ const greyTheme = {
       background: "#FFFFFF",
       fill: "#000000",
     },
+    errorText: "#CD1919",
+    errorIcon: { background: "#CD1919", fill: "#FFFFFF" },
     node: {
       data: { background: "#BCFC9A", backgroundHover: "#ABEB89" },
       calculation: { background: "#53D8FB", backgroundHover: "#42C7EA" },
