@@ -14,6 +14,7 @@ import Modal from "../../common/Modal/Modal";
 import {
   PlotResultModalBody,
   PlotResultModalImage,
+  PlotResultModalInnerBody,
   PlotResultModalLink,
 } from "./PlotResultModal.components";
 
@@ -69,10 +70,12 @@ const PlotResultModal: FC<PlotResultModalProps> = ({
       )}
       {shouldSendGetResultRequest && (
         <PlotResultModalBody>
-          <PlotResultModalImage src={plotUrl} alt="plot" />
-          <PlotResultModalLink href={plotUrl} download={plotFilename}>
-            Download
-          </PlotResultModalLink>
+          <PlotResultModalInnerBody>
+            <PlotResultModalImage src={plotUrl} alt="plot" />
+            <PlotResultModalLink href={plotUrl} download={plotFilename}>
+              Download
+            </PlotResultModalLink>
+          </PlotResultModalInnerBody>
         </PlotResultModalBody>
       )}
     </Modal>

@@ -7,14 +7,17 @@ export const PlotResultModalLink = styled.a`
 `;
 
 export const PlotResultModalBody = styled.div`
+  max-height: 70vh;
+
+  overflow: auto;
+`;
+
+export const PlotResultModalInnerBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 
   width: 100%;
-  max-height: 70vh;
-
-  overflow: auto;
 `;
 
 export const PlotResultModalImage = styled.img`

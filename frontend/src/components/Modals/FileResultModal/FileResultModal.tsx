@@ -16,6 +16,7 @@ import {
   FileResultModalBody,
   FileResultModalFilename,
   FileResultModalFileRow,
+  FileResultModalInnerBody,
   FileResultModalLink,
 } from "./FileResultModal.components";
 import { ReactComponent as EyeIcon } from "../../../img/eye.svg";
@@ -74,20 +75,22 @@ const FileResultModal: FC<FileResultModalProps> = ({
       )}
       {shouldSendGetResultRequest && (
         <FileResultModalBody>
-          <FileResultModalFileRow>
-            <FileResultModalFilename>{plotFilename}</FileResultModalFilename>
-            {file && (
-              <IconButton
-                icon={<EyeIcon />}
-                shouldResize
-                size="sm"
-                onClick={() => setIsEditFileModalOpen(true)}
-              />
-            )}
-          </FileResultModalFileRow>
-          <FileResultModalLink href={plotUrl} download={plotFilename}>
-            Download
-          </FileResultModalLink>
+          <FileResultModalInnerBody>
+            <FileResultModalFileRow>
+              <FileResultModalFilename>{plotFilename}</FileResultModalFilename>
+              {file && (
+                <IconButton
+                  icon={<EyeIcon />}
+                  shouldResize
+                  size="sm"
+                  onClick={() => setIsEditFileModalOpen(true)}
+                />
+              )}
+            </FileResultModalFileRow>
+            <FileResultModalLink href={plotUrl} download={plotFilename}>
+              Download
+            </FileResultModalLink>
+          </FileResultModalInnerBody>
         </FileResultModalBody>
       )}
       {isEditFileModalOpen && file && (
