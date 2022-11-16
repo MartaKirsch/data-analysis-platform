@@ -17,10 +17,16 @@ import ExcelEditableTable from "./ExcelEditableTable";
 interface EditFileModalProps extends ComponentWithChildren {
   onClose: () => void;
   file: File;
+  nodeType: NodeType;
+  headerText: string;
 }
 
-const EditFileModal: FC<EditFileModalProps> = ({ onClose, file }) => {
-  const nodeType = NodeType.Data;
+const EditFileModal: FC<EditFileModalProps> = ({
+  onClose,
+  file,
+  nodeType,
+  headerText,
+}) => {
   const theme = useTheme();
 
   const [workbook, setWorkbook] = useState<XLSX.WorkBook>();
@@ -46,7 +52,7 @@ const EditFileModal: FC<EditFileModalProps> = ({ onClose, file }) => {
       })}
       onClose={onClose}
       modalHeader={{
-        text: "View uploaded file",
+        text: headerText,
         backgroundColor: getNodeBackgroundHoverColor({ theme, nodeType }),
       }}
     >

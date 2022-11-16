@@ -105,6 +105,8 @@ const FileDataNodeModal: FC<FileDataNodeModalProps> = ({
         <EditFileModal
           onClose={() => setIsEditFileModalOpen(false)}
           file={dataNode.data as File}
+          nodeType={nodeType}
+          headerText="View uploaded file"
         />
       )}
     </>

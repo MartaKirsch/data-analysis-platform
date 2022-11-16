@@ -1,4 +1,4 @@
-import FileResultModal from "../../components/Modals/FileResultModal copy";
+import FileResultModal from "../../components/Modals/FileResultModal";
 import PlotResultModal from "../../components/Modals/PlotResultModal";
 import { ResultType } from "../../types/Node";
 

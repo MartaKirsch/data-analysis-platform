@@ -9,6 +9,7 @@ export const useSendGetResultRequest = () => {
   const [plotUrl, setPlotUrl] = useState("");
   const [plotFilename, setPlotFilename] = useState("");
   const [error, setError] = useState<string>();
+  const [file, setFile] = useState<File>();
 
   const sendGetPlotRequest = useCallback(
     (nodeId: string, resultType: ResultType) => {
@@ -24,6 +25,7 @@ export const useSendGetResultRequest = () => {
 
           setPlotFilename(filename);
           setPlotUrl(link);
+          setFile(new File([fileBlob], filename));
         })
         .catch((e) => {
           if (isAxiosError(e) && isServerResponse(e))
@@ -50,5 +52,5 @@ export const useSendGetResultRequest = () => {
     return filename;
   };
 
-  return { sendGetPlotRequest, plotUrl, plotFilename, error };
+  return { sendGetPlotRequest, plotUrl, plotFilename, error, file };
 };

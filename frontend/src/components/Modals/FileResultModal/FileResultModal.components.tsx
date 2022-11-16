@@ -17,6 +17,17 @@ export const FileResultModalBody = styled.div`
   overflow: auto;
 `;
 
-export const FileResultModalFilename = styled.span`
+export const FileResultModalFilename = styled.span``;
+
+export const FileResultModalFileRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
   margin-top: 42px;
+
+  & > button:last-child {
+    margin-left: 10px;
+  }
 `;
