@@ -1,4 +1,4 @@
-import FileDataNodeModal from "../../components/Modals/FileDataNodeModal";
+import FileResultModal from "../../components/Modals/FileResultModal copy";
 import PlotResultModal from "../../components/Modals/PlotResultModal";
 import { ResultType } from "../../types/Node";
 
@@ -19,7 +19,11 @@ export const renderResultModal = (
       );
     case ResultType.File:
       return (
-        <FileDataNodeModal onClose={onCloseModal} nodeId={calculationNodeId} />
+        <FileResultModal
+          onClose={onCloseModal}
+          calculationNodeId={calculationNodeId}
+          id={id}
+        />
       );
     default:
       return <></>;
