@@ -1,7 +1,8 @@
 import { useBoardContext } from "../context/useBoardContext";
-import { Connection, IdBasedConnection } from "../types/Connection";
+import { IdBasedConnection } from "../types/Connection";
 import { CalculationNode, CalculationType, NodeType } from "../types/Node";
 import { findDuplicates } from "../utils/arrays/findDuplicates";
+import { mapConnectionToIdBased } from "../utils/nodes/mapConnectionToIdBased";
 import { useBuildTree } from "./useBuildTree";
 import { POSSIBLE_CALCULATION_CONNECTIONS } from "./useCanDropCalculationNode";
 import { useTraverseGraph } from "./useTraverseGraph";
@@ -19,10 +20,6 @@ export const useCanDropNode = () => {
       (possibleToConnectType) => possibleToConnectType === secondCalculationType
     );
   };
-
-  const mapConnectionToIdBased = (
-    connection: Connection
-  ): IdBasedConnection => [connection[0].id, connection[1].id];
 
   const willHaveOnlyOneDataNode = (visitedNodesIds: string[]) => {
     return (
