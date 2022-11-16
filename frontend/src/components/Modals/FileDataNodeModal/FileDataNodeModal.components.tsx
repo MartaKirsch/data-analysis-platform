@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { modalButton } from "../../../styles/mixins";
 
 export const UploadFileInputWrapper = styled.div`
   position: relative;
@@ -29,37 +30,7 @@ export const UploadFileInput = styled.input`
 `;
 
 export const UploadFileButton = styled.button`
-  position: relative;
-  z-index: 1;
-
-  background-color: ${({ theme }) => theme.colors.modal.button.background};
-  color: ${({ theme }) => theme.colors.modal.button.text};
-
-  padding: 10px 30px;
-
-  border-radius: 15px;
-  overflow: hidden;
-
-  font-size: ${({ theme }) => theme.fonts.sizes.s};
-
-  &::after {
-    content: "";
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-
-    width: 100%;
-    height: 100%;
-
-    background-color: ${({ theme }) =>
-      theme.colors.modal.button.backgroundHover};
-
-    transform: scaleX(0);
-    transition: transform 0.3s ease-out;
-    transform-origin: 100% 50%;
-  }
+  ${modalButton}
 `;
 
 export const UploadFileText = styled.span`

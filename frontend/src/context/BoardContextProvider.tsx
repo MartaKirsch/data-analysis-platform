@@ -54,11 +54,35 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
     );
   };
 
+  const isConnectionWithId = (connection: Connection, id: string) => {
+    const connectionIds = connection.map((el) => el.id);
+    return connectionIds.some((connectionId) => connectionId === id);
+  };
+
+  const clearDataNodeErrorOnDisconnect = (
+    newConnections: Connection[],
+    dataNode?: DataNode
+  ) => {
+    if (!dataNode) return;
+    const hasRemainingConnectedNodes = newConnections.some((connection) =>
+      isConnectionWithId(connection, dataNode.id)
+    );
+    if (hasRemainingConnectedNodes) return;
+    setNodeError(dataNode.id, undefined);
+  };
+
   const disconnect = (nodeId: string, secondNodeId: string) => {
     const newConnections = [...connections].filter(
       (connection) => !isConnectionWithIds(connection, nodeId, secondNodeId)
     );
     setConnections(newConnections);
+
+    const dataNode = nodes.find(
+      (node) =>
+        (node.id === nodeId || node.id === secondNodeId) &&
+        node.type === NodeType.Data
+    );
+    clearDataNodeErrorOnDisconnect(newConnections, dataNode as DataNode);
   };
 
   const setNodeData = useDeepCompareCallback(
@@ -68,6 +92,18 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
         (node) => node.id === nodeId && node.type === NodeType.Data
       )! as DataNode;
       node.data = data;
+      setNodes(newNodes);
+    },
+    [nodes]
+  );
+
+  const setNodeError = useDeepCompareCallback(
+    (nodeId: string, error?: string) => {
+      const newNodes = [...nodes];
+      const node = newNodes.find(
+        (node) => node.id === nodeId && node.type === NodeType.Data
+      )! as DataNode;
+      node.error = error;
       setNodes(newNodes);
     },
     [nodes]
@@ -85,6 +121,7 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
         connect,
         disconnect,
         setNodeData,
+        setNodeError,
       }}
     >
       {children}

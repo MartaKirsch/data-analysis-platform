@@ -5,12 +5,14 @@ import { useBoardContext } from "../../context/useBoardContext";
 import { useCanDropCalculationNode } from "../../hooks/useCanDropCalculationNode";
 import { useCanDropDataNode } from "../../hooks/useCanDropDataNode";
 import { useCanDropResultNode } from "../../hooks/useCanDropResultNode";
+import { useSendDataCalculationConnected } from "../../hooks/useSendDataCalculationConnected";
 import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
 import {
   CalculationNode as CalculationNodeType,
   CalculationType,
   DataNode,
+  NodeDataType,
   NodeType,
   ResultNode,
 } from "../../types/Node";
@@ -27,6 +29,24 @@ interface Props extends ComponentWithChildren {
 const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
   const { nodes, connect } = useBoardContext();
 
+  const { sendDataCalculationConnectedRequest } =
+    useSendDataCalculationConnected();
+
+  const handleDropDataNode = async (draggedItem: DataNode) => {
+    connect([
+      { id, nodeType: NodeType.Calculation },
+      { id: draggedItem.id, nodeType: draggedItem.type },
+    ]);
+
+    if (draggedItem.data && draggedItem.dataType === NodeDataType.File)
+      await sendDataCalculationConnectedRequest(
+        draggedItem.data as File,
+        calculationType,
+        id,
+        draggedItem.id
+      );
+  };
+
   const { canDropDataNode } = useCanDropDataNode();
   const { canDropCalculationNode } = useCanDropCalculationNode();
   const { canDropResultNode } = useCanDropResultNode();
@@ -39,12 +59,7 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
   const [, dropDataNode] = useDrop<DataNode>(
     () => ({
       accept: DraggableType.DataNode,
-      drop: (draggedItem) => {
-        connect([
-          { id, nodeType: NodeType.Calculation },
-          { id: draggedItem.id, nodeType: draggedItem.type },
-        ]);
-      },
+      drop: handleDropDataNode,
       canDrop: (draggedItem) => canDropDataNode(draggedItem.id, id),
     }),
     [connect, canDropDataNode]

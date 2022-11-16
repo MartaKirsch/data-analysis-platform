@@ -30,6 +30,8 @@ const Board: FC<BoardProps> = () => {
       top={coordinate.y}
       left={coordinate.x}
       dataType={node.dataType}
+      data={node.data}
+      error={node.error}
     />
   );
 

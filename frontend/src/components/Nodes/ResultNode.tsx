@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { mergeRefs } from "react-merge-refs";
 import { useBoardContext } from "../../context/useBoardContext";
@@ -6,6 +6,7 @@ import { useCanDropResultNode } from "../../hooks/useCanDropResultNode";
 import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
 import { CalculationNode, NodeType, ResultType } from "../../types/Node";
+import { renderResultModal } from "../../utils/nodes/renderResultModal";
 import { renderResultNodeIcon } from "../../utils/nodes/renderResultNodeIcon";
 import Node from "./Node";
 
@@ -13,12 +14,30 @@ interface Props extends ComponentWithChildren {
   top: number;
   left: number;
   id: string;
-  modal?: JSX.Element;
   resultType: ResultType;
 }
 
-const ResultNode: FC<Props> = ({ top, left, id, modal, resultType }) => {
-  const { nodes, connect } = useBoardContext();
+const ResultNode: FC<Props> = ({ top, left, id, resultType }) => {
+  const { nodes, connect, connections } = useBoardContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const calculationNodeId = useMemo(() => {
+    const nodeConnections = [...connections].filter((c) =>
+      c.some((pair) => pair.id === id)
+    );
+    const connectedNodesIds = nodeConnections
+      .map((pair) =>
+        pair.filter((item) => item.id !== id).map((item) => item.id)
+      )
+      .flatMap((i) => i);
+    const connectedNodes = [...nodes].filter((node) =>
+      connectedNodesIds.includes(node.id)
+    );
+    const connectedCalculationNode = connectedNodes?.find(
+      (node) => node.type === NodeType.Calculation
+    );
+    return connectedCalculationNode?.id || "";
+  }, [connections, id, nodes]);
 
   const { canDropResultNode } = useCanDropResultNode();
 
@@ -47,15 +66,19 @@ const ResultNode: FC<Props> = ({ top, left, id, modal, resultType }) => {
 
   return (
     <>
-      {modal}
       <Node
         left={left}
         top={top}
         nodeType={NodeType.Result}
         ref={mergeRefs([drag, drop])}
-        modal={<></>}
-        isModalOpen={false}
-        onNodeClick={() => {}}
+        modal={renderResultModal(
+          resultType,
+          () => setIsModalOpen(false),
+          calculationNodeId,
+          id
+        )}
+        onNodeClick={() => setIsModalOpen(true)}
+        isModalOpen={isModalOpen}
       >
         {renderResultNodeIcon(resultType)}
       </Node>

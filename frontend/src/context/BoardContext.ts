@@ -14,6 +14,7 @@ type Context = {
   connect: (connection: Connection) => void;
   disconnect: (nodeId: string, secondNodeId: string) => void;
   setNodeData: (nodeId: string, data: NodeData) => void;
+  setNodeError: (nodeId: string, error?: string) => void;
 };
 
 export const BoardContext = createContext<Context>({
@@ -26,4 +27,5 @@ export const BoardContext = createContext<Context>({
   connect: () => {},
   disconnect: () => {},
   setNodeData: () => {},
+  setNodeError: () => {},
 });

@@ -7,17 +7,17 @@ export enum NodeType {
 }
 
 export enum NodeDataType {
-  Manual = "MANUAL_DATA_TYPE",
-  File = "FILE_DATA_TYPE",
+  Manual = "manual",
+  File = "file",
 }
 
 export enum CalculationType {
-  LinearRegression = "LINEAR_REGRESSION",
+  LinearRegression = "linear_regression",
 }
 
 export enum ResultType {
-  File = "FILE_RESULT_TYPE",
-  Plot = "PLOT_RESULT_TYPE",
+  File = "file",
+  Plot = "plot",
 }
 
 export type NodeData = number[][] | File | undefined;
@@ -26,6 +26,7 @@ type NodeBase = {
   id: string;
   type: NodeType;
   ref?: RefObject<HTMLDivElement>;
+  error?: string;
 };
 
 export type DataNode = NodeBase & {
