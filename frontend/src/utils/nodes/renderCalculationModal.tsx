@@ -4,11 +4,12 @@ import { CalculationType } from "../../types/Node";
 export const renderCalculationModal = (
   dataType: CalculationType,
   onCloseModal: () => void,
-  nodeId: string
+  nodeId: string,
+  file?: File
 ) => {
   switch (dataType) {
     case CalculationType.PCA:
-      return <PCAModal onClose={onCloseModal} id={nodeId} />;
+      return <PCAModal onClose={onCloseModal} id={nodeId} file={file} />;
     default:
       return <></>;
   }

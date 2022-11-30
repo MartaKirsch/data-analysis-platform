@@ -134,7 +134,8 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
       modal={renderCalculationModal(
         calculationType,
         () => setIsModalOpen(false),
-        id
+        id,
+        connectedDataNode?.data as File
       )}
       isModalOpen={isModalOpen}
       onNodeClick={handleNodeClick}
