@@ -8,6 +8,7 @@ type CalculationNodeConnections = {
 
 export const POSSIBLE_CALCULATION_CONNECTIONS: CalculationNodeConnections = {
   [CalculationType.LinearRegression]: [],
+  [CalculationType.PCA]: [],
 };
 
 export const useCanDropCalculationNode = () => {

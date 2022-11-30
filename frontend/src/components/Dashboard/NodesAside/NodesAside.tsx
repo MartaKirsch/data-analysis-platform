@@ -18,6 +18,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
     dragPlotResult,
     dragFileData,
     dragLinearRegression,
+    dragPCA,
     dragFileResult,
     buttonRefs,
   } = useNodesAside();
@@ -39,6 +40,11 @@ const NodesAside: FC<NodesAsideProps> = () => {
             buttonRefs.addLinearRegressionCalculation,
             dragLinearRegression,
           ])}
+        />
+        <NodeButton
+          calculationType={CalculationType.PCA}
+          nodeType={NodeType.Calculation}
+          ref={mergeRefs([buttonRefs.addPCAcalculation, dragPCA])}
         />
       </NodesAsideRow>
       <NodesAsideRow>
