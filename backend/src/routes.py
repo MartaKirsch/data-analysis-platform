@@ -1,21 +1,17 @@
 from flask import Flask, request, jsonify, abort, send_file, Response, make_response
 import pandas as pd
 from src import app
-from .calculation_methods.linear_regression import makeLinReg
-from .error_handler import ErrorHandler
-import json
+from .error_handler import ErrorHandler, linear_regression_validator, pca_validator
 import io
+import json
 import csv
 from PIL import Image
 
 
 # dictionary of function mappings
 FUNCTION_MAPPINGS = {
-    'linear_regression': makeLinReg,
-}
-
-ERROR_CONSTRAINT_MAPPINGS = {
-    'linear_regression': [2, 2],
+    'linear_regression': linear_regression_validator,
+    'pca': pca_validator
 }
 
 calculation_node_dict = {}
@@ -46,22 +42,21 @@ def upload_file(node_id):
         #check if correct filetype
         if mimetype == "text/csv":
             #allow for multiple types of separators in csv
-            df_data = pd.read_csv(data, sep = '[;,,]')
+            try:
+                df_data = pd.read_csv(data, sep = '[;,,]')
+            except Exception as ex:
+                return (request_handler("Could not read file.", 500))
             #check errors unique to functions
-            validator = ErrorHandler(ERROR_CONSTRAINT_MAPPINGS[method][0],ERROR_CONSTRAINT_MAPPINGS[method][1], df_data)
-            if validator.check_column_format():
-                if validator.check_column_number():
-                    result = FUNCTION_MAPPINGS[method](df_data)
-                    calculation_node_dict[str(node_id)] = result
-                else:
-                    return (request_handler("Incorrect number of columns.", 422))
+            result = FUNCTION_MAPPINGS[method](df_data, request)
+            if result[0] == True:
+                calculation_node_dict[str(node_id)] = result[1]
+                return (request_handler("Success!", 200))
             else:
-                return (request_handler("Wrong data type in at least one of the columns.", 422))
+                return result[1]
         else:
             return(request_handler("Wrong filetype.", 415))
     else:
         return (request_handler("File is empty.", 422))
-    return (request_handler("Success!", 200))
 
 @app.route("/result/<node_id>" , methods=['GET', 'POST'])
 def get_result(node_id):
