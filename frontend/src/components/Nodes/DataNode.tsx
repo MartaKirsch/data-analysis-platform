@@ -26,7 +26,8 @@ interface Props extends ComponentWithChildren {
 }
 
 const DataNode: FC<Props> = ({ top, left, id, dataType, data, error }) => {
-  const { nodes, connect, connections } = useBoardContext();
+  const { nodes, connect, connections, setNodeCalculationParameters } =
+    useBoardContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const prevData = useRef(data);
 
@@ -57,15 +58,19 @@ const DataNode: FC<Props> = ({ top, left, id, dataType, data, error }) => {
       const connectedCalculationNodes = connectedNodes?.filter(
         (node) => node.type === NodeType.Calculation
       ) as CalculationNode[];
+      connectedCalculationNodes.forEach((node) => {
+        setNodeCalculationParameters(node.id, undefined);
+      });
 
       if (data && dataType === NodeDataType.File) {
         const requestsToSend = connectedCalculationNodes.map((node) =>
-          sendDataCalculationConnectedRequest(
-            data as File,
-            node.calculationType,
-            node.id,
-            id
-          )
+          sendDataCalculationConnectedRequest({
+            file: data as File,
+            calculationType: node.calculationType,
+            dataNodeId: id,
+            calculationNodeId: node.id,
+            parameters: node.parameters,
+          })
         );
 
         await Promise.allSettled(requestsToSend);
@@ -79,6 +84,7 @@ const DataNode: FC<Props> = ({ top, left, id, dataType, data, error }) => {
     data,
     dataType,
     sendDataCalculationConnectedRequest,
+    setNodeCalculationParameters,
   ]);
 
   const handleDropCalculationNode = async (draggedItem: CalculationNode) => {
@@ -88,12 +94,13 @@ const DataNode: FC<Props> = ({ top, left, id, dataType, data, error }) => {
     ]);
 
     if (data && dataType === NodeDataType.File)
-      await sendDataCalculationConnectedRequest(
-        data as File,
-        draggedItem.calculationType,
-        draggedItem.id,
-        id
-      );
+      await sendDataCalculationConnectedRequest({
+        file: data as File,
+        calculationType: draggedItem.calculationType,
+        dataNodeId: id,
+        calculationNodeId: draggedItem.id,
+        parameters: draggedItem.parameters,
+      });
   };
 
   const { canDropDataNode } = useCanDropDataNode();

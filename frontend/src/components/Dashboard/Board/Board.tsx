@@ -45,6 +45,8 @@ const Board: FC<BoardProps> = () => {
       top={coordinate.y}
       left={coordinate.x}
       calculationType={node.calculationType}
+      parameters={node.parameters}
+      error={node.error}
     />
   );
 

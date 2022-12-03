@@ -15,7 +15,7 @@ import {
 } from "./PCAModal.components";
 import * as XLSX from "xlsx";
 import { Select, Option, Label } from "../../common/Select/Select";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import ErrorMessageBar from "../../common/ErrorMessageBar";
 import { useBoardContext } from "../../../context/useBoardContext";
 
@@ -47,12 +47,12 @@ const PCAModal: FC<PCAModalProps> = ({ onClose, file, parameters, id }) => {
   };
 
   const {
-    register,
+    control,
     formState: { errors },
     watch,
   } = useForm<PCAformData>({
     mode: "onChange",
-    defaultValues: parameters,
+    defaultValues: { Column: parameters?.Column },
   });
 
   watch((data) => {
@@ -75,18 +75,23 @@ const PCAModal: FC<PCAModalProps> = ({ onClose, file, parameters, id }) => {
         <PCAModalInnerBody>
           <PCAModalSelectWrapper>
             <Label>Column</Label>
-            <Select
-              {...register("Column", {
+            <Controller
+              name="Column"
+              control={control}
+              rules={{
                 required: { value: true, message: "This field is required!" },
-              })}
-            >
-              <Option key="default-option" value={undefined}></Option>
-              {getColumnNames().map((c, i) => (
-                <Option value={c} key={`${c}-${i}`}>
-                  {c}
-                </Option>
-              ))}
-            </Select>
+              }}
+              render={({ field: { value, onChange } }) => (
+                <Select value={value} onChange={onChange}>
+                  <Option key="default-option" value={undefined}></Option>
+                  {getColumnNames().map((c, i) => (
+                    <Option value={c} key={`${c}-${i}`}>
+                      {c}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+            />
           </PCAModalSelectWrapper>
           {errors.Column && (
             <ErrorMessageBar message={errors.Column.message || ""} size="xs" />

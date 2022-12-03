@@ -40,7 +40,7 @@ export type CalculationNode = NodeBase & {
   type: NodeType.Calculation;
   calculationType: CalculationType;
   parameters?: CalculationNodeParameters;
-  // parameters?: { [key: string]: any };
+  error?: string;
 };
 
 export type ResultNode = NodeBase & {
