@@ -10,6 +10,7 @@ import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
 import {
   CalculationNode as CalculationNodeType,
+  CalculationNodeParameters,
   CalculationType,
   DataNode,
   NodeDataType,
@@ -25,9 +26,16 @@ interface Props extends ComponentWithChildren {
   left: number;
   id: string;
   calculationType: CalculationType;
+  parameters?: CalculationNodeParameters;
 }
 
-const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
+const CalculationNode: FC<Props> = ({
+  top,
+  left,
+  id,
+  calculationType,
+  parameters,
+}) => {
   const { nodes, connect, connections } = useBoardContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -135,7 +143,8 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
         calculationType,
         () => setIsModalOpen(false),
         id,
-        connectedDataNode?.data as File
+        connectedDataNode?.data as File,
+        parameters
       )}
       isModalOpen={isModalOpen}
       onNodeClick={handleNodeClick}

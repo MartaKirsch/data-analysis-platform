@@ -5,19 +5,32 @@ import {
   getNodeBackgroundColor,
   getNodeBackgroundHoverColor,
 } from "../../../styles/mixins";
-import { NodeType } from "../../../types/Node";
+import { NodeType, PCAparameters } from "../../../types/Node";
 import { TableRow } from "../../../types/TableRow";
 import Modal from "../../common/Modal/Modal";
-import { PCAModalBody, PCAModalInnerBody } from "./PCAModal.components";
+import {
+  PCAModalBody,
+  PCAModalInnerBody,
+  PCAModalSelectWrapper,
+} from "./PCAModal.components";
 import * as XLSX from "xlsx";
+import { Select, Option, Label } from "../../common/Select/Select";
+import { useForm } from "react-hook-form";
+import ErrorMessageBar from "../../common/ErrorMessageBar";
+import { useBoardContext } from "../../../context/useBoardContext";
 
 interface PCAModalProps {
   onClose: () => void;
   id: string;
   file?: File;
+  parameters?: PCAparameters;
 }
 
-const PCAModal: FC<PCAModalProps> = ({ onClose, file }) => {
+type PCAformData = { Column: string };
+
+const PCAModal: FC<PCAModalProps> = ({ onClose, file, parameters, id }) => {
+  const { setNodeCalculationParameters } = useBoardContext();
+
   const theme = useTheme();
   const nodeType = NodeType.Calculation;
 
@@ -33,6 +46,19 @@ const PCAModal: FC<PCAModalProps> = ({ onClose, file }) => {
     return Object.keys(tableRows[0] || {});
   };
 
+  const {
+    register,
+    formState: { errors },
+    watch,
+  } = useForm<PCAformData>({
+    mode: "onChange",
+    defaultValues: parameters,
+  });
+
+  watch((data) => {
+    setNodeCalculationParameters(id, { Column: data.Column! });
+  });
+
   return (
     <Modal
       backgroundColor={getNodeBackgroundColor({
@@ -46,7 +72,26 @@ const PCAModal: FC<PCAModalProps> = ({ onClose, file }) => {
       }}
     >
       <PCAModalBody>
-        <PCAModalInnerBody>{getColumnNames().join(", ")}</PCAModalInnerBody>
+        <PCAModalInnerBody>
+          <PCAModalSelectWrapper>
+            <Label>Column</Label>
+            <Select
+              {...register("Column", {
+                required: { value: true, message: "This field is required!" },
+              })}
+            >
+              <Option key="default-option" value={undefined}></Option>
+              {getColumnNames().map((c, i) => (
+                <Option value={c} key={`${c}-${i}`}>
+                  {c}
+                </Option>
+              ))}
+            </Select>
+          </PCAModalSelectWrapper>
+          {errors.Column && (
+            <ErrorMessageBar message={errors.Column.message || ""} size="xs" />
+          )}
+        </PCAModalInnerBody>
       </PCAModalBody>
     </Modal>
   );

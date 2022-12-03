@@ -1,6 +1,13 @@
 import React, { FC, useState } from "react";
 import { BoardContext } from "./BoardContext";
-import { DataNode, Node, NodeData, NodeType } from "../types/Node";
+import {
+  CalculationNode,
+  CalculationNodeParameters,
+  DataNode,
+  Node,
+  NodeData,
+  NodeType,
+} from "../types/Node";
 import { ComponentWithChildren } from "../types/ComponentWithChildren";
 import { XYCoord } from "react-dnd";
 import { Coordinate } from "../types/Coordinate";
@@ -97,6 +104,18 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
     [nodes]
   );
 
+  const setNodeCalculationParameters = useDeepCompareCallback(
+    (nodeId: string, params?: CalculationNodeParameters) => {
+      const newNodes = [...nodes];
+      const node = newNodes.find(
+        (node) => node.id === nodeId && node.type === NodeType.Calculation
+      )! as CalculationNode;
+      node.parameters = params;
+      setNodes(newNodes);
+    },
+    [nodes]
+  );
+
   const setNodeError = useDeepCompareCallback(
     (nodeId: string, error?: string) => {
       const newNodes = [...nodes];
@@ -122,6 +141,7 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
         disconnect,
         setNodeData,
         setNodeError,
+        setNodeCalculationParameters,
       }}
     >
       {children}
