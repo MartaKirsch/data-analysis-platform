@@ -1,5 +1,6 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { useTheme } from "styled-components";
+import { useReadFile } from "../../../hooks/useReadFile";
 import {
   getNodeBackgroundColor,
   getNodeBackgroundHoverColor,
@@ -7,7 +8,6 @@ import {
 import { ComponentWithChildren } from "../../../types/ComponentWithChildren";
 import { NodeType } from "../../../types/Node";
 import Modal from "../../common/Modal/Modal";
-import * as XLSX from "xlsx";
 import {
   SheetNameButton,
   SheetNameButtonsWrapper,
@@ -29,20 +29,8 @@ const EditFileModal: FC<EditFileModalProps> = ({
 }) => {
   const theme = useTheme();
 
-  const [workbook, setWorkbook] = useState<XLSX.WorkBook>();
-  const [selectedWorksheetName, setSelectedWorksheetName] = useState("");
-
-  useEffect(() => {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    reader.onload = () => {
-      const workbook = XLSX.read(reader.result, { type: "binary" });
-      setWorkbook(workbook);
-      setSelectedWorksheetName(workbook.SheetNames[0]);
-    };
-    return () => reader.abort();
-  }, [file]);
+  const { workbook, selectedWorksheetName, setSelectedWorksheetName } =
+    useReadFile(file);
 
   return (
     <Modal

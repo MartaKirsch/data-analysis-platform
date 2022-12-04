@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { XYCoord } from "react-dnd";
 import { Connection } from "../types/Connection";
 import { Coordinate } from "../types/Coordinate";
-import { Node, NodeData } from "../types/Node";
+import { CalculationNodeParameters, Node, NodeData } from "../types/Node";
 
 type Context = {
   nodes: Node[];
@@ -14,6 +14,10 @@ type Context = {
   connect: (connection: Connection) => void;
   disconnect: (nodeId: string, secondNodeId: string) => void;
   setNodeData: (nodeId: string, data: NodeData) => void;
+  setNodeCalculationParameters: (
+    nodeId: string,
+    params?: CalculationNodeParameters
+  ) => void;
   setNodeError: (nodeId: string, error?: string) => void;
 };
 
@@ -28,4 +32,5 @@ export const BoardContext = createContext<Context>({
   disconnect: () => {},
   setNodeData: () => {},
   setNodeError: () => {},
+  setNodeCalculationParameters: () => {},
 });

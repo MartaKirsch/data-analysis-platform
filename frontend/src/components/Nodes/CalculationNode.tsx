@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import { isEqual } from "lodash";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { mergeRefs } from "react-merge-refs";
 import { useBoardContext } from "../../context/useBoardContext";
@@ -10,12 +11,14 @@ import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
 import {
   CalculationNode as CalculationNodeType,
+  CalculationNodeParameters,
   CalculationType,
   DataNode,
   NodeDataType,
   NodeType,
   ResultNode,
 } from "../../types/Node";
+import { renderCalculationModal } from "../../utils/nodes/renderCalculationModal";
 import { renderCalculationNodeIcon } from "../../utils/nodes/renderCalculationNodeIcon";
 import NodeComponent from "./Node";
 
@@ -24,10 +27,21 @@ interface Props extends ComponentWithChildren {
   left: number;
   id: string;
   calculationType: CalculationType;
+  parameters?: CalculationNodeParameters;
+  error?: string;
 }
 
-const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
-  const { nodes, connect } = useBoardContext();
+const CalculationNode: FC<Props> = ({
+  top,
+  left,
+  id,
+  calculationType,
+  parameters,
+  error,
+}) => {
+  const prevParams = useRef(parameters);
+  const { nodes, connect, connections } = useBoardContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { sendDataCalculationConnectedRequest } =
     useSendDataCalculationConnected();
@@ -39,12 +53,13 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
     ]);
 
     if (draggedItem.data && draggedItem.dataType === NodeDataType.File)
-      await sendDataCalculationConnectedRequest(
-        draggedItem.data as File,
+      await sendDataCalculationConnectedRequest({
+        file: draggedItem.data as File,
         calculationType,
-        id,
-        draggedItem.id
-      );
+        dataNodeId: draggedItem.id,
+        calculationNodeId: id,
+        parameters,
+      });
   };
 
   const { canDropDataNode } = useCanDropDataNode();
@@ -101,15 +116,89 @@ const CalculationNode: FC<Props> = ({ top, left, id, calculationType }) => {
     [connect, canDropResultNode]
   );
 
+  const nodeConnections = [...connections].filter((c) =>
+    c.some((pair) => pair.id === id)
+  );
+  const connectedNodesIds = nodeConnections
+    .map((pair) => pair.filter((item) => item.id !== id).map((item) => item.id))
+    .flatMap((i) => i);
+  const connectedNodes = [...nodes].filter((node) =>
+    connectedNodesIds.includes(node.id)
+  );
+  const connectedDataNode = connectedNodes?.find(
+    (node) => node.type === NodeType.Data
+  ) as DataNode;
+
+  const calculationTypesWithModals = [CalculationType.PCA];
+  const hasModal = calculationTypesWithModals.includes(calculationType);
+  const shouldRenderModal =
+    hasModal && !!connectedDataNode && !!connectedDataNode.data;
+
+  const handleNodeClick = () => {
+    shouldRenderModal && setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+    const handleParamsChange = async () => {
+      const hasParamsChanged = !isEqual(prevParams.current, parameters);
+      if (!hasParamsChanged) return;
+
+      prevParams.current = parameters;
+
+      const nodeConnections = [...connections].filter((c) =>
+        c.some((pair) => pair.id === id)
+      );
+      const connectedNodesIds = nodeConnections
+        .map((pair) =>
+          pair.filter((item) => item.id !== id).map((item) => item.id)
+        )
+        .flatMap((i) => i);
+      const connectedNodes = [...nodes].filter((node) =>
+        connectedNodesIds.includes(node.id)
+      );
+      const connectedDataNode = connectedNodes?.find(
+        (node) => node.type === NodeType.Data
+      ) as DataNode;
+
+      if (
+        connectedDataNode.data &&
+        connectedDataNode.dataType === NodeDataType.File
+      ) {
+        await sendDataCalculationConnectedRequest({
+          file: connectedDataNode.data as File,
+          calculationType: calculationType,
+          dataNodeId: connectedDataNode.id,
+          calculationNodeId: id,
+          parameters: parameters,
+        });
+      }
+    };
+    handleParamsChange();
+  }, [
+    nodes,
+    connections,
+    id,
+    parameters,
+    calculationType,
+    sendDataCalculationConnectedRequest,
+  ]);
+
   return (
     <NodeComponent
       left={left}
       top={top}
       nodeType={NodeType.Calculation}
       ref={mergeRefs([drag, dropDataNode, dropResultNode, dropCalculationNode])}
-      modal={<></>}
-      isModalOpen={false}
-      onNodeClick={() => {}}
+      modal={renderCalculationModal(
+        calculationType,
+        () => setIsModalOpen(false),
+        id,
+        connectedDataNode?.data as File,
+        parameters
+      )}
+      isModalOpen={isModalOpen}
+      onNodeClick={handleNodeClick}
+      error={error}
     >
       {renderCalculationNodeIcon(calculationType)}
     </NodeComponent>

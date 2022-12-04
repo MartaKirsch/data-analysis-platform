@@ -13,6 +13,7 @@ export enum NodeDataType {
 
 export enum CalculationType {
   LinearRegression = "linear_regression",
+  PCA = "pca",
 }
 
 export enum ResultType {
@@ -38,6 +39,8 @@ export type DataNode = NodeBase & {
 export type CalculationNode = NodeBase & {
   type: NodeType.Calculation;
   calculationType: CalculationType;
+  parameters?: CalculationNodeParameters;
+  error?: string;
 };
 
 export type ResultNode = NodeBase & {
@@ -46,3 +49,7 @@ export type ResultNode = NodeBase & {
 };
 
 export type Node = DataNode | CalculationNode | ResultNode;
+
+export type PCAparameters = { Column: string };
+
+export type CalculationNodeParameters = PCAparameters;

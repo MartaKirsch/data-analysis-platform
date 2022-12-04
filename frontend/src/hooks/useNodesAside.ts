@@ -7,6 +7,7 @@ export const useNodesAside = () => {
   const addFileDataNodeButtonRef = useRef<HTMLDivElement>(null);
 
   const addLinearRegressionNodeButtonRef = useRef<HTMLDivElement>(null);
+  const addPCAnodeButtonRef = useRef<HTMLDivElement>(null);
 
   const addPlotResultNodeButtonRef = useRef<HTMLDivElement>(null);
   const addFileResultNodeButtonRef = useRef<HTMLDivElement>(null);
@@ -24,6 +25,14 @@ export const useNodesAside = () => {
     item: {
       calculationType: CalculationType.LinearRegression,
       ref: addLinearRegressionNodeButtonRef,
+    },
+  }));
+
+  const [, dragPCA] = useDrag(() => ({
+    type: DraggableType.AddCalculationNode,
+    item: {
+      calculationType: CalculationType.PCA,
+      ref: addPCAnodeButtonRef,
     },
   }));
 
@@ -48,9 +57,11 @@ export const useNodesAside = () => {
     dragLinearRegression,
     dragPlotResult,
     dragFileResult,
+    dragPCA,
     buttonRefs: {
       addFileData: addFileDataNodeButtonRef,
       addLinearRegressionCalculation: addLinearRegressionNodeButtonRef,
+      addPCAcalculation: addPCAnodeButtonRef,
       addPlotResult: addPlotResultNodeButtonRef,
       addFileResult: addFileResultNodeButtonRef,
     },

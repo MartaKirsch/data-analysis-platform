@@ -1,6 +1,13 @@
 import React, { FC, useState } from "react";
 import { BoardContext } from "./BoardContext";
-import { DataNode, Node, NodeData, NodeType } from "../types/Node";
+import {
+  CalculationNode,
+  CalculationNodeParameters,
+  DataNode,
+  Node,
+  NodeData,
+  NodeType,
+} from "../types/Node";
 import { ComponentWithChildren } from "../types/ComponentWithChildren";
 import { XYCoord } from "react-dnd";
 import { Coordinate } from "../types/Coordinate";
@@ -61,14 +68,18 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
 
   const clearDataNodeErrorOnDisconnect = (
     newConnections: Connection[],
-    dataNode?: DataNode
+    dataNode: DataNode
   ) => {
-    if (!dataNode) return;
     const hasRemainingConnectedNodes = newConnections.some((connection) =>
       isConnectionWithId(connection, dataNode.id)
     );
     if (hasRemainingConnectedNodes) return;
     setNodeError(dataNode.id, undefined);
+  };
+
+  const clearCalculationNodeOnDisconnect = (calcNode: CalculationNode) => {
+    setNodeError(calcNode.id, undefined);
+    setNodeCalculationParameters(calcNode.id, undefined);
   };
 
   const disconnect = (nodeId: string, secondNodeId: string) => {
@@ -82,7 +93,16 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
         (node.id === nodeId || node.id === secondNodeId) &&
         node.type === NodeType.Data
     );
-    clearDataNodeErrorOnDisconnect(newConnections, dataNode as DataNode);
+    if (dataNode)
+      clearDataNodeErrorOnDisconnect(newConnections, dataNode as DataNode);
+
+    const calcNode = nodes.find(
+      (node) =>
+        (node.id === nodeId || node.id === secondNodeId) &&
+        node.type === NodeType.Calculation
+    );
+    if (dataNode && calcNode)
+      clearCalculationNodeOnDisconnect(calcNode as CalculationNode);
   };
 
   const setNodeData = useDeepCompareCallback(
@@ -97,12 +117,26 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
     [nodes]
   );
 
+  const setNodeCalculationParameters = useDeepCompareCallback(
+    (nodeId: string, params?: CalculationNodeParameters) => {
+      const newNodes = [...nodes];
+      const node = newNodes.find(
+        (node) => node.id === nodeId && node.type === NodeType.Calculation
+      )! as CalculationNode;
+      node.parameters = params;
+      setNodes(newNodes);
+    },
+    [nodes]
+  );
+
   const setNodeError = useDeepCompareCallback(
     (nodeId: string, error?: string) => {
       const newNodes = [...nodes];
       const node = newNodes.find(
-        (node) => node.id === nodeId && node.type === NodeType.Data
-      )! as DataNode;
+        (node) =>
+          node.id === nodeId &&
+          (node.type === NodeType.Data || node.type === NodeType.Calculation)
+      )! as DataNode | CalculationNode;
       node.error = error;
       setNodes(newNodes);
     },
@@ -122,6 +156,7 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
         disconnect,
         setNodeData,
         setNodeError,
+        setNodeCalculationParameters,
       }}
     >
       {children}

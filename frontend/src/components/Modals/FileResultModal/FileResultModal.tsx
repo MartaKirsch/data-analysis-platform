@@ -40,11 +40,22 @@ const FileResultModal: FC<FileResultModalProps> = ({
   const { sendGetPlotRequest, plotUrl, plotFilename, file } =
     useSendGetResultRequest();
 
-  const { shouldSendGetResultRequest } = useShouldSendGetResultRequest(
+  const {
+    hasCorrectDataUploaded,
+    hasDataNodeConnected,
+    hasDataUploaded,
+    hasCorrectParamsSet,
+  } = useShouldSendGetResultRequest(
     nodes,
     connections.map(mapConnectionToIdBased),
     id
   );
+
+  const shouldSendGetResultRequest =
+    hasCorrectDataUploaded &&
+    hasDataUploaded &&
+    hasDataNodeConnected &&
+    hasCorrectParamsSet;
 
   useEffect(() => {
     if (!shouldSendGetResultRequest || hasResultRequestBeenSent.current) return;
@@ -54,6 +65,14 @@ const FileResultModal: FC<FileResultModalProps> = ({
 
   const theme = useTheme();
   const nodeType = NodeType.Result;
+
+  const createErrorMessage = () => {
+    if (!hasDataNodeConnected) return "No Data Node has been connected!";
+    if (!hasDataUploaded) return "No data has been uploaded!";
+    if (!hasCorrectDataUploaded) return "Uploaded data is incorrect!";
+    if (!hasCorrectParamsSet) return "Calculation parameters are incorrect!";
+    return "";
+  };
 
   return (
     <Modal
@@ -68,10 +87,7 @@ const FileResultModal: FC<FileResultModalProps> = ({
       }}
     >
       {!shouldSendGetResultRequest && (
-        <ErrorMessageBar
-          message="No Data Node has been connected, it has no data provided or the
-       provided data is invalid!"
-        />
+        <ErrorMessageBar message={createErrorMessage()} />
       )}
       {shouldSendGetResultRequest && (
         <FileResultModalBody>

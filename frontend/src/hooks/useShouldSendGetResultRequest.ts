@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { IdBasedConnection } from "../types/Connection";
-import { DataNode, Node, NodeType } from "../types/Node";
+import { CalculationNode, DataNode, Node, NodeType } from "../types/Node";
 import { useBuildTree } from "./useBuildTree";
 
 export const useShouldSendGetResultRequest = (
@@ -16,6 +16,14 @@ export const useShouldSendGetResultRequest = (
     ) as DataNode | undefined;
   });
 
+  const getConnectedCalculationNode = useRef(
+    (nodes: Node[], branch: string[]) => {
+      return nodes.find(
+        (node) => branch.includes(node.id) && node.type === NodeType.Calculation
+      ) as CalculationNode | undefined;
+    }
+  );
+
   const shouldSendGetResultRequest = useRef(() => {
     const resultNodeTreeBranch = buildBranchesFromNode(
       connections,
@@ -26,13 +34,24 @@ export const useShouldSendGetResultRequest = (
       nodes,
       resultNodeTreeBranch
     );
-    if (!connectedDataNode) return false;
+    if (!connectedDataNode) return {};
+
+    const connectedCalculationNode = getConnectedCalculationNode.current(
+      nodes,
+      resultNodeTreeBranch
+    );
 
     const hasDataNodeConnected = !!connectedDataNode;
     const hasDataUploaded = !!connectedDataNode.data;
     const hasCorrectDataUploaded = !connectedDataNode.error;
-    return hasDataNodeConnected && hasDataUploaded && hasCorrectDataUploaded;
+    const hasCorrectParamsSet = !connectedCalculationNode?.error;
+    return {
+      hasDataNodeConnected,
+      hasDataUploaded,
+      hasCorrectDataUploaded,
+      hasCorrectParamsSet,
+    };
   });
 
-  return { shouldSendGetResultRequest: shouldSendGetResultRequest.current() };
+  return { ...shouldSendGetResultRequest.current() };
 };

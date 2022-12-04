@@ -23,6 +23,7 @@ const defaultTheme = {
   fonts: {
     sizes: { s: "16px", base: "18px", m: "20px" },
     weights: { thin: 300, normal: 400, bold: 600 },
+    families: { normal: "'Montserrat', sans-serif" },
   },
 };
 
