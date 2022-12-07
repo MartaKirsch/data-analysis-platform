@@ -6,8 +6,10 @@ import { useCanDropResultNode } from "../../hooks/useCanDropResultNode";
 import { ComponentWithChildren } from "../../types/ComponentWithChildren";
 import { DraggableType } from "../../types/DraggableType";
 import { CalculationNode, NodeType, ResultType } from "../../types/Node";
+import { mapResultTypeToTooltipText } from "../../utils/nodes/mapNodeTypeToTooltipText";
 import { renderResultModal } from "../../utils/nodes/renderResultModal";
 import { renderResultNodeIcon } from "../../utils/nodes/renderResultNodeIcon";
+import NodeTippy from "../common/NodeTippy";
 import Node from "./Node";
 
 interface Props extends ComponentWithChildren {
@@ -65,7 +67,7 @@ const ResultNode: FC<Props> = ({ top, left, id, resultType }) => {
   );
 
   return (
-    <>
+    <NodeTippy content={mapResultTypeToTooltipText(resultType)}>
       <Node
         left={left}
         top={top}
@@ -82,7 +84,7 @@ const ResultNode: FC<Props> = ({ top, left, id, resultType }) => {
       >
         {renderResultNodeIcon(resultType)}
       </Node>
-    </>
+    </NodeTippy>
   );
 };
 
