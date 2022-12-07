@@ -10,6 +10,7 @@ import {
 } from "../../../types/Node";
 import { mergeRefs } from "react-merge-refs";
 import { useNodesAside } from "../../../hooks/useNodesAside";
+import NodeTippy from "../../common/NodeTippy";
 
 interface NodesAsideProps extends ComponentWithChildren {}
 
@@ -26,38 +27,48 @@ const NodesAside: FC<NodesAsideProps> = () => {
   return (
     <NodesAsideWrapper>
       <NodesAsideRow>
-        <NodeButton
-          dataType={NodeDataType.File}
-          nodeType={NodeType.Data}
-          ref={mergeRefs([buttonRefs.addFileData, dragFileData])}
-        />
+        <NodeTippy content="File Data Source">
+          <NodeButton
+            dataType={NodeDataType.File}
+            nodeType={NodeType.Data}
+            ref={mergeRefs([buttonRefs.addFileData, dragFileData])}
+          />
+        </NodeTippy>
       </NodesAsideRow>
       <NodesAsideRow>
-        <NodeButton
-          calculationType={CalculationType.LinearRegression}
-          nodeType={NodeType.Calculation}
-          ref={mergeRefs([
-            buttonRefs.addLinearRegressionCalculation,
-            dragLinearRegression,
-          ])}
-        />
-        <NodeButton
-          calculationType={CalculationType.PCA}
-          nodeType={NodeType.Calculation}
-          ref={mergeRefs([buttonRefs.addPCAcalculation, dragPCA])}
-        />
+        <NodeTippy content="Linear Regression">
+          <NodeButton
+            calculationType={CalculationType.LinearRegression}
+            nodeType={NodeType.Calculation}
+            ref={mergeRefs([
+              buttonRefs.addLinearRegressionCalculation,
+              dragLinearRegression,
+            ])}
+          />
+        </NodeTippy>
+        <NodeTippy content="PCA">
+          <NodeButton
+            calculationType={CalculationType.PCA}
+            nodeType={NodeType.Calculation}
+            ref={mergeRefs([buttonRefs.addPCAcalculation, dragPCA])}
+          />
+        </NodeTippy>
       </NodesAsideRow>
       <NodesAsideRow>
-        <NodeButton
-          resultType={ResultType.Plot}
-          nodeType={NodeType.Result}
-          ref={mergeRefs([buttonRefs.addPlotResult, dragPlotResult])}
-        />
-        <NodeButton
-          resultType={ResultType.File}
-          nodeType={NodeType.Result}
-          ref={mergeRefs([buttonRefs.addFileResult, dragFileResult])}
-        />
+        <NodeTippy content="Plot Result">
+          <NodeButton
+            resultType={ResultType.Plot}
+            nodeType={NodeType.Result}
+            ref={mergeRefs([buttonRefs.addPlotResult, dragPlotResult])}
+          />
+        </NodeTippy>
+        <NodeTippy content="File Result">
+          <NodeButton
+            resultType={ResultType.File}
+            nodeType={NodeType.Result}
+            ref={mergeRefs([buttonRefs.addFileResult, dragFileResult])}
+          />
+        </NodeTippy>
       </NodesAsideRow>
     </NodesAsideWrapper>
   );

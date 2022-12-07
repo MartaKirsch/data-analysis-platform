@@ -21,7 +21,7 @@ const greyTheme = {
       fill: "#000000",
       connection: "#F8FFA8",
     },
-    tippy: { bg: "#7bb5d1", text: "black" },
+    tippy: { bg: "#ffa099", text: "black" },
     modal: {
       button: {
         background: "white",
