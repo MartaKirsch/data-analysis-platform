@@ -1,11 +1,11 @@
 import FileDataNodeModal from "../../components/Modals/FileDataNodeModal";
-import { NodeDataType } from "../../types/Node";
+import { DataNodeError, NodeDataType } from "../../types/Node";
 
 export const renderDataModal = (
   dataType: NodeDataType,
   onCloseModal: () => void,
   nodeId: string,
-  error?: string
+  errors: DataNodeError[]
 ) => {
   switch (dataType) {
     case NodeDataType.File:
@@ -13,7 +13,7 @@ export const renderDataModal = (
         <FileDataNodeModal
           onClose={onCloseModal}
           nodeId={nodeId}
-          error={error}
+          errors={errors}
         />
       );
     default:

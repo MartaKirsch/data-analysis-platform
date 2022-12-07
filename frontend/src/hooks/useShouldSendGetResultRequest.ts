@@ -25,17 +25,20 @@ export const useShouldSendGetResultRequest = (
   );
 
   const shouldSendGetResultRequest = useRef(() => {
-    const resultNodeTreeBranch = buildBranchesFromNode(
+    const resultNodeTree = buildBranchesFromNode(
       connections,
       resultNodeId
     ).flatMap((i) => i);
-
     const connectedDataNode = getConnectedDataNode.current(
       nodes,
-      resultNodeTreeBranch
+      resultNodeTree
     );
     if (!connectedDataNode) return {};
 
+    const resultNodeTreeBranch =
+      buildBranchesFromNode(connections, connectedDataNode.id)
+        .find((branch) => branch.includes(resultNodeId))
+        ?.flatMap((i) => i) || [];
     const connectedCalculationNode = getConnectedCalculationNode.current(
       nodes,
       resultNodeTreeBranch
@@ -43,7 +46,9 @@ export const useShouldSendGetResultRequest = (
 
     const hasDataNodeConnected = !!connectedDataNode;
     const hasDataUploaded = !!connectedDataNode.data;
-    const hasCorrectDataUploaded = !connectedDataNode.error;
+    const hasCorrectDataUploaded = !connectedDataNode.errors.find(
+      (e) => e.calcNodeId === connectedCalculationNode?.id
+    );
     const hasCorrectParamsSet = !connectedCalculationNode?.error;
     return {
       hasDataNodeConnected,

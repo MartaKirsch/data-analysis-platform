@@ -4,6 +4,7 @@ import {
   CalculationNode,
   CalculationNodeParameters,
   DataNode,
+  DataNodeError,
   Node,
   NodeData,
   NodeType,
@@ -61,24 +62,15 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
     );
   };
 
-  const isConnectionWithId = (connection: Connection, id: string) => {
-    const connectionIds = connection.map((el) => el.id);
-    return connectionIds.some((connectionId) => connectionId === id);
-  };
-
   const clearDataNodeErrorOnDisconnect = (
-    newConnections: Connection[],
-    dataNode: DataNode
+    dataNode: DataNode,
+    calcNodeId: string
   ) => {
-    const hasRemainingConnectedNodes = newConnections.some((connection) =>
-      isConnectionWithId(connection, dataNode.id)
-    );
-    if (hasRemainingConnectedNodes) return;
-    setNodeError(dataNode.id, undefined);
+    removeDataNodeError(dataNode.id, calcNodeId);
   };
 
   const clearCalculationNodeOnDisconnect = (calcNode: CalculationNode) => {
-    setNodeError(calcNode.id, undefined);
+    setCalculationNodeError(calcNode.id, undefined);
     setNodeCalculationParameters(calcNode.id, undefined);
   };
 
@@ -93,16 +85,15 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
         (node.id === nodeId || node.id === secondNodeId) &&
         node.type === NodeType.Data
     );
-    if (dataNode)
-      clearDataNodeErrorOnDisconnect(newConnections, dataNode as DataNode);
-
     const calcNode = nodes.find(
       (node) =>
         (node.id === nodeId || node.id === secondNodeId) &&
         node.type === NodeType.Calculation
     );
-    if (dataNode && calcNode)
+    if (dataNode && calcNode) {
       clearCalculationNodeOnDisconnect(calcNode as CalculationNode);
+      clearDataNodeErrorOnDisconnect(dataNode as DataNode, calcNode.id);
+    }
   };
 
   const setNodeData = useDeepCompareCallback(
@@ -129,14 +120,36 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
     [nodes]
   );
 
-  const setNodeError = useDeepCompareCallback(
+  const addDataNodeError = useDeepCompareCallback(
+    (nodeId: string, error: DataNodeError) => {
+      const newNodes = [...nodes];
+      const node = newNodes.find(
+        (node) => node.id === nodeId && node.type === NodeType.Data
+      )! as DataNode;
+      node.errors.push(error);
+      setNodes(newNodes);
+    },
+    [nodes]
+  );
+
+  const removeDataNodeError = useDeepCompareCallback(
+    (nodeId: string, calcNodeId: string) => {
+      const newNodes = [...nodes];
+      const node = newNodes.find(
+        (node) => node.id === nodeId && node.type === NodeType.Data
+      )! as DataNode;
+      node.errors = node.errors.filter((e) => e.calcNodeId !== calcNodeId);
+      setNodes(newNodes);
+    },
+    [nodes]
+  );
+
+  const setCalculationNodeError = useDeepCompareCallback(
     (nodeId: string, error?: string) => {
       const newNodes = [...nodes];
       const node = newNodes.find(
-        (node) =>
-          node.id === nodeId &&
-          (node.type === NodeType.Data || node.type === NodeType.Calculation)
-      )! as DataNode | CalculationNode;
+        (node) => node.id === nodeId && node.type === NodeType.Calculation
+      )! as CalculationNode;
       node.error = error;
       setNodes(newNodes);
     },
@@ -155,8 +168,10 @@ export const BoardContextProvider: FC<ComponentWithChildren> = ({
         connect,
         disconnect,
         setNodeData,
-        setNodeError,
+        setCalculationNodeError,
         setNodeCalculationParameters,
+        addDataNodeError,
+        removeDataNodeError,
       }}
     >
       {children}
