@@ -41,8 +41,8 @@ export const ModalCloseButton = styled.button`
   top: 20px;
   right: 20px;
 
-  height: 20px;
-  width: 20px;
+  height: ${({ theme }) => theme.dimensions.iconButton.xs};
+  width: ${({ theme }) => theme.dimensions.iconButton.xs};
 
   padding: 0;
 

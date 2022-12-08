@@ -19,6 +19,7 @@ const defaultTheme = {
     aside: {
       width: "364px",
     },
+    connectionWidth: "4px",
   },
   fonts: {
     sizes: { s: "16px", base: "18px", m: "20px" },

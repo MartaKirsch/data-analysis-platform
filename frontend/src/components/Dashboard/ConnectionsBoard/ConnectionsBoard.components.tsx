@@ -24,7 +24,7 @@ export const ConnectionBar = styled.div<{
   transform-origin: 100% 0;
   transform: rotate(${({ rotate }) => rotate}rad);
 
-  width: 4px;
+  width: ${({ theme }) => theme.dimensions.connectionWidth};
   height: ${({ top, bottom, left, right }) =>
     calculateLength(left, top, right, bottom)}px;
 

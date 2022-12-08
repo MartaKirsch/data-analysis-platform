@@ -34,10 +34,12 @@ const blueTheme: ColorsThemeType = {
     sheetNameButton: {
       activeBackground: "#DCE1E9",
       notActiveBackground: "#CA6438",
+      text: "black",
     },
     editableTable: {
       background: "#DCE1E9",
       cellSeparatorColor: "#363732",
+      text: "black",
     },
   },
 } as const;

@@ -33,10 +33,12 @@ const greyTheme = {
     sheetNameButton: {
       activeBackground: "#FFFFFF",
       notActiveBackground: "#9BD67C",
+      text: "black",
     },
     editableTable: {
       background: "#FFFFFF",
       cellSeparatorColor: "#363732",
+      text: "black",
     },
   },
 };
