@@ -8,11 +8,13 @@ import { ThemePickerBox } from "./ThemeChanger.components";
 import { ThemeId, ThemeListItem } from "../../types/ThemeListItem";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import highContrastTheme from "../../styles/themes/highContrastTheme";
+import greyscaleTheme from "../../styles/themes/greyscaleTheme";
 
 const themes: ThemeListItem[] = [
   { Id: ThemeId.Default, Theme: greyTheme },
   { Id: ThemeId.Blue, Theme: blueTheme },
   { Id: ThemeId.HighContrast, Theme: highContrastTheme },
+  { Id: ThemeId.Greyscale, Theme: greyscaleTheme },
 ];
 
 const ThemeChanger: FC<ComponentWithChildren> = ({ children }) => {
