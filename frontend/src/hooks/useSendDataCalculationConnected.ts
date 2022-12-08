@@ -10,7 +10,8 @@ import { isServerResponse } from "../types/responses/ServerResponse";
 import { validateConnectRequest } from "../utils/requests/validateConnectRequest";
 
 export const useSendDataCalculationConnected = () => {
-  const { setNodeError } = useBoardContext();
+  const { addDataNodeError, removeDataNodeError, setCalculationNodeError } =
+    useBoardContext();
 
   const createDataCalculationConnectedRequestBody = (
     file: File,
@@ -41,8 +42,8 @@ export const useSendDataCalculationConnected = () => {
     dataNodeId,
     parameters,
   }: SendDataCalculationConnectedRequestArgs) => {
-    setNodeError(dataNodeId, undefined);
-    setNodeError(calculationNodeId, undefined);
+    removeDataNodeError(dataNodeId, calculationNodeId);
+    setCalculationNodeError(calculationNodeId, undefined);
 
     const reqBody = createDataCalculationConnectedRequestBody(
       file,
@@ -51,7 +52,7 @@ export const useSendDataCalculationConnected = () => {
     );
     const isValid = validateConnectRequest(reqBody);
     if (!isValid) {
-      setNodeError(calculationNodeId, "Invalid parameters!");
+      setCalculationNodeError(calculationNodeId, "Invalid parameters!");
       return;
     }
     const request = createDataCalculationConnectedRequest(reqBody);
@@ -60,8 +61,15 @@ export const useSendDataCalculationConnected = () => {
       .post<object>(`/calculate/${calculationNodeId}`, request)
       .catch((e) => {
         if (isAxiosError(e) && isServerResponse(e))
-          setNodeError(dataNodeId, e.response?.data.response);
-        else setNodeError(dataNodeId, "An unexpected error happened!");
+          addDataNodeError(dataNodeId, {
+            message: e.response?.data.response || "",
+            calcNodeId: calculationNodeId,
+          });
+        else
+          addDataNodeError(dataNodeId, {
+            message: "An unexpected error happened!",
+            calcNodeId: calculationNodeId,
+          });
       });
   };
 

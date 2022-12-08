@@ -11,6 +11,7 @@ import {
   NodeType,
   NodeDataType,
   NodeData,
+  DataNodeError,
 } from "../../types/Node";
 import { renderDataModal } from "../../utils/nodes/renderDataModal";
 import { renderDataNodeIcon } from "../../utils/nodes/renderDataNodeIcon";
@@ -22,10 +23,10 @@ interface Props extends ComponentWithChildren {
   id: string;
   dataType: NodeDataType;
   data: NodeData;
-  error?: string;
+  errors: DataNodeError[];
 }
 
-const DataNode: FC<Props> = ({ top, left, id, dataType, data, error }) => {
+const DataNode: FC<Props> = ({ top, left, id, dataType, data, errors }) => {
   const { nodes, connect, connections, setNodeCalculationParameters } =
     useBoardContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -125,10 +126,10 @@ const DataNode: FC<Props> = ({ top, left, id, dataType, data, error }) => {
       top={top}
       nodeType={NodeType.Data}
       ref={mergeRefs([drag, drop])}
-      modal={renderDataModal(dataType, () => setIsModalOpen(false), id, error)}
+      modal={renderDataModal(dataType, () => setIsModalOpen(false), id, errors)}
       onNodeClick={() => setIsModalOpen(true)}
       isModalOpen={isModalOpen}
-      error={error}
+      isError={!!errors.length}
     >
       {renderDataNodeIcon(dataType)}
     </Node>

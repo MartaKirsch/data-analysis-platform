@@ -31,7 +31,7 @@ const Board: FC<BoardProps> = () => {
       left={coordinate.x}
       dataType={node.dataType}
       data={node.data}
-      error={node.error}
+      errors={node.errors}
     />
   );
 

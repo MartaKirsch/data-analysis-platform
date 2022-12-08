@@ -27,13 +27,15 @@ type NodeBase = {
   id: string;
   type: NodeType;
   ref?: RefObject<HTMLDivElement>;
-  error?: string;
 };
+
+export type DataNodeError = { calcNodeId: string; message: string };
 
 export type DataNode = NodeBase & {
   dataType: NodeDataType;
   data: NodeData;
   type: NodeType.Data;
+  errors: DataNodeError[];
 };
 
 export type CalculationNode = NodeBase & {
