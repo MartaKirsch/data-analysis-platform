@@ -6,4 +6,5 @@ export const createDataNode = (dataType?: NodeDataType): DataNode => ({
   type: NodeType.Data,
   dataType: dataType || NodeDataType.File,
   data: undefined,
+  errors: [],
 });

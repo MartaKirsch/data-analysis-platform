@@ -206,7 +206,7 @@ const CalculationNode: FC<Props> = ({
         )}
         isModalOpen={isModalOpen}
         onNodeClick={handleNodeClick}
-        error={error}
+        isError={!!error}
       >
         {renderCalculationNodeIcon(calculationType)}
       </NodeComponent>

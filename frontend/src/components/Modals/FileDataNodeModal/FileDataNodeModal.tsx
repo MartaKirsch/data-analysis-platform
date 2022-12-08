@@ -6,7 +6,7 @@ import {
   getNodeBackgroundColor,
   getNodeBackgroundHoverColor,
 } from "../../../styles/mixins";
-import { DataNode, NodeType } from "../../../types/Node";
+import { DataNode, DataNodeError, NodeType } from "../../../types/Node";
 import Modal from "../../common/Modal/Modal";
 import {
   UploadFileButton,
@@ -23,7 +23,7 @@ import ErrorMessageBar from "../../common/ErrorMessageBar";
 interface FileDataNodeModalProps {
   onClose: () => void;
   nodeId: string;
-  error?: string;
+  errors: DataNodeError[];
 }
 
 type FormData = { File?: FileList };
@@ -31,7 +31,7 @@ type FormData = { File?: FileList };
 const FileDataNodeModal: FC<FileDataNodeModalProps> = ({
   onClose,
   nodeId,
-  error,
+  errors,
 }) => {
   const { nodes, setNodeData } = useBoardContext();
   const [isEditFileModalOpen, setIsEditFileModalOpen] = useState(false);
@@ -75,7 +75,13 @@ const FileDataNodeModal: FC<FileDataNodeModalProps> = ({
         }}
       >
         <>
-          {error && <ErrorMessageBar message={error} />}
+          {errors &&
+            errors.map((error) => (
+              <ErrorMessageBar
+                key={`error-${error.calcNodeId}`}
+                message={error.message}
+              />
+            ))}
           <UploadRow>
             <UploadFileInputWrapper>
               <UploadFileInput

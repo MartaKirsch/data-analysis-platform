@@ -11,12 +11,12 @@ interface NodeProps extends ComponentWithChildren {
   modal: JSX.Element;
   isModalOpen: boolean;
   onNodeClick: () => void;
-  error?: string;
+  isError?: boolean;
 }
 
 const Node = forwardRef<HTMLDivElement, NodeProps>(
   (
-    { top, left, nodeType, modal, children, isModalOpen, onNodeClick, error },
+    { top, left, nodeType, modal, children, isModalOpen, onNodeClick, isError },
     ref
   ) => {
     return (
@@ -29,7 +29,7 @@ const Node = forwardRef<HTMLDivElement, NodeProps>(
           ref={ref}
           onClick={onNodeClick}
         >
-          {error && (
+          {isError && (
             <ErrorIconWrapper>
               <ErrorIcon />
             </ErrorIconWrapper>
