@@ -13,8 +13,10 @@ import {
   NodeData,
   DataNodeError,
 } from "../../types/Node";
+import { mapDataTypeToTooltipText } from "../../utils/nodes/mapNodeTypeToTooltipText";
 import { renderDataModal } from "../../utils/nodes/renderDataModal";
 import { renderDataNodeIcon } from "../../utils/nodes/renderDataNodeIcon";
+import NodeTippy from "../common/NodeTippy";
 import Node from "./Node";
 
 interface Props extends ComponentWithChildren {
@@ -121,18 +123,25 @@ const DataNode: FC<Props> = ({ top, left, id, dataType, data, errors }) => {
   );
 
   return (
-    <Node
-      left={left}
-      top={top}
-      nodeType={NodeType.Data}
-      ref={mergeRefs([drag, drop])}
-      modal={renderDataModal(dataType, () => setIsModalOpen(false), id, errors)}
-      onNodeClick={() => setIsModalOpen(true)}
-      isModalOpen={isModalOpen}
-      isError={!!errors.length}
-    >
-      {renderDataNodeIcon(dataType)}
-    </Node>
+    <NodeTippy content={mapDataTypeToTooltipText(dataType)}>
+      <Node
+        left={left}
+        top={top}
+        nodeType={NodeType.Data}
+        ref={mergeRefs([drag, drop])}
+        modal={renderDataModal(
+          dataType,
+          () => setIsModalOpen(false),
+          id,
+          errors
+        )}
+        onNodeClick={() => setIsModalOpen(true)}
+        isModalOpen={isModalOpen}
+        isError={!!errors.length}
+      >
+        {renderDataNodeIcon(dataType)}
+      </Node>
+    </NodeTippy>
   );
 };
 

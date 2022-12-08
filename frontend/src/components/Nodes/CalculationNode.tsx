@@ -18,8 +18,10 @@ import {
   NodeType,
   ResultNode,
 } from "../../types/Node";
+import { mapCalculationTypeToTooltipText } from "../../utils/nodes/mapNodeTypeToTooltipText";
 import { renderCalculationModal } from "../../utils/nodes/renderCalculationModal";
 import { renderCalculationNodeIcon } from "../../utils/nodes/renderCalculationNodeIcon";
+import NodeTippy from "../common/NodeTippy";
 import NodeComponent from "./Node";
 
 interface Props extends ComponentWithChildren {
@@ -184,24 +186,31 @@ const CalculationNode: FC<Props> = ({
   ]);
 
   return (
-    <NodeComponent
-      left={left}
-      top={top}
-      nodeType={NodeType.Calculation}
-      ref={mergeRefs([drag, dropDataNode, dropResultNode, dropCalculationNode])}
-      modal={renderCalculationModal(
-        calculationType,
-        () => setIsModalOpen(false),
-        id,
-        connectedDataNode?.data as File,
-        parameters
-      )}
-      isModalOpen={isModalOpen}
-      onNodeClick={handleNodeClick}
-      isError={!!error}
-    >
-      {renderCalculationNodeIcon(calculationType)}
-    </NodeComponent>
+    <NodeTippy content={mapCalculationTypeToTooltipText(calculationType)}>
+      <NodeComponent
+        left={left}
+        top={top}
+        nodeType={NodeType.Calculation}
+        ref={mergeRefs([
+          drag,
+          dropDataNode,
+          dropResultNode,
+          dropCalculationNode,
+        ])}
+        modal={renderCalculationModal(
+          calculationType,
+          () => setIsModalOpen(false),
+          id,
+          connectedDataNode?.data as File,
+          parameters
+        )}
+        isModalOpen={isModalOpen}
+        onNodeClick={handleNodeClick}
+        isError={!!error}
+      >
+        {renderCalculationNodeIcon(calculationType)}
+      </NodeComponent>
+    </NodeTippy>
   );
 };
 
