@@ -13,6 +13,7 @@ import { ReactComponent as DownArrowIcon } from "../../../img/downArrow.svg";
 import ThemeIcon from "../ThemeIcon";
 import { usePagination } from "../../../hooks/usePagination";
 import { ThemeListItem } from "../../../types/ThemeListItem";
+import NodeTippy from "../NodeTippy";
 
 type ThemePickerProps = {
   selectedTheme: ThemeListItem;
@@ -70,14 +71,17 @@ const ThemePicker: FC<ThemePickerProps> = ({
           )}
         </ThemesWrapper>
       )}
-      <PaletteButtonWrapper>
-        <IconButton
-          icon={<ColorPaletteIcon />}
-          size="lg"
-          onClick={() => setAreThemesVisible(!areThemesVisible)}
-          shouldResize
-        />
-      </PaletteButtonWrapper>
+
+      <NodeTippy content="Theme Changer">
+        <PaletteButtonWrapper>
+          <IconButton
+            icon={<ColorPaletteIcon />}
+            size="lg"
+            onClick={() => setAreThemesVisible(!areThemesVisible)}
+            shouldResize
+          />
+        </PaletteButtonWrapper>
+      </NodeTippy>
     </ThemePickerWrapper>
   );
 };
