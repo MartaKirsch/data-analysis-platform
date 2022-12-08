@@ -29,6 +29,7 @@ const greyTheme = {
         backgroundHover: "#F0F0F0",
       },
       closeIconFill: "#363732",
+      info: { background: "white", text: "black", accent: "#C1C1C1" },
     },
     sheetNameButton: {
       activeBackground: "#FFFFFF",

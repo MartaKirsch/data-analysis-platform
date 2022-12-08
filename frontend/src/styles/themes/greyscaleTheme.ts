@@ -10,9 +10,9 @@ const greyscaleTheme = {
     },
     iconButton: {
       background: "#FFFFFF",
-      fill: "#495057",
+      fill: "black",
     },
-    errorText: "#FFFFFF",
+    errorText: "#21211f",
     errorIcon: { background: "#343A40", fill: "#FFFFFF" },
     node: {
       data: { background: "#E9ECEF", backgroundHover: "#D8DBDE" },
@@ -29,6 +29,7 @@ const greyscaleTheme = {
         backgroundHover: "#21211f",
       },
       closeIconFill: "#21211f",
+      info: { background: "#E9ECEF", text: "#21211f", accent: "#C1C1C1" },
     },
     sheetNameButton: {
       activeBackground: "#21211f",

@@ -28,7 +28,8 @@ const highContrastTheme = {
         text: "white",
         backgroundHover: "#21211f",
       },
-      closeIconFill: "black",
+      closeIconFill: "#FFFFFF",
+      info: { background: "black", text: "white", accent: "#21211f" },
     },
     sheetNameButton: {
       activeBackground: "black",

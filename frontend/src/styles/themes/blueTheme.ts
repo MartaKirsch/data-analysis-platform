@@ -29,6 +29,7 @@ const blueTheme: ColorsThemeType = {
         backgroundHover: "#EEEEEE",
       },
       closeIconFill: "white",
+      info: { background: "#7ab5d2", text: "#1C2031", accent: "#5893b0" },
     },
     tippy: { bg: "#5893b0", text: "white" },
     sheetNameButton: {

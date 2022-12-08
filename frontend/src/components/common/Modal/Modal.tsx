@@ -11,7 +11,7 @@ import { ReactComponent as CloseIcon } from "../../../img/close.svg";
 export interface ModalProps extends ComponentWithChildren {
   backgroundColor: string;
   onClose: () => void;
-  modalHeader: { text: string; backgroundColor: string };
+  modalHeader: { text: string; backgroundColor: string; color?: string };
 }
 
 const Modal: FC<ModalProps> = ({
@@ -26,7 +26,10 @@ const Modal: FC<ModalProps> = ({
         <ModalCloseButton onClick={onClose}>
           <CloseIcon />
         </ModalCloseButton>
-        <ModalHeader backgroundColor={modalHeader.backgroundColor}>
+        <ModalHeader
+          backgroundColor={modalHeader.backgroundColor}
+          color={modalHeader.color}
+        >
           {modalHeader.text}
         </ModalHeader>
         {children}

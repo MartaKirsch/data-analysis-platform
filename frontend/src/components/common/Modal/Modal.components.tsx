@@ -65,7 +65,11 @@ export const ModalCloseButton = styled.button`
   background-color: transparent;
 `;
 
-export const ModalHeader = styled.h1<{ backgroundColor: string }>`
+export const ModalHeader = styled.h1<{
+  backgroundColor: string;
+  color?: string;
+}>`
+  color: ${({ color }) => color || "black"};
   font-size: ${({ theme }) => theme.fonts.sizes.m};
   position: relative;
 

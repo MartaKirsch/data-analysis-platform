@@ -50,7 +50,7 @@ export const defaultLargeTheme = {
     connectionWidth: "6px",
   },
   fonts: {
-    sizes: { s: "20px", base: "22px", m: "24px" },
+    sizes: { s: "20px", base: "22px", m: "26px" },
     weights: { thin: 400, normal: 600, bold: 800 },
     families: { normal: "'Montserrat', sans-serif" },
   },
