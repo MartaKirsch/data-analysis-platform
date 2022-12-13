@@ -8,6 +8,7 @@ export const useNodesAside = () => {
 
   const addLinearRegressionNodeButtonRef = useRef<HTMLDivElement>(null);
   const addPCAnodeButtonRef = useRef<HTMLDivElement>(null);
+  const addNaiveBayesNodeButtonRef = useRef<HTMLDivElement>(null);
 
   const addPlotResultNodeButtonRef = useRef<HTMLDivElement>(null);
   const addFileResultNodeButtonRef = useRef<HTMLDivElement>(null);
@@ -36,6 +37,14 @@ export const useNodesAside = () => {
     },
   }));
 
+  const [, dragNaiveBayes] = useDrag(() => ({
+    type: DraggableType.AddCalculationNode,
+    item: {
+      calculationType: CalculationType.NaiveBayes,
+      ref: addNaiveBayesNodeButtonRef,
+    },
+  }));
+
   const [, dragPlotResult] = useDrag(() => ({
     type: DraggableType.AddResultNode,
     item: {
@@ -58,10 +67,12 @@ export const useNodesAside = () => {
     dragPlotResult,
     dragFileResult,
     dragPCA,
+    dragNaiveBayes,
     buttonRefs: {
       addFileData: addFileDataNodeButtonRef,
       addLinearRegressionCalculation: addLinearRegressionNodeButtonRef,
       addPCAcalculation: addPCAnodeButtonRef,
+      addNaiveBayesCalculation: addNaiveBayesNodeButtonRef,
       addPlotResult: addPlotResultNodeButtonRef,
       addFileResult: addFileResultNodeButtonRef,
     },

@@ -14,6 +14,7 @@ export enum NodeDataType {
 export enum CalculationType {
   LinearRegression = "linear_regression",
   PCA = "pca",
+  NaiveBayes = "naive_bayes",
 }
 
 export enum ResultType {

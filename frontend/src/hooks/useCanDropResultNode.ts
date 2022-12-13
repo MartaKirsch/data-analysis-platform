@@ -13,6 +13,7 @@ type CalculationNodeConnections = {
 const POSSIBLE_CONNECTIONS: CalculationNodeConnections = {
   [CalculationType.LinearRegression]: [ResultType.File, ResultType.Plot],
   [CalculationType.PCA]: [ResultType.File, ResultType.Plot],
+  [CalculationType.NaiveBayes]: [ResultType.File],
 };
 
 export const useCanDropResultNode = () => {

@@ -8,6 +8,8 @@ export const mapCalculationTypeToTooltipText = (
       return "Linear Regression";
     case CalculationType.PCA:
       return "PCA";
+    case CalculationType.NaiveBayes:
+      return "Naive Bayes";
   }
 };
 
