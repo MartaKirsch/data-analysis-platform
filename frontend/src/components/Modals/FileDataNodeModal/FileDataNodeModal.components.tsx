@@ -36,6 +36,7 @@ export const UploadFileButton = styled.button`
 export const UploadFileText = styled.span`
   font-style: italic;
   font-weight: ${({ theme }) => theme.fonts.weights.thin};
+  font-size: ${({ theme }) => theme.fonts.sizes.s};
 
   margin-left: 10px;
 `;

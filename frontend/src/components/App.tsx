@@ -5,6 +5,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { BoardContextProvider } from "../context/BoardContextProvider";
 import { GlobalStyles } from "../styles/GlobalStyles";
 import Dashboard from "./Dashboard";
+import Help from "./Help/Help";
 import ThemeChanger from "./ThemeChanger";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Dashboard />
         </BoardContextProvider>
       </DndProvider>
+      <Help />
     </ThemeChanger>
   );
 }
