@@ -30,14 +30,17 @@ const greyTheme = {
         backgroundDisabled: "#BBBBBB",
       },
       closeIconFill: "#363732",
+      info: { background: "white", text: "black", accent: "#C1C1C1" },
     },
     sheetNameButton: {
       activeBackground: "#FFFFFF",
       notActiveBackground: "#9BD67C",
+      text: "black",
     },
     editableTable: {
       background: "#FFFFFF",
       cellSeparatorColor: "#363732",
+      text: "black",
     },
   },
 };

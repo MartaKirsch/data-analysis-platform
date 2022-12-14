@@ -41,8 +41,8 @@ export const ModalCloseButton = styled.button`
   top: 20px;
   right: 20px;
 
-  height: 20px;
-  width: 20px;
+  height: ${({ theme }) => theme.dimensions.iconButton.xs};
+  width: ${({ theme }) => theme.dimensions.iconButton.xs};
 
   padding: 0;
 
@@ -65,7 +65,11 @@ export const ModalCloseButton = styled.button`
   background-color: transparent;
 `;
 
-export const ModalHeader = styled.h1<{ backgroundColor: string }>`
+export const ModalHeader = styled.h1<{
+  backgroundColor: string;
+  color?: string;
+}>`
+  color: ${({ color }) => color || "black"};
   font-size: ${({ theme }) => theme.fonts.sizes.m};
   position: relative;
 

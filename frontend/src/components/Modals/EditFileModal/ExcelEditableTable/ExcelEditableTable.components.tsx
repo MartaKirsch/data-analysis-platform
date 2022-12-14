@@ -9,6 +9,7 @@ export const ExcelEditableTableFieldWrapper = styled.div`
   padding: 10px;
 
   background-color: ${({ theme }) => theme.colors.editableTable.background};
+  color: ${({ theme }) => theme.colors.editableTable.text};
 `;
 
 export const ExcelEditableTableComponent = styled.table`

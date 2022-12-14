@@ -30,15 +30,18 @@ const blueTheme: ColorsThemeType = {
         backgroundDisabled: "#BBBBBB",
       },
       closeIconFill: "white",
+      info: { background: "#7ab5d2", text: "#1C2031", accent: "#5893b0" },
     },
     tippy: { bg: "#5893b0", text: "white" },
     sheetNameButton: {
       activeBackground: "#DCE1E9",
       notActiveBackground: "#CA6438",
+      text: "black",
     },
     editableTable: {
       background: "#DCE1E9",
       cellSeparatorColor: "#363732",
+      text: "black",
     },
   },
 } as const;

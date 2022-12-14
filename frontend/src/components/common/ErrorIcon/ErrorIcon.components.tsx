@@ -5,6 +5,6 @@ export const ErrorIconWrapper = styled(IconButtonWrapper)`
   background-color: ${({ theme }) => theme.colors.errorIcon.background};
 
   svg {
-    fill: ${({ theme }) => theme.colors.errorIcon.fill};
+    fill: ${({ theme }) => theme.colors.errorIcon.fill} !important;
   }
 `;

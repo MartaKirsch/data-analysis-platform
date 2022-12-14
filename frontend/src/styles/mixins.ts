@@ -43,6 +43,13 @@ export const modalButton = css`
 
   font-size: ${({ theme }) => theme.fonts.sizes.s};
 
+  &:focus::after,
+  &:hover::after {
+    transform: scaleX(1);
+    transition: transform 0.3s ease-out;
+    transform-origin: 0% 50%;
+  }
+
   &::after {
     content: "";
 

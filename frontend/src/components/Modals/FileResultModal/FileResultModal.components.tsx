@@ -20,7 +20,9 @@ export const FileResultModalInnerBody = styled.div`
   width: 100%;
 `;
 
-export const FileResultModalFilename = styled.span``;
+export const FileResultModalFilename = styled.span`
+  font-size: ${({ theme }) => theme.fonts.sizes.s};
+`;
 
 export const FileResultModalFileRow = styled.div`
   display: flex;
