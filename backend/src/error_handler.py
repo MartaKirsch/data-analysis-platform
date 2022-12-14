@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 import pandas as pd
+from pandas.api.types import is_numeric_dtype
 import numpy as np
 from .calculation_methods.linear_regression import makeLinReg
 from .calculation_methods.pca import do_pca
@@ -84,14 +85,14 @@ def predictor_validator(model, sample, original_sample, labels):
     ordered_sample = sample_df.reindex(columns=original_columns)
     # get data types of columns
     orgDataType, dataType = original_sample.dtypes, ordered_sample.dtypes
-    type_check = orgDataType == dataType
     # check if types are the same
-    if type_check.all():
-        try:
-            result = gnb_predictor(model, ordered_sample, labels)
-            return [True, result[0]]
-        except Exception as ex:
-            return [False, (request_handler("Could not make a prediction.", 422))]
-    else:
-        return [False, (request_handler("Wrong data type in sample.", 422))]
-    # check if data types are the same
+    for i in range(0, len(orgDataType)):
+        if orgDataType[i] != dataType[i]:
+            if not (is_numeric_dtype(orgDataType[i]) and is_numeric_dtype(dataType[i])):
+                return [False, (request_handler("Wrong data type in sample.", 422))]
+    # prediction
+    try:
+        result = gnb_predictor(model, ordered_sample, labels)
+        return [True, result[0]]
+    except Exception as ex:
+        return [False, (request_handler("Could not make a prediction.", 422))]
