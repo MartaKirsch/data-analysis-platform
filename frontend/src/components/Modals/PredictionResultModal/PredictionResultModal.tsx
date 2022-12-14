@@ -2,13 +2,13 @@ import React, { FC } from "react";
 import { useTheme } from "styled-components";
 import { useBoardContext } from "../../../context/useBoardContext";
 import { useReadFile } from "../../../hooks/useReadFile";
-import { useSendGetResultRequest } from "../../../hooks/useSendGetResultRequest";
+import { useSendGetPredictionResultRequest } from "../../../hooks/useSendGetPredictionResultRequest";
 import { useShouldSendGetResultRequest } from "../../../hooks/useShouldSendGetResultRequest";
 import {
   getNodeBackgroundColor,
   getNodeBackgroundHoverColor,
 } from "../../../styles/mixins";
-import { NodeType } from "../../../types/Node";
+import { NodeType, ResultType } from "../../../types/Node";
 import { mapConnectionToIdBased } from "../../../utils/nodes/mapConnectionToIdBased";
 import ErrorMessageBar from "../../common/ErrorMessageBar";
 import * as XLSX from "xlsx";
@@ -19,6 +19,7 @@ import {
   PredictionResultModalInnerBody,
   PredictionResultModalInput,
   PredictionResultModalRow,
+  PredictionResultPrediction,
 } from "./PredictionResultModal.components";
 import { TableRow } from "../../../types/TableRow";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -35,13 +36,13 @@ type FormData = { values: unknown[] };
 
 const PredictionResultModal: FC<PredictionResultModalProps> = ({
   onClose,
-  calculationNodeId,
   id,
+  calculationNodeId,
 }) => {
-  //   const hasResultRequestBeenSent = useRef(false);
   const { nodes, connections } = useBoardContext();
 
-  const { sendGetResultRequest } = useSendGetResultRequest();
+  const { sendGetPredictionResultRequest, error, prediction, resetError } =
+    useSendGetPredictionResultRequest();
 
   const {
     hasCorrectDataUploaded,
@@ -49,6 +50,7 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
     hasDataUploaded,
     hasCorrectParamsSet,
     connectedDataNode,
+    connectedCalculationNode,
   } = useShouldSendGetResultRequest(
     nodes,
     connections.map(mapConnectionToIdBased),
@@ -64,7 +66,10 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
   };
   const getColumnNames = () => {
     const tableRows = getTableRows();
-    return Object.keys(tableRows[0] || {});
+    const allColumnNames = Object.keys(tableRows[0] || {});
+    return allColumnNames.filter(
+      (c) => c !== connectedCalculationNode?.parameters?.Column
+    );
   };
   const columnNames = getColumnNames();
 
@@ -73,12 +78,6 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
     hasDataUploaded &&
     hasDataNodeConnected &&
     hasCorrectParamsSet;
-
-  //   useEffect(() => {
-  //     if (!shouldSendGetResultRequest || hasResultRequestBeenSent.current) return;
-  //     sendGetResultRequest(calculationNodeId, ResultType.Prediction);
-  //     hasResultRequestBeenSent.current = true;
-  //   }, []);
 
   const theme = useTheme();
   const nodeType = NodeType.Result;
@@ -97,6 +96,7 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
     handleSubmit,
     formState: { isValid },
     setValue,
+    watch,
   } = useForm<FormData>({
     mode: "onChange",
     defaultValues: { values: [] },
@@ -106,6 +106,10 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
     name: "values",
   });
 
+  watch(() => {
+    resetError();
+  });
+
   useDeepCompareEffect(() => {
     setValue(
       "values",
@@ -113,8 +117,23 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
     );
   }, [columnNames]);
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const tryParseAsNumber = (str: string) =>
+    isNaN(Number(str)) ? str : Number(str);
+
+  const createRequest = (data: FormData) => {
+    const req: { [key: string]: unknown } = {};
+    columnNames.forEach((c, i) => {
+      req[c] = tryParseAsNumber(data.values[i] as string);
+    });
+    return req;
+  };
+
+  const onSubmit = async (data: FormData) => {
+    await sendGetPredictionResultRequest(
+      calculationNodeId,
+      ResultType.Prediction,
+      createRequest(data)
+    );
   };
 
   return (
@@ -146,11 +165,17 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
               );
             })}
             <PredictionResultModalButton
-              disabled={!isValid}
+              disabled={!isValid || !!error}
               onClick={handleSubmit(onSubmit)}
             >
               Predict
             </PredictionResultModalButton>
+            {error && <ErrorMessageBar message={error} />}
+            {prediction && (
+              <PredictionResultPrediction>
+                Prediction: {prediction}
+              </PredictionResultPrediction>
+            )}
           </PredictionResultModalInnerBody>
         </PredictionResultModalBody>
       )}

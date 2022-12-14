@@ -11,14 +11,15 @@ export const PredictionResultModalBody = styled.div`
 export const PredictionResultModalInnerBody = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
 
   width: 100%;
+  padding-top: 20px;
 `;
 
 export const PredictionResultModalButton = styled.button`
   ${modalButton}
-  margin-top: 42px;
+  margin: 42px 0 0 auto;
 `;
 
 export const PredictionResultModalRow = styled.div`
@@ -49,4 +50,11 @@ export const PredictionResultModalInput = styled.input`
 
   margin-left: 40px;
   width: 250px;
+`;
+
+export const PredictionResultPrediction = styled.div`
+  color: ${({ theme }) => theme.colors.modal.button.text};
+
+  font-size: ${({ theme }) => theme.fonts.sizes.m};
+  font-family: ${({ theme }) => theme.fonts.families.normal};
 `;

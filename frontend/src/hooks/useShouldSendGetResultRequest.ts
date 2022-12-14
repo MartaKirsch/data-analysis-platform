@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { IdBasedConnection } from "../types/Connection";
 import { CalculationNode, DataNode, Node, NodeType } from "../types/Node";
 import { useBuildTree } from "./useBuildTree";
@@ -9,6 +9,7 @@ export const useShouldSendGetResultRequest = (
   resultNodeId: string
 ) => {
   const dataNode = useRef<DataNode>();
+  const calcNode = useRef<CalculationNode>();
   const { buildBranchesFromNode } = useBuildTree();
 
   const getConnectedDataNode = useRef((nodes: Node[], branch: string[]) => {
@@ -45,6 +46,7 @@ export const useShouldSendGetResultRequest = (
       nodes,
       resultNodeTreeBranch
     );
+    calcNode.current = connectedCalculationNode;
 
     const hasDataNodeConnected = !!connectedDataNode;
     const hasDataUploaded = !!connectedDataNode.data;
@@ -63,5 +65,6 @@ export const useShouldSendGetResultRequest = (
   return {
     ...shouldSendGetResultRequest.current(),
     connectedDataNode: dataNode.current,
+    connectedCalculationNode: calcNode.current,
   };
 };

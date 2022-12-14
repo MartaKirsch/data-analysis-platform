@@ -65,5 +65,7 @@ export const modalButton = css`
   &:disabled {
     background-color: ${({ theme }) =>
       theme.colors.modal.button.backgroundDisabled};
+
+    cursor: default;
   }
 `;
