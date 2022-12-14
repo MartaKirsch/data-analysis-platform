@@ -69,14 +69,15 @@ def naive_bayes_validator(data, request):
                 result = naive_bayes(data, classes)
                 return [True, result]
             except Exception as ex:
-                return (request_handler(ex, 400))
+                return request_handler(ex, 400)
         else:
             return [False, (request_handler("Incorrect number of columns.", 422))]
     else:
         return [False, (request_handler("Wrong data type in at least one of the columns.", 422))]
 
 
-def predictor_validator(model, sample, original_sample):
+# sample is a dict, original_sample is a dataframe
+def predictor_validator(model, sample, original_sample, labels):
     # order sample according to original file
     original_columns = original_sample.columns
     sample_df = pd.DataFrame([sample])
@@ -84,9 +85,10 @@ def predictor_validator(model, sample, original_sample):
     # get data types of columns
     orgDataType, dataType = original_sample.dtypes, ordered_sample.dtypes
     type_check = orgDataType == dataType
-    if type_check.all() == True:
+    # check if types are the same
+    if type_check.all():
         try:
-            result = gnb_predictor(model, ordered_sample)
+            result = gnb_predictor(model, ordered_sample, labels)
             return [True, result[0]]
         except Exception as ex:
             return [False, (request_handler("Could not make a prediction.", 422))]

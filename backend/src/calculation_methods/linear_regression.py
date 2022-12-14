@@ -84,7 +84,7 @@ def makeLinReg(data):
     plt.close()
 
 
-    return [result]
+    return result
 
 # format zwracanych wartości:
 # result = {
