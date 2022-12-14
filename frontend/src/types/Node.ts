@@ -20,7 +20,7 @@ export enum CalculationType {
 export enum ResultType {
   File = "file",
   Plot = "plot",
-  Prediction = "model",
+  Prediction = "prediction",
 }
 
 export type NodeData = number[][] | File | undefined;
@@ -54,7 +54,7 @@ export type ResultNode = NodeBase & {
 
 export type Node = DataNode | CalculationNode | ResultNode;
 
-export type PCAparameters = { Column: string };
-export type NaiveBayesParameters = { Column: string };
+export type PCAparameters = { Class: string };
+export type NaiveBayesParameters = { Class: string };
 
 export type CalculationNodeParameters = PCAparameters | NaiveBayesParameters;

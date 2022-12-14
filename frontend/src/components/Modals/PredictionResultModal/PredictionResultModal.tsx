@@ -68,7 +68,7 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
     const tableRows = getTableRows();
     const allColumnNames = Object.keys(tableRows[0] || {});
     return allColumnNames.filter(
-      (c) => c !== connectedCalculationNode?.parameters?.Column
+      (c) => c !== connectedCalculationNode?.parameters?.Class
     );
   };
   const columnNames = getColumnNames();
@@ -118,7 +118,7 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
   }, [columnNames]);
 
   const tryParseAsNumber = (str: string) =>
-    isNaN(Number(str)) ? str : Number(str);
+    isNaN(parseFloat(str)) ? str : parseFloat(str);
 
   const createRequest = (data: FormData) => {
     const req: { [key: string]: unknown } = {};

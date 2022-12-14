@@ -26,7 +26,7 @@ interface NaiveBayesModalProps {
   parameters?: PCAparameters;
 }
 
-type PCAformData = { Column: string };
+type PCAformData = { Class: string };
 
 const NaiveBayesModal: FC<NaiveBayesModalProps> = ({
   onClose,
@@ -57,11 +57,11 @@ const NaiveBayesModal: FC<NaiveBayesModalProps> = ({
     watch,
   } = useForm<PCAformData>({
     mode: "onChange",
-    defaultValues: { Column: parameters?.Column },
+    defaultValues: { Class: parameters?.Class },
   });
 
   watch((data) => {
-    setNodeCalculationParameters(id, { Column: data.Column! });
+    setNodeCalculationParameters(id, { Class: data.Class! });
   });
 
   return (
@@ -79,9 +79,9 @@ const NaiveBayesModal: FC<NaiveBayesModalProps> = ({
       <NaiveBayesModalBody>
         <NaiveBayesModalInnerBody>
           <NaiveBayesModalSelectWrapper>
-            <Label>Column</Label>
+            <Label>Class</Label>
             <Controller
-              name="Column"
+              name="Class"
               control={control}
               rules={{
                 required: { value: true, message: "This field is required!" },
@@ -98,8 +98,8 @@ const NaiveBayesModal: FC<NaiveBayesModalProps> = ({
               )}
             />
           </NaiveBayesModalSelectWrapper>
-          {errors.Column && (
-            <ErrorMessageBar message={errors.Column.message || ""} size="xs" />
+          {errors.Class && (
+            <ErrorMessageBar message={errors.Class.message || ""} size="xs" />
           )}
         </NaiveBayesModalInnerBody>
       </NaiveBayesModalBody>

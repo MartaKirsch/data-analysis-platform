@@ -26,7 +26,7 @@ interface PCAModalProps {
   parameters?: PCAparameters;
 }
 
-type PCAformData = { Column: string };
+type PCAformData = { Class: string };
 
 const PCAModal: FC<PCAModalProps> = ({ onClose, file, parameters, id }) => {
   const { setNodeCalculationParameters } = useBoardContext();
@@ -52,11 +52,11 @@ const PCAModal: FC<PCAModalProps> = ({ onClose, file, parameters, id }) => {
     watch,
   } = useForm<PCAformData>({
     mode: "onChange",
-    defaultValues: { Column: parameters?.Column },
+    defaultValues: { Class: parameters?.Class },
   });
 
   watch((data) => {
-    setNodeCalculationParameters(id, { Column: data.Column! });
+    setNodeCalculationParameters(id, { Class: data.Class! });
   });
 
   return (
@@ -74,9 +74,9 @@ const PCAModal: FC<PCAModalProps> = ({ onClose, file, parameters, id }) => {
       <PCAModalBody>
         <PCAModalInnerBody>
           <PCAModalSelectWrapper>
-            <Label>Column</Label>
+            <Label>Class</Label>
             <Controller
-              name="Column"
+              name="Class"
               control={control}
               rules={{
                 required: { value: true, message: "This field is required!" },
@@ -93,8 +93,8 @@ const PCAModal: FC<PCAModalProps> = ({ onClose, file, parameters, id }) => {
               )}
             />
           </PCAModalSelectWrapper>
-          {errors.Column && (
-            <ErrorMessageBar message={errors.Column.message || ""} size="xs" />
+          {errors.Class && (
+            <ErrorMessageBar message={errors.Class.message || ""} size="xs" />
           )}
         </PCAModalInnerBody>
       </PCAModalBody>
