@@ -1,17 +1,14 @@
-from flask import Flask, request, jsonify, abort, send_file, Response, make_response
+from flask import request, jsonify, send_file
 import pandas as pd
 from src import app
-from .error_handler import ErrorHandler, linear_regression_validator, pca_validator
+from .error_handler import linear_regression_validator, pca_validator, naive_bayes_validator, predictor_validator
 import io
-import json
-import csv
-from PIL import Image
-
 
 # dictionary of function mappings
 FUNCTION_MAPPINGS = {
     'linear_regression': linear_regression_validator,
-    'pca': pca_validator
+    'pca': pca_validator,
+    'naive_bayes' : naive_bayes_validator
 }
 
 calculation_node_dict = {}
@@ -45,18 +42,18 @@ def upload_file(node_id):
             try:
                 df_data = pd.read_csv(data, sep = '[;,,]')
             except Exception as ex:
-                return (request_handler("Could not read file.", 500))
+                return request_handler("Could not read file.", 500)
             #check errors unique to functions
             result = FUNCTION_MAPPINGS[method](df_data, request)
             if result[0] == True:
                 calculation_node_dict[str(node_id)] = result[1]
-                return (request_handler("Success!", 200))
+                return request_handler("Success!", 200)
             else:
                 return result[1]
         else:
-            return(request_handler("Wrong filetype.", 415))
+            return request_handler("Wrong filetype.", 415)
     else:
-        return (request_handler("File is empty.", 422))
+        return request_handler("File is empty.", 422)
 
 @app.route("/result/<node_id>" , methods=['GET', 'POST'])
 def get_result(node_id):
@@ -77,7 +74,7 @@ def get_result(node_id):
                              as_attachment=True)
 
         except Exception as ex:
-            return (request_handler(ex, 500))
+            return request_handler("This calculation cannot return a file.", 500)
 
     elif req["resultType"] == "plot":
         try:
@@ -96,16 +93,28 @@ def get_result(node_id):
                              as_attachment=True)
 
         except Exception as ex:
-            return (request_handler(ex, 500))
+            return request_handler("This calculation cannot return a plot.", 500)
+
+    elif req["resultType"] == "model":
+        del req["resultType"]
+        dict = calculation_node_dict[str(node_id)]
+        model = dict[0]["model"]
+        original_sample = dict[0]["original_file_sample"]
+
+        result = predictor_validator(model, req, original_sample)
+        if result[0]:
+            return request_handler(str(result[1]), 200)
+        else:
+            return result[1]
 
     else:
-        return (request_handler("Incorrect type of result expected.", 415))
+        return request_handler("Incorrect type of result expected.", 415)
 
 #board wipe after exit
 @app.route("/wipe_board" , methods=['POST'])
 def wipe_board():
     try:
         calculation_node_dict.clear()
-        return (request_handler("Board wiped!", 200))
+        return request_handler("Board wiped!", 200)
     except Exception as ex:
-        return (request_handler(ex, 500))
+        return request_handler(ex, 500)
