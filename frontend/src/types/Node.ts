@@ -20,6 +20,7 @@ export enum CalculationType {
 export enum ResultType {
   File = "file",
   Plot = "plot",
+  Prediction = "prediction",
 }
 
 export type NodeData = number[][] | File | undefined;

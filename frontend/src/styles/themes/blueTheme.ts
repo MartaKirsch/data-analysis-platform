@@ -27,6 +27,7 @@ const blueTheme: ColorsThemeType = {
         background: "white",
         text: "black",
         backgroundHover: "#EEEEEE",
+        backgroundDisabled: "#BBBBBB",
       },
       closeIconFill: "white",
     },

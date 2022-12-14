@@ -32,7 +32,7 @@ const PlotResultModal: FC<PlotResultModalProps> = ({
   const hasResultRequestBeenSent = useRef(false);
   const { nodes, connections } = useBoardContext();
 
-  const { sendGetPlotRequest, plotUrl, plotFilename } =
+  const { sendGetResultRequest, plotUrl, plotFilename } =
     useSendGetResultRequest();
 
   const {
@@ -54,7 +54,7 @@ const PlotResultModal: FC<PlotResultModalProps> = ({
 
   useEffect(() => {
     if (!shouldSendGetResultRequest || hasResultRequestBeenSent.current) return;
-    sendGetPlotRequest(calculationNodeId, ResultType.Plot);
+    sendGetResultRequest(calculationNodeId, ResultType.Plot);
     hasResultRequestBeenSent.current = true;
   }, []);
 

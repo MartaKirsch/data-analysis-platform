@@ -22,6 +22,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
     dragPCA,
     dragNaiveBayes,
     dragFileResult,
+    dragPredictionResult,
     buttonRefs,
   } = useNodesAside();
 
@@ -78,6 +79,16 @@ const NodesAside: FC<NodesAsideProps> = () => {
             resultType={ResultType.File}
             nodeType={NodeType.Result}
             ref={mergeRefs([buttonRefs.addFileResult, dragFileResult])}
+          />
+        </NodeTippy>
+        <NodeTippy content="Prediction">
+          <NodeButton
+            resultType={ResultType.Prediction}
+            nodeType={NodeType.Result}
+            ref={mergeRefs([
+              buttonRefs.addPredictionResult,
+              dragPredictionResult,
+            ])}
           />
         </NodeTippy>
       </NodesAsideRow>
