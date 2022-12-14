@@ -27,6 +27,7 @@ const greyscaleTheme = {
         background: "black",
         text: "white",
         backgroundHover: "#21211f",
+        backgroundDisabled: "#333333",
       },
       closeIconFill: "#21211f",
       info: { background: "#E9ECEF", text: "#21211f", accent: "#C1C1C1" },

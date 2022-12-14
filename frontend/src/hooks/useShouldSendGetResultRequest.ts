@@ -8,6 +8,8 @@ export const useShouldSendGetResultRequest = (
   connections: IdBasedConnection[],
   resultNodeId: string
 ) => {
+  const dataNode = useRef<DataNode>();
+  const calcNode = useRef<CalculationNode>();
   const { buildBranchesFromNode } = useBuildTree();
 
   const getConnectedDataNode = useRef((nodes: Node[], branch: string[]) => {
@@ -33,6 +35,7 @@ export const useShouldSendGetResultRequest = (
       nodes,
       resultNodeTree
     );
+    dataNode.current = connectedDataNode;
     if (!connectedDataNode) return {};
 
     const resultNodeTreeBranch =
@@ -43,6 +46,7 @@ export const useShouldSendGetResultRequest = (
       nodes,
       resultNodeTreeBranch
     );
+    calcNode.current = connectedCalculationNode;
 
     const hasDataNodeConnected = !!connectedDataNode;
     const hasDataUploaded = !!connectedDataNode.data;
@@ -58,5 +62,9 @@ export const useShouldSendGetResultRequest = (
     };
   });
 
-  return { ...shouldSendGetResultRequest.current() };
+  return {
+    ...shouldSendGetResultRequest.current(),
+    connectedDataNode: dataNode.current,
+    connectedCalculationNode: calcNode.current,
+  };
 };

@@ -27,6 +27,7 @@ const greyTheme = {
         background: "white",
         text: "black",
         backgroundHover: "#F0F0F0",
+        backgroundDisabled: "#BBBBBB",
       },
       closeIconFill: "#363732",
       info: { background: "white", text: "black", accent: "#C1C1C1" },

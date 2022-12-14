@@ -9,17 +9,17 @@ import { NodeType, PCAparameters } from "../../../types/Node";
 import { TableRow } from "../../../types/TableRow";
 import Modal from "../../common/Modal/Modal";
 import {
-  PCAModalBody,
-  PCAModalInnerBody,
-  PCAModalSelectWrapper,
-} from "./PCAModal.components";
+  NaiveBayesModalBody,
+  NaiveBayesModalInnerBody,
+  NaiveBayesModalSelectWrapper,
+} from "./NaiveBayesModal.components";
 import * as XLSX from "xlsx";
 import { Select, Option, Label } from "../../common/Select/Select";
 import { Controller, useForm } from "react-hook-form";
 import ErrorMessageBar from "../../common/ErrorMessageBar";
 import { useBoardContext } from "../../../context/useBoardContext";
 
-interface PCAModalProps {
+interface NaiveBayesModalProps {
   onClose: () => void;
   id: string;
   file?: File;
@@ -28,7 +28,12 @@ interface PCAModalProps {
 
 type PCAformData = { Class: string };
 
-const PCAModal: FC<PCAModalProps> = ({ onClose, file, parameters, id }) => {
+const NaiveBayesModal: FC<NaiveBayesModalProps> = ({
+  onClose,
+  file,
+  parameters,
+  id,
+}) => {
   const { setNodeCalculationParameters } = useBoardContext();
 
   const theme = useTheme();
@@ -71,9 +76,9 @@ const PCAModal: FC<PCAModalProps> = ({ onClose, file, parameters, id }) => {
         backgroundColor: getNodeBackgroundHoverColor({ theme, nodeType }),
       }}
     >
-      <PCAModalBody>
-        <PCAModalInnerBody>
-          <PCAModalSelectWrapper>
+      <NaiveBayesModalBody>
+        <NaiveBayesModalInnerBody>
+          <NaiveBayesModalSelectWrapper>
             <Label>Class</Label>
             <Controller
               name="Class"
@@ -92,14 +97,14 @@ const PCAModal: FC<PCAModalProps> = ({ onClose, file, parameters, id }) => {
                 </Select>
               )}
             />
-          </PCAModalSelectWrapper>
+          </NaiveBayesModalSelectWrapper>
           {errors.Class && (
             <ErrorMessageBar message={errors.Class.message || ""} size="xs" />
           )}
-        </PCAModalInnerBody>
-      </PCAModalBody>
+        </NaiveBayesModalInnerBody>
+      </NaiveBayesModalBody>
     </Modal>
   );
 };
 
-export default PCAModal;
+export default NaiveBayesModal;

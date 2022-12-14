@@ -131,7 +131,10 @@ const CalculationNode: FC<Props> = ({
     (node) => node.type === NodeType.Data
   ) as DataNode;
 
-  const calculationTypesWithModals = [CalculationType.PCA];
+  const calculationTypesWithModals = [
+    CalculationType.PCA,
+    CalculationType.NaiveBayes,
+  ];
   const hasModal = calculationTypesWithModals.includes(calculationType);
   const shouldRenderModal =
     hasModal && !!connectedDataNode && !!connectedDataNode.data;
@@ -160,11 +163,11 @@ const CalculationNode: FC<Props> = ({
       );
       const connectedDataNode = connectedNodes?.find(
         (node) => node.type === NodeType.Data
-      ) as DataNode;
+      ) as DataNode | undefined;
 
       if (
-        connectedDataNode.data &&
-        connectedDataNode.dataType === NodeDataType.File
+        connectedDataNode?.data &&
+        connectedDataNode?.dataType === NodeDataType.File
       ) {
         await sendDataCalculationConnectedRequest({
           file: connectedDataNode.data as File,

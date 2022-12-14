@@ -27,6 +27,7 @@ const highContrastTheme = {
         background: "black",
         text: "white",
         backgroundHover: "#21211f",
+        backgroundDisabled: "#333333",
       },
       closeIconFill: "#FFFFFF",
       info: { background: "black", text: "white", accent: "#21211f" },

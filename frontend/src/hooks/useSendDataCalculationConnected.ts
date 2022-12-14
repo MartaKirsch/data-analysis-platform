@@ -21,7 +21,7 @@ export const useSendDataCalculationConnected = () => {
     file,
     calculationType,
     type: file.type,
-    classes: parameters?.Column,
+    classes: parameters?.Class,
   });
 
   const createDataCalculationConnectedRequest = (

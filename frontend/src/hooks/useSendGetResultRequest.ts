@@ -11,7 +11,7 @@ export const useSendGetResultRequest = () => {
   const [error, setError] = useState<string>();
   const [file, setFile] = useState<File>();
 
-  const sendGetPlotRequest = useCallback(
+  const sendGetResultRequest = useCallback(
     (nodeId: string, resultType: ResultType) => {
       const request: GetResultRequest = { resultType: resultType };
       return axios
@@ -52,5 +52,5 @@ export const useSendGetResultRequest = () => {
     return filename;
   };
 
-  return { sendGetPlotRequest, plotUrl, plotFilename, error, file };
+  return { sendGetResultRequest, plotUrl, plotFilename, error, file };
 };

@@ -8,9 +8,11 @@ export const useNodesAside = () => {
 
   const addLinearRegressionNodeButtonRef = useRef<HTMLDivElement>(null);
   const addPCAnodeButtonRef = useRef<HTMLDivElement>(null);
+  const addNaiveBayesNodeButtonRef = useRef<HTMLDivElement>(null);
 
   const addPlotResultNodeButtonRef = useRef<HTMLDivElement>(null);
   const addFileResultNodeButtonRef = useRef<HTMLDivElement>(null);
+  const addPredictionResultNodeButtonRef = useRef<HTMLDivElement>(null);
 
   const [, dragFileData] = useDrag(() => ({
     type: DraggableType.AddDataNode,
@@ -36,6 +38,14 @@ export const useNodesAside = () => {
     },
   }));
 
+  const [, dragNaiveBayes] = useDrag(() => ({
+    type: DraggableType.AddCalculationNode,
+    item: {
+      calculationType: CalculationType.NaiveBayes,
+      ref: addNaiveBayesNodeButtonRef,
+    },
+  }));
+
   const [, dragPlotResult] = useDrag(() => ({
     type: DraggableType.AddResultNode,
     item: {
@@ -52,18 +62,30 @@ export const useNodesAside = () => {
     },
   }));
 
+  const [, dragPredictionResult] = useDrag(() => ({
+    type: DraggableType.AddResultNode,
+    item: {
+      resultType: ResultType.Prediction,
+      ref: addPredictionResultNodeButtonRef,
+    },
+  }));
+
   return {
     dragFileData,
     dragLinearRegression,
     dragPlotResult,
     dragFileResult,
+    dragPredictionResult,
     dragPCA,
+    dragNaiveBayes,
     buttonRefs: {
       addFileData: addFileDataNodeButtonRef,
       addLinearRegressionCalculation: addLinearRegressionNodeButtonRef,
       addPCAcalculation: addPCAnodeButtonRef,
+      addNaiveBayesCalculation: addNaiveBayesNodeButtonRef,
       addPlotResult: addPlotResultNodeButtonRef,
       addFileResult: addFileResultNodeButtonRef,
+      addPredictionResult: addPredictionResultNodeButtonRef,
     },
   };
 };

@@ -68,4 +68,11 @@ export const modalButton = css`
     transition: transform 0.3s ease-out;
     transform-origin: 100% 50%;
   }
+
+  &:disabled {
+    background-color: ${({ theme }) =>
+      theme.colors.modal.button.backgroundDisabled};
+
+    cursor: default;
+  }
 `;

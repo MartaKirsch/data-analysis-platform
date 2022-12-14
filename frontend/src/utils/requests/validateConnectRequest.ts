@@ -6,6 +6,7 @@ export const validateConnectRequest = (
 ): boolean => {
   switch (req.calculationType) {
     case CalculationType.PCA:
+    case CalculationType.NaiveBayes:
       return !!req.classes;
     default:
       return true;
