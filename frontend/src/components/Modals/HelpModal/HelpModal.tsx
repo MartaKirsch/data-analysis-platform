@@ -46,7 +46,9 @@ const HelpModal: FC<HelpModalProps> = ({ onClose }) => {
             connected in this order. Keep in mind some types of nodes may be
             incompatible with others, e.g. you cannot connect a data node
             directly to a result node. Different calculation types might not
-            support some result types too.
+            support some result types too. One result node can be connected to
+            only one calculation node, and one calculation node can be connected
+            to only one data node.
           </HelpModalSection>
           <HelpModalSeparator />
           <HelpModalSection>
