@@ -4,7 +4,8 @@ import { modalButton } from "../../../styles/mixins";
 export const PredictionResultModalBody = styled.div`
   max-height: 70vh;
 
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   width: 100%;
 `;
 
@@ -15,6 +16,10 @@ export const PredictionResultModalInnerBody = styled.div`
 
   width: 100%;
   padding-top: 20px;
+
+  @-moz-document url-prefix() {
+    padding-right: 17px;
+  }
 `;
 
 export const PredictionResultModalButton = styled.button`
@@ -23,17 +28,13 @@ export const PredictionResultModalButton = styled.button`
 `;
 
 export const PredictionResultModalRow = styled.div`
-  width: 500px;
+  width: 550px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   &:not(:first-of-type) {
     margin-top: 20px;
-  }
-
-  @-moz-document url-prefix() {
-    padding-left: 17px;
   }
 `;
 
