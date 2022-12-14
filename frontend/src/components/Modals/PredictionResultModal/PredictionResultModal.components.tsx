@@ -54,8 +54,6 @@ export const PredictionResultModalInput = styled.input`
 `;
 
 export const PredictionResultPrediction = styled.div`
-  color: ${({ theme }) => theme.colors.modal.button.text};
-
   font-size: ${({ theme }) => theme.fonts.sizes.m};
   font-family: ${({ theme }) => theme.fonts.families.normal};
 `;
