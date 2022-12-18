@@ -23,6 +23,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
     dragNaiveBayes,
     dragFileResult,
     dragPredictionResult,
+    dragDecisionTree,
     buttonRefs,
   } = useNodesAside();
 
@@ -63,6 +64,13 @@ const NodesAside: FC<NodesAsideProps> = () => {
               buttonRefs.addNaiveBayesCalculation,
               dragNaiveBayes,
             ])}
+          />
+        </NodeTippy>
+        <NodeTippy content="Decision Tree">
+          <NodeButton
+            calculationType={CalculationType.DecisionTree}
+            nodeType={NodeType.Calculation}
+            ref={mergeRefs([buttonRefs.addDecisionTree, dragDecisionTree])}
           />
         </NodeTippy>
       </NodesAsideRow>

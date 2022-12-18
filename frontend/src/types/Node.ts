@@ -15,6 +15,7 @@ export enum CalculationType {
   LinearRegression = "linear_regression",
   PCA = "pca",
   NaiveBayes = "naive_bayes",
+  DecisionTree = "decision_tree",
 }
 
 export enum ResultType {
@@ -56,5 +57,9 @@ export type Node = DataNode | CalculationNode | ResultNode;
 
 export type PCAparameters = { Class: string };
 export type NaiveBayesParameters = { Class: string };
+export type DecisionTreeParameters = { Class: string };
 
-export type CalculationNodeParameters = PCAparameters | NaiveBayesParameters;
+export type CalculationNodeParameters =
+  | PCAparameters
+  | NaiveBayesParameters
+  | DecisionTreeParameters;

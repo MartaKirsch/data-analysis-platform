@@ -1,3 +1,4 @@
+import DecisionTreeModal from "../../components/Modals/DecisionTreeModal";
 import NaiveBayesModal from "../../components/Modals/NaiveBayesModal";
 import PCAModal from "../../components/Modals/PCAModal";
 import { CalculationNodeParameters, CalculationType } from "../../types/Node";
@@ -22,6 +23,15 @@ export const renderCalculationModal = (
     case CalculationType.NaiveBayes:
       return (
         <NaiveBayesModal
+          onClose={onCloseModal}
+          id={nodeId}
+          file={file}
+          parameters={parameters}
+        />
+      );
+    case CalculationType.DecisionTree:
+      return (
+        <DecisionTreeModal
           onClose={onCloseModal}
           id={nodeId}
           file={file}

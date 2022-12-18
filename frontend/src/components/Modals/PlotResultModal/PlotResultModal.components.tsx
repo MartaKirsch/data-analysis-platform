@@ -22,4 +22,5 @@ export const PlotResultModalInnerBody = styled.div`
 
 export const PlotResultModalImage = styled.img`
   margin-top: 42px;
+  width: 100%;
 `;
