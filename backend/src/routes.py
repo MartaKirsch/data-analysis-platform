@@ -1,14 +1,16 @@
 from flask import request, jsonify, send_file
 import pandas as pd
 from src import app
-from .error_handler import linear_regression_validator, pca_validator, naive_bayes_validator, predictor_validator
+from .error_handling.calculation_error_handling import linear_regression_validator, pca_validator, naive_bayes_validator, decision_tree_validator
+from .error_handling.predictors_error_handling import predictor_validator
 import io
 
 # dictionary of function mappings
 FUNCTION_MAPPINGS = {
     'linear_regression': linear_regression_validator,
     'pca': pca_validator,
-    'naive_bayes': naive_bayes_validator
+    'naive_bayes': naive_bayes_validator,
+    'decision_tree': decision_tree_validator
 }
 
 calculation_node_dict = {}
@@ -107,9 +109,9 @@ def get_result(node_id):
             dict = calculation_node_dict[str(node_id)]
             model = dict["model"]
             original_sample = dict["original_file_sample"]
-            labels = dict["labels"]
+            prediction_properties = dict["prediction_properties"]
 
-            result = predictor_validator(model, req, original_sample, labels)
+            result = predictor_validator(model, req, original_sample, prediction_properties)
             if result[0]:
                 return request_handler(str(result[1]), 200)
             else:

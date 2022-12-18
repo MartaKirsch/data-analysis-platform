@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
-
+# input dataframe, string
 def do_pca(data, classes):
     result = {}
 
