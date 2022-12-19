@@ -60,7 +60,7 @@ export const useNodesAside = () => {
     type: DraggableType.AddCalculationNode,
     item: {
       calculationType: CalculationType.RandomForest,
-      ref: addDecisionTreeNodeButtonRef,
+      ref: addRandomForestNodeButtonRef,
     },
   }));
 
