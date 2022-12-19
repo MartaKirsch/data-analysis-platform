@@ -1,7 +1,7 @@
 from flask import request, jsonify, send_file
 import pandas as pd
 from src import app
-from .error_handling.calculation_error_handling import linear_regression_validator, pca_validator, naive_bayes_validator, decision_tree_validator
+from .error_handling.calculation_error_handling import linear_regression_validator, pca_validator, naive_bayes_validator, decision_tree_validator, random_forest_validator
 from .error_handling.predictors_error_handling import predictor_validator
 import io
 
@@ -10,7 +10,8 @@ FUNCTION_MAPPINGS = {
     'linear_regression': linear_regression_validator,
     'pca': pca_validator,
     'naive_bayes': naive_bayes_validator,
-    'decision_tree': decision_tree_validator
+    'decision_tree': decision_tree_validator,
+    'random_forest': random_forest_validator
 }
 
 calculation_node_dict = {}
