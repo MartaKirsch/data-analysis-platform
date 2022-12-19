@@ -10,6 +10,7 @@ from .data_processing import DataProcessing, fig2img
 def makeDecTree(data, classes): # input pandas dataframe
     
     result = {}
+    properties = {}
 
     columns = []
     for col in data.columns:
@@ -58,7 +59,11 @@ def makeDecTree(data, classes): # input pandas dataframe
     names = []
     for name in tree_classifier.classes_:
         names.append(str(name))
-    
+
+    # set properties for result file
+    properties["test_score"] = test_score
+    properties["train_score"] = train_score
+
     # creating decision tree plot
     plt.figure(figsize=(8, 8))
     plt.title('Decision tree')
@@ -66,6 +71,7 @@ def makeDecTree(data, classes): # input pandas dataframe
     plot = fig2img(plt)
     result["plot"] = plot
     result['model'] = tree_classifier
+    result['file'] = pd.DataFrame([properties])
     result["prediction_properties"] = {"pred_type": "tree"}
     result["original_file_sample"] = sample
     
