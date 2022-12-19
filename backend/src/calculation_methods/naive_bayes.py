@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn import metrics
 
-
+# input dataframe, string
 def naive_bayes(data, classes):
     result = {}
 
@@ -48,6 +48,5 @@ def naive_bayes(data, classes):
     result["file"] = pd.concat([teX, target, preds, accuracy], axis=1)
     result["model"] = gnb
     result["original_file_sample"] = sample
-    result["labels"] = label
-
+    result["prediction_properties"] = {"pred_type": "bayes", "labels": label}
     return result
