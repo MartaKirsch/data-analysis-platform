@@ -10,6 +10,7 @@ export const POSSIBLE_CALCULATION_CONNECTIONS: CalculationNodeConnections = {
   [CalculationType.LinearRegression]: [],
   [CalculationType.NaiveBayes]: [],
   [CalculationType.PCA]: [],
+  [CalculationType.DecisionTree]: [],
 };
 
 export const useCanDropCalculationNode = () => {

@@ -10,6 +10,8 @@ export const mapCalculationTypeToTooltipText = (
       return "PCA";
     case CalculationType.NaiveBayes:
       return "Naive Bayes";
+    case CalculationType.DecisionTree:
+      return "Decision Tree";
   }
 };
 
