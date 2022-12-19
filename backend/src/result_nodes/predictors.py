@@ -9,7 +9,7 @@ def predictor(model, sample, prediction_properties):
     # prediction for decision tree and random forest
     if prediction_properties["pred_type"] == "tree":
         x = sample_arr.reshape(1, -1)
-        result = model.predict(x)[0]
+        result = model.predict(x)
         return result
     # prediction for bayes
     elif prediction_properties["pred_type"] == "bayes":
