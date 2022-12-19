@@ -19,6 +19,7 @@ const POSSIBLE_CONNECTIONS: CalculationNodeConnections = {
     ResultType.Prediction,
     ResultType.File,
   ],
+  [CalculationType.RandomForest]: [ResultType.Prediction, ResultType.File],
 };
 
 export const useCanDropResultNode = () => {

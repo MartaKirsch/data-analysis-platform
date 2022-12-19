@@ -8,6 +8,7 @@ export const validateConnectRequest = (
     case CalculationType.PCA:
     case CalculationType.NaiveBayes:
     case CalculationType.DecisionTree:
+    case CalculationType.RandomForest:
       return !!req.classes;
     default:
       return true;

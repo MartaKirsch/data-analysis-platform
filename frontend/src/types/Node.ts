@@ -16,6 +16,7 @@ export enum CalculationType {
   PCA = "pca",
   NaiveBayes = "naive_bayes",
   DecisionTree = "decision_tree",
+  RandomForest = "random_forest",
 }
 
 export enum ResultType {
@@ -55,11 +56,14 @@ export type ResultNode = NodeBase & {
 
 export type Node = DataNode | CalculationNode | ResultNode;
 
-export type PCAparameters = { Class: string };
-export type NaiveBayesParameters = { Class: string };
-export type DecisionTreeParameters = { Class: string };
+export type ClassParameters = { Class: string };
+export type PCAparameters = ClassParameters;
+export type NaiveBayesParameters = ClassParameters;
+export type DecisionTreeParameters = ClassParameters;
+export type RandomForestParameters = ClassParameters;
 
 export type CalculationNodeParameters =
   | PCAparameters
   | NaiveBayesParameters
-  | DecisionTreeParameters;
+  | DecisionTreeParameters
+  | RandomForestParameters;

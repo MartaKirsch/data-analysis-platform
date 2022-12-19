@@ -11,6 +11,7 @@ export const POSSIBLE_CALCULATION_CONNECTIONS: CalculationNodeConnections = {
   [CalculationType.NaiveBayes]: [],
   [CalculationType.PCA]: [],
   [CalculationType.DecisionTree]: [],
+  [CalculationType.RandomForest]: [],
 };
 
 export const useCanDropCalculationNode = () => {

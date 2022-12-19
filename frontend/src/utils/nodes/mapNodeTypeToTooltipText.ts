@@ -12,6 +12,8 @@ export const mapCalculationTypeToTooltipText = (
       return "Naive Bayes";
     case CalculationType.DecisionTree:
       return "Decision Tree";
+    case CalculationType.RandomForest:
+      return "Random Forest";
   }
 };
 
