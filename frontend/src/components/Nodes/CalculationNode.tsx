@@ -135,6 +135,7 @@ const CalculationNode: FC<Props> = ({
     CalculationType.PCA,
     CalculationType.NaiveBayes,
     CalculationType.DecisionTree,
+    CalculationType.RandomForest,
   ];
   const hasModal = calculationTypesWithModals.includes(calculationType);
   const shouldRenderModal =

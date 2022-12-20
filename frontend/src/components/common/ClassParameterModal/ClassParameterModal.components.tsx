@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-export const NaiveBayesModalBody = styled.div`
+export const ClassParameterModalBody = styled.div`
   max-height: 70vh;
 
   overflow: auto;
 `;
 
-export const NaiveBayesModalInnerBody = styled.div`
+export const ClassParameterModalInnerBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -15,7 +15,7 @@ export const NaiveBayesModalInnerBody = styled.div`
   padding: 20px 0;
 `;
 
-export const NaiveBayesModalSelectWrapper = styled.div`
+export const ClassParameterModalSelectWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

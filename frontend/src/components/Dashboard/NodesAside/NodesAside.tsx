@@ -24,6 +24,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
     dragFileResult,
     dragPredictionResult,
     dragDecisionTree,
+    dragRandomForest,
     buttonRefs,
   } = useNodesAside();
 
@@ -71,6 +72,13 @@ const NodesAside: FC<NodesAsideProps> = () => {
             calculationType={CalculationType.DecisionTree}
             nodeType={NodeType.Calculation}
             ref={mergeRefs([buttonRefs.addDecisionTree, dragDecisionTree])}
+          />
+        </NodeTippy>
+        <NodeTippy content="Random Forest">
+          <NodeButton
+            calculationType={CalculationType.RandomForest}
+            nodeType={NodeType.Calculation}
+            ref={mergeRefs([buttonRefs.addRandomForest, dragRandomForest])}
           />
         </NodeTippy>
       </NodesAsideRow>

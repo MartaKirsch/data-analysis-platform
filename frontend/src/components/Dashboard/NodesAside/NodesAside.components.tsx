@@ -4,6 +4,22 @@ export const NodesAsideWrapper = styled.aside`
   width: ${({ theme }) => theme.dimensions.aside.width};
   height: 100vh;
 
+  overflow-y: auto;
+  @-moz-document url-prefix() {
+    scrollbar-width: thin;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ccc;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+
+  padding-bottom: 150px;
+
   background-color: ${({ theme }) => theme.colors.aside.background};
 `;
 
