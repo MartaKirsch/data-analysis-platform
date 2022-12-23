@@ -31,6 +31,7 @@ interface Props extends ComponentWithChildren {
   calculationType: CalculationType;
   parameters?: CalculationNodeParameters;
   error?: string;
+  index: number;
 }
 
 const CalculationNode: FC<Props> = ({
@@ -40,6 +41,7 @@ const CalculationNode: FC<Props> = ({
   calculationType,
   parameters,
   error,
+  index,
 }) => {
   const prevParams = useRef(parameters);
   const { nodes, connect, connections } = useBoardContext();
@@ -212,6 +214,7 @@ const CalculationNode: FC<Props> = ({
         isModalOpen={isModalOpen}
         onNodeClick={handleNodeClick}
         isError={!!error}
+        dataId={`${index.toString()}-calculation-node`}
       >
         {renderCalculationNodeIcon(calculationType)}
       </NodeComponent>

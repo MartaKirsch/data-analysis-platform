@@ -17,9 +17,10 @@ interface Props extends ComponentWithChildren {
   left: number;
   id: string;
   resultType: ResultType;
+  index: number;
 }
 
-const ResultNode: FC<Props> = ({ top, left, id, resultType }) => {
+const ResultNode: FC<Props> = ({ top, left, id, resultType, index }) => {
   const { nodes, connect, connections } = useBoardContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -81,6 +82,7 @@ const ResultNode: FC<Props> = ({ top, left, id, resultType }) => {
         )}
         onNodeClick={() => setIsModalOpen(true)}
         isModalOpen={isModalOpen}
+        dataId={`${index.toString()}-result-node`}
       >
         {renderResultNodeIcon(resultType)}
       </Node>

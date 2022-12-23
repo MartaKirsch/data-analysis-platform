@@ -36,6 +36,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
             dataType={NodeDataType.File}
             nodeType={NodeType.Data}
             ref={mergeRefs([buttonRefs.addFileData, dragFileData])}
+            dataId="add-file-data-node"
           />
         </NodeTippy>
       </NodesAsideRow>
@@ -48,6 +49,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
               buttonRefs.addLinearRegressionCalculation,
               dragLinearRegression,
             ])}
+            dataId="add-linear-regression-calculation-node"
           />
         </NodeTippy>
         <NodeTippy content="PCA">
@@ -55,6 +57,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
             calculationType={CalculationType.PCA}
             nodeType={NodeType.Calculation}
             ref={mergeRefs([buttonRefs.addPCAcalculation, dragPCA])}
+            dataId="add-pca-calculation-node"
           />
         </NodeTippy>
         <NodeTippy content="Naive Bayes">
@@ -65,6 +68,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
               buttonRefs.addNaiveBayesCalculation,
               dragNaiveBayes,
             ])}
+            dataId="add-naive-bayes-calculation-node"
           />
         </NodeTippy>
         <NodeTippy content="Decision Tree">
@@ -72,6 +76,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
             calculationType={CalculationType.DecisionTree}
             nodeType={NodeType.Calculation}
             ref={mergeRefs([buttonRefs.addDecisionTree, dragDecisionTree])}
+            dataId="add-decision-tree-calculation-node"
           />
         </NodeTippy>
         <NodeTippy content="Random Forest">
@@ -79,6 +84,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
             calculationType={CalculationType.RandomForest}
             nodeType={NodeType.Calculation}
             ref={mergeRefs([buttonRefs.addRandomForest, dragRandomForest])}
+            dataId="add-random-forest-calculation-node"
           />
         </NodeTippy>
       </NodesAsideRow>
@@ -88,6 +94,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
             resultType={ResultType.Plot}
             nodeType={NodeType.Result}
             ref={mergeRefs([buttonRefs.addPlotResult, dragPlotResult])}
+            dataId="add-plot-result-node"
           />
         </NodeTippy>
         <NodeTippy content="File Result">
@@ -95,6 +102,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
             resultType={ResultType.File}
             nodeType={NodeType.Result}
             ref={mergeRefs([buttonRefs.addFileResult, dragFileResult])}
+            dataId="add-file-result-node"
           />
         </NodeTippy>
         <NodeTippy content="Prediction">
@@ -105,6 +113,7 @@ const NodesAside: FC<NodesAsideProps> = () => {
               buttonRefs.addPredictionResult,
               dragPredictionResult,
             ])}
+            dataId="add-prediction-result-node"
           />
         </NodeTippy>
       </NodesAsideRow>

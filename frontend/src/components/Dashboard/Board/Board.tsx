@@ -23,7 +23,11 @@ const Board: FC<BoardProps> = () => {
   const { boardRef, drop } = useBoard();
   const { nodes, coordinates } = useBoardContext();
 
-  const renderDataNode = (node: DataNodeType, coordinate: Coordinate) => (
+  const renderDataNode = (
+    node: DataNodeType,
+    coordinate: Coordinate,
+    index: number
+  ) => (
     <DataNode
       key={node.id}
       id={node.id}
@@ -32,12 +36,14 @@ const Board: FC<BoardProps> = () => {
       dataType={node.dataType}
       data={node.data}
       errors={node.errors}
+      index={index}
     />
   );
 
   const renderCalculationNode = (
     node: CalculationNodeType,
-    coordinate: Coordinate
+    coordinate: Coordinate,
+    index: number
   ) => (
     <CalculationNode
       key={node.id}
@@ -47,33 +53,39 @@ const Board: FC<BoardProps> = () => {
       calculationType={node.calculationType}
       parameters={node.parameters}
       error={node.error}
+      index={index}
     />
   );
 
-  const renderResultNode = (node: ResultNodeType, coordinate: Coordinate) => (
+  const renderResultNode = (
+    node: ResultNodeType,
+    coordinate: Coordinate,
+    index: number
+  ) => (
     <ResultNode
       key={node.id}
       id={node.id}
       top={coordinate.y}
       left={coordinate.x}
       resultType={node.resultType}
+      index={index}
     />
   );
 
-  const renderNodeByType = (node: Node) => {
+  const renderNodeByType = (node: Node, index: number) => {
     const coordinate = coordinates.find((coord) => coord.nodeId === node.id)!;
     switch (node.type) {
       case NodeType.Data:
-        return renderDataNode(node, coordinate);
+        return renderDataNode(node, coordinate, index);
       case NodeType.Calculation:
-        return renderCalculationNode(node, coordinate);
+        return renderCalculationNode(node, coordinate, index);
       case NodeType.Result:
-        return renderResultNode(node, coordinate);
+        return renderResultNode(node, coordinate, index);
     }
   };
 
   return (
-    <BoardWrapper ref={mergeRefs([boardRef, drop])}>
+    <BoardWrapper ref={mergeRefs([boardRef, drop])} data-id="board">
       <ConnectionsBoard />
       {nodes.map(renderNodeByType)}
     </BoardWrapper>

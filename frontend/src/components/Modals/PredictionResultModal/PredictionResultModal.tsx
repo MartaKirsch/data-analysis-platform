@@ -147,6 +147,7 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
         text: "Calculation Result - Prediction",
         backgroundColor: getNodeBackgroundHoverColor({ theme, nodeType }),
       }}
+      dataId="prediction-result-modal"
     >
       {!shouldSendGetResultRequest && (
         <ErrorMessageBar message={createErrorMessage()} />
@@ -167,6 +168,7 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
             <PredictionResultModalButton
               disabled={!isValid || !!error}
               onClick={handleSubmit(onSubmit)}
+              data-id="predict-button"
             >
               Predict
             </PredictionResultModalButton>
