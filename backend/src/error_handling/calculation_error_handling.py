@@ -15,8 +15,8 @@ from ..calculation_methods.random_forest import makeRanForest
 
 # linear regression error handling
 def linear_regression_validator(data, request):
-    x_index = request.form['column_indexes[0]']
-    y_index = request.form['column_indexes[1]']
+    x_index = request.form['columnIndexes[0]']
+    y_index = request.form['columnIndexes[1]']
     validator = ErrorHandler(2, 2, data.iloc[:, [int(x_index),int(y_index)]])
     if validator.check_column_format():
         result = makeLinReg(data, int(x_index), int(y_index))
