@@ -1,8 +1,14 @@
 import DecisionTreeModal from "../../components/Modals/DecisionTreeModal";
+import LinearRegressionModal from "../../components/Modals/LinearRegressionModal";
 import NaiveBayesModal from "../../components/Modals/NaiveBayesModal";
 import PCAModal from "../../components/Modals/PCAModal";
 import RandomForestModal from "../../components/Modals/RandomForestModal";
-import { CalculationNodeParameters, CalculationType } from "../../types/Node";
+import {
+  CalculationNodeParameters,
+  CalculationType,
+  ClassParameters,
+  LinearRegressionParameters,
+} from "../../types/Node";
 
 export const renderCalculationModal = (
   dataType: CalculationType,
@@ -12,13 +18,22 @@ export const renderCalculationModal = (
   parameters?: CalculationNodeParameters
 ) => {
   switch (dataType) {
+    case CalculationType.LinearRegression:
+      return (
+        <LinearRegressionModal
+          onClose={onCloseModal}
+          id={nodeId}
+          file={file}
+          parameters={parameters as LinearRegressionParameters}
+        />
+      );
     case CalculationType.PCA:
       return (
         <PCAModal
           onClose={onCloseModal}
           id={nodeId}
           file={file}
-          parameters={parameters}
+          parameters={parameters as ClassParameters}
         />
       );
     case CalculationType.NaiveBayes:
@@ -27,7 +42,7 @@ export const renderCalculationModal = (
           onClose={onCloseModal}
           id={nodeId}
           file={file}
-          parameters={parameters}
+          parameters={parameters as ClassParameters}
         />
       );
     case CalculationType.DecisionTree:
@@ -36,7 +51,7 @@ export const renderCalculationModal = (
           onClose={onCloseModal}
           id={nodeId}
           file={file}
-          parameters={parameters}
+          parameters={parameters as ClassParameters}
         />
       );
     case CalculationType.RandomForest:
@@ -45,7 +60,7 @@ export const renderCalculationModal = (
           onClose={onCloseModal}
           id={nodeId}
           file={file}
-          parameters={parameters}
+          parameters={parameters as ClassParameters}
         />
       );
     default:

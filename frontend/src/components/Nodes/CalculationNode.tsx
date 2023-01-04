@@ -132,6 +132,7 @@ const CalculationNode: FC<Props> = ({
   ) as DataNode;
 
   const calculationTypesWithModals = [
+    CalculationType.LinearRegression,
     CalculationType.PCA,
     CalculationType.NaiveBayes,
     CalculationType.DecisionTree,

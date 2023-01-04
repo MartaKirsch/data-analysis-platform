@@ -1,6 +1,11 @@
 import axios from "axios";
 import { useBoardContext } from "../context/useBoardContext";
-import { CalculationNodeParameters, CalculationType } from "../types/Node";
+import {
+  CalculationNodeParameters,
+  CalculationType,
+  ClassParameters,
+  LinearRegressionParameters,
+} from "../types/Node";
 import {
   DataCalculationConnectedRequest,
   DataCalculationConnectedRequestBody,
@@ -21,7 +26,8 @@ export const useSendDataCalculationConnected = () => {
     file,
     calculationType,
     type: file.type,
-    classes: parameters?.Class,
+    classes: (parameters as ClassParameters)?.Class,
+    columnIndexes: (parameters as LinearRegressionParameters)?.Indexes,
   });
 
   const createDataCalculationConnectedRequest = (
@@ -32,6 +38,10 @@ export const useSendDataCalculationConnected = () => {
     request.append("type", reqBody.type);
     request.append("calculationType", reqBody.calculationType);
     request.append("classes", reqBody.classes || "");
+    if (reqBody.columnIndexes)
+      reqBody.columnIndexes.forEach((index) =>
+        request.append("columnIndexes", index.toString())
+      );
     return request;
   };
 
