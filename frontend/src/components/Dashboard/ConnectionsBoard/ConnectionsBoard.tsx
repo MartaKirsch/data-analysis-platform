@@ -91,6 +91,7 @@ const ConnectionsBoard: FC = () => {
         rotate={radians}
         key={index}
         onClick={() => disconnect(nodeId1, nodeId2)}
+        data-id="connection-bar"
       />
     );
   };

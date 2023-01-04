@@ -14,12 +14,13 @@ interface NodeButtonProps extends ComponentWithChildren {
   dataType?: NodeDataType;
   calculationType?: CalculationType;
   resultType?: ResultType;
+  dataId?: string;
 }
 
 const NodeButton = forwardRef<HTMLDivElement, NodeButtonProps>(
-  ({ nodeType, dataType, calculationType, resultType }, ref) => {
+  ({ nodeType, dataType, calculationType, resultType, dataId }, ref) => {
     return (
-      <NodeBase nodeType={nodeType} ref={ref}>
+      <NodeBase nodeType={nodeType} ref={ref} data-id={dataId}>
         {renderNodeIcon(nodeType, { dataType, calculationType, resultType })}
       </NodeBase>
     );

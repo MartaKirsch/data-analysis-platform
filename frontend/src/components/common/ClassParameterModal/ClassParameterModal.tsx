@@ -87,7 +87,11 @@ const ClassParameterModal: FC<ClassParameterModalProps> = ({
                 required: { value: true, message: "This field is required!" },
               }}
               render={({ field: { value, onChange } }) => (
-                <Select value={value} onChange={onChange}>
+                <Select
+                  data-id="class-select"
+                  value={value}
+                  onChange={onChange}
+                >
                   <Option key="default-option" value={undefined}></Option>
                   {getColumnNames().map((c, i) => (
                     <Option value={c} key={`${c}-${i}`}>

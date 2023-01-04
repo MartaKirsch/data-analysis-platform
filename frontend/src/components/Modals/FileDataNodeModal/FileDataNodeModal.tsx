@@ -73,6 +73,7 @@ const FileDataNodeModal: FC<FileDataNodeModalProps> = ({
           text: "Upload data file",
           backgroundColor: getNodeBackgroundHoverColor({ theme, nodeType }),
         }}
+        dataId="file-data-modal"
       >
         <>
           {errors &&
@@ -85,6 +86,7 @@ const FileDataNodeModal: FC<FileDataNodeModalProps> = ({
           <UploadRow>
             <UploadFileInputWrapper>
               <UploadFileInput
+                data-id="file-upload-input"
                 type="file"
                 accept={acceptedMimeTypes.join(",")}
                 {...register("File")}

@@ -85,6 +85,7 @@ const FileResultModal: FC<FileResultModalProps> = ({
         text: "Calculation Result",
         backgroundColor: getNodeBackgroundHoverColor({ theme, nodeType }),
       }}
+      dataId="file-result-modal"
     >
       {!shouldSendGetResultRequest && (
         <ErrorMessageBar message={createErrorMessage()} />
@@ -103,7 +104,11 @@ const FileResultModal: FC<FileResultModalProps> = ({
                 />
               )}
             </FileResultModalFileRow>
-            <FileResultModalLink href={plotUrl} download={plotFilename}>
+            <FileResultModalLink
+              data-id="download-button"
+              href={plotUrl}
+              download={plotFilename}
+            >
               Download
             </FileResultModalLink>
           </FileResultModalInnerBody>
