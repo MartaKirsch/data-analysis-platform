@@ -15,13 +15,12 @@ from ..calculation_methods.random_forest import makeRanForest
 
 # linear regression error handling
 def linear_regression_validator(data, request):
-    validator = ErrorHandler(2, 2, data)
+    x_index = request.form['column_indexes[0]']
+    y_index = request.form['column_indexes[1]']
+    validator = ErrorHandler(2, 2, data.iloc[:, [int(x_index),int(y_index)]])
     if validator.check_column_format():
-        if validator.check_column_number():
-            result = makeLinReg(data)
-            return [True, result]
-        else:
-            return [False, (ErrorHandler.request_handler("Incorrect number of columns.", 422))]
+        result = makeLinReg(data, int(x_index), int(y_index))
+        return [True, result]
     else:
         return [False, (ErrorHandler.request_handler("Wrong data type in at least one of the columns.", 422))]
 
