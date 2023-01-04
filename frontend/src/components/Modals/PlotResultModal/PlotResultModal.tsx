@@ -80,6 +80,7 @@ const PlotResultModal: FC<PlotResultModalProps> = ({
         text: "Calculation Result",
         backgroundColor: getNodeBackgroundHoverColor({ theme, nodeType }),
       }}
+      dataId="plot-result-modal"
     >
       {!shouldSendGetResultRequest && (
         <ErrorMessageBar message={createErrorMessage()} />
@@ -88,7 +89,11 @@ const PlotResultModal: FC<PlotResultModalProps> = ({
         <PlotResultModalBody>
           <PlotResultModalInnerBody>
             <PlotResultModalImage src={plotUrl} alt="plot" />
-            <PlotResultModalLink href={plotUrl} download={plotFilename}>
+            <PlotResultModalLink
+              data-id="download-button"
+              href={plotUrl}
+              download={plotFilename}
+            >
               Download
             </PlotResultModalLink>
           </PlotResultModalInnerBody>

@@ -12,11 +12,22 @@ interface NodeProps extends ComponentWithChildren {
   isModalOpen: boolean;
   onNodeClick: () => void;
   isError?: boolean;
+  dataId?: string;
 }
 
 const Node = forwardRef<HTMLDivElement, NodeProps>(
   (
-    { top, left, nodeType, modal, children, isModalOpen, onNodeClick, isError },
+    {
+      top,
+      left,
+      nodeType,
+      modal,
+      children,
+      isModalOpen,
+      onNodeClick,
+      isError,
+      dataId,
+    },
     ref
   ) => {
     return (
@@ -28,6 +39,7 @@ const Node = forwardRef<HTMLDivElement, NodeProps>(
           nodeType={nodeType}
           ref={ref}
           onClick={onNodeClick}
+          data-id={dataId}
         >
           {isError && (
             <ErrorIconWrapper>

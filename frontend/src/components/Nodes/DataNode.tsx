@@ -26,9 +26,18 @@ interface Props extends ComponentWithChildren {
   dataType: NodeDataType;
   data: NodeData;
   errors: DataNodeError[];
+  index: number;
 }
 
-const DataNode: FC<Props> = ({ top, left, id, dataType, data, errors }) => {
+const DataNode: FC<Props> = ({
+  top,
+  left,
+  id,
+  dataType,
+  data,
+  errors,
+  index,
+}) => {
   const { nodes, connect, connections, setNodeCalculationParameters } =
     useBoardContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -138,6 +147,7 @@ const DataNode: FC<Props> = ({ top, left, id, dataType, data, errors }) => {
         onNodeClick={() => setIsModalOpen(true)}
         isModalOpen={isModalOpen}
         isError={!!errors.length}
+        dataId={`${index.toString()}-data-node`}
       >
         {renderDataNodeIcon(dataType)}
       </Node>

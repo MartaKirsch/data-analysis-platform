@@ -12,18 +12,20 @@ export interface ModalProps extends ComponentWithChildren {
   backgroundColor: string;
   onClose: () => void;
   modalHeader: { text: string; backgroundColor: string; color?: string };
+  dataId?: string;
 }
 
 const Modal: FC<ModalProps> = ({
   backgroundColor,
   onClose,
   modalHeader,
+  dataId,
   children,
 }) => {
   return (
-    <ModalWrapper>
+    <ModalWrapper data-id={dataId}>
       <ModalInnerWrapper backgroundColor={backgroundColor}>
-        <ModalCloseButton onClick={onClose}>
+        <ModalCloseButton onClick={onClose} data-id="close-modal">
           <CloseIcon />
         </ModalCloseButton>
         <ModalHeader
