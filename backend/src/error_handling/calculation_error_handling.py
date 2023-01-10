@@ -27,7 +27,7 @@ def linear_regression_validator(data, request):
 # pca error handling
 def pca_validator(data, request):
     classes = request.form['classes']
-    validator = ErrorHandler(3, 40, data.loc[:, data.columns != classes])
+    validator = ErrorHandler(2, 40, data.loc[:, data.columns != classes])
     if validator.check_column_format():
         if validator.check_column_number():
             try:
@@ -43,7 +43,7 @@ def pca_validator(data, request):
 
 def naive_bayes_validator(data, request):
     classes = request.form['classes']
-    validator = ErrorHandler(3, 40, data.loc[:, data.columns != classes])
+    validator = ErrorHandler(2, 40, data.loc[:, data.columns != classes])
     if validator.check_column_format():
         if validator.check_column_number():
             try:
@@ -58,7 +58,7 @@ def naive_bayes_validator(data, request):
 
 def decision_tree_validator(data, request):
     classes = request.form['classes']
-    validator = ErrorHandler(3, 40, data.loc[:, data.columns != classes])
+    validator = ErrorHandler(2, 40, data.loc[:, data.columns != classes])
     if validator.check_column_format():
         if validator.check_column_number():
             try:
@@ -73,7 +73,7 @@ def decision_tree_validator(data, request):
 
 def random_forest_validator(data, request):
     classes = request.form['classes']
-    validator = ErrorHandler(3, 40, data.loc[:, data.columns != classes])
+    validator = ErrorHandler(2, 40, data.loc[:, data.columns != classes])
     if validator.check_column_format():
         if validator.check_column_number():
             try:
