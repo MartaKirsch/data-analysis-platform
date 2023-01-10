@@ -8,7 +8,7 @@ import {
   getNodeBackgroundColor,
   getNodeBackgroundHoverColor,
 } from "../../../styles/mixins";
-import { NodeType, ResultType } from "../../../types/Node";
+import { ClassParameters, NodeType, ResultType } from "../../../types/Node";
 import { mapConnectionToIdBased } from "../../../utils/nodes/mapConnectionToIdBased";
 import ErrorMessageBar from "../../common/ErrorMessageBar";
 import * as XLSX from "xlsx";
@@ -68,7 +68,8 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
     const tableRows = getTableRows();
     const allColumnNames = Object.keys(tableRows[0] || {});
     return allColumnNames.filter(
-      (c) => c !== connectedCalculationNode?.parameters?.Class
+      (c) =>
+        c !== (connectedCalculationNode?.parameters as ClassParameters)?.Class
     );
   };
   const columnNames = getColumnNames();

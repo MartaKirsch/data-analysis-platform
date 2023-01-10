@@ -7,4 +7,5 @@ export type DataCalculationConnectedRequestBody = {
   calculationType: CalculationType;
   type: string;
   classes?: string;
+  columnIndexes?: number[];
 };

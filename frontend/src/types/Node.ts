@@ -57,6 +57,7 @@ export type ResultNode = NodeBase & {
 export type Node = DataNode | CalculationNode | ResultNode;
 
 export type ClassParameters = { Class: string };
+export type LinearRegressionParameters = { Indexes: number[] };
 export type PCAparameters = ClassParameters;
 export type NaiveBayesParameters = ClassParameters;
 export type DecisionTreeParameters = ClassParameters;
@@ -66,4 +67,5 @@ export type CalculationNodeParameters =
   | PCAparameters
   | NaiveBayesParameters
   | DecisionTreeParameters
-  | RandomForestParameters;
+  | RandomForestParameters
+  | LinearRegressionParameters;

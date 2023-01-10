@@ -39,11 +39,14 @@ def SGD(X_train,
 
     return theta
 
-def makeLinReg(data):
+def makeLinReg(data, x_index, y_index):
     # słownik rozwiązań ("plot" i "file")
     result = {}
     # wczytanie danych
     data = data.to_numpy()
+    #wybór odpowiednich kolumn
+    data = np.append(data[:,x_index].reshape(-1,1), data[:,y_index].reshape(-1,1), axis=1)
+    
     data = DataProcessing.shuffleData(data)
 
     # podzial na zbior treningowy i testowy
