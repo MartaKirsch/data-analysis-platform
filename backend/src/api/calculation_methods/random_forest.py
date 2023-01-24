@@ -113,7 +113,6 @@ def makeRanForest(data, classes):  # input pandas dataframe
     properties['train_score'] = train_score
     properties['test_score'] = test_score
     result['file'] = pd.DataFrame([properties])
-    result["prediction_properties"] = {"pred_type": "tree"}
     result["original_file_sample"] = sample
 
     return result

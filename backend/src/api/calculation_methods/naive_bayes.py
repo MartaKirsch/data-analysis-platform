@@ -6,7 +6,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn import metrics
 
 # input dataframe, string
-def naive_bayes(data, classes):
+def makeNaiveBayes(data, classes):
     result = {}
 
     columns = []

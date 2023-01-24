@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
 # input dataframe, string
-def do_pca(data, classes):
+def makePCA(data, classes, n_components):
     result = {}
 
     columns = []
@@ -18,7 +18,6 @@ def do_pca(data, classes):
 
     # transform class labels to allow for pca
     data = data.to_numpy()
-    data = DataProcessing.shuffleData(data)
     data = pd.DataFrame(data, columns=columns)
     y, label = pd.factorize(data[classes])
     data[classes] = y
@@ -32,16 +31,15 @@ def do_pca(data, classes):
     teX = scaler.transform(teX)
 
     # pca
-    pca = PCA(n_components=2)
+    pca = PCA(n_components=5)
     trX = pca.fit_transform(trX)
     teX = pca.transform(teX)
 
-    # possible setup for future logistic regression?
     X_set, y_set = np.concatenate((trX, teX), axis=0), np.concatenate((label[trY], label[teY]), axis=0)
     X1, X2 = np.meshgrid(np.arange(start=X_set[:, 0].min() - 1,
-                                   stop=X_set[:, 0].max() + 1, step=0.01),
+                                   stop=X_set[:, 0].max() + 1),
                          np.arange(start=X_set[:, 1].min() - 1,
-                                   stop=X_set[:, 1].max() + 1, step=0.01))
+                                   stop=X_set[:, 1].max() + 1))
 
     # colormaps
     palette = sns.color_palette(None, len(data[classes].unique()))
@@ -67,9 +65,17 @@ def do_pca(data, classes):
     plt.close()
 
     # append components
-    components = pd.DataFrame(X_set, columns=["PC1", "PC2"])
+    components_columns = []
+    explained_variance_columns = []
+    for i in range(len(X_set[0])):
+        components_columns.append("PC{}".format(i+1))
+        explained_variance_columns.append("PC{} explained variance".format(i+1))
+
+    components = pd.DataFrame(X_set, columns=components_columns)
+    explained_variance = pd.DataFrame(data = [pca.explained_variance_ratio_], columns = explained_variance_columns)
+    component_df = pd.concat([components, explained_variance], axis=1)
     target = pd.DataFrame(y_set, columns=[classes])
-    component_df = pd.concat([components, target], axis=1)
+    component_df = pd.concat([component_df, target], axis=1)
     result["file"] = component_df
 
     return result

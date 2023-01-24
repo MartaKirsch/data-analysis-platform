@@ -72,7 +72,6 @@ def makeDecTree(data, classes): # input pandas dataframe
     result["plot"] = plot
     result['model'] = tree_classifier
     result['file'] = pd.DataFrame([properties])
-    result["prediction_properties"] = {"pred_type": "tree"}
     result["original_file_sample"] = sample
     
     return result

@@ -48,15 +48,15 @@ def upload_file(node_id):
             # allow for multiple types of separators in csv
             try:
                 df_data = pd.read_csv(data, sep='[;,,]')
-            except Exception as ex:
+            except:
                 return request_handler("Could not read file.", 500)
             # check errors unique to functions
             result = FUNCTION_MAPPINGS[method](df_data, request)
-            if result[0] == True:
+            if result[0].status_code == 200:
                 calculation_node_dict[str(node_id)] = result[1]
-                return request_handler("Success!", 200)
+                return result[0]
             else:
-                return result[1]
+                return result[0]
         else:
             return request_handler("Wrong filetype.", 415)
     else:
@@ -110,13 +110,12 @@ def get_result(node_id):
             dict = calculation_node_dict[str(node_id)]
             model = dict["model"]
             original_sample = dict["original_file_sample"]
-            prediction_properties = dict["prediction_properties"]
 
-            result = predictor_validator(model, req, original_sample, prediction_properties)
-            if result[0]:
+            result = predictor_validator(model, req, original_sample)
+            if result[0].status_code == 200:
                 return request_handler(str(result[1]), 200)
             else:
-                return result[1]
+                return result[0]
         except Exception as ex:
             return request_handler("This calculation cannot return a prediction.", 500)
     else:
