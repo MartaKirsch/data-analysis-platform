@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
 # input dataframe, string
-def makePCA(data, classes, n_components):
+def makePCA(data, classes):
     result = {}
 
     columns = []
@@ -31,7 +31,7 @@ def makePCA(data, classes, n_components):
     teX = scaler.transform(teX)
 
     # pca
-    pca = PCA(n_components=5)
+    pca = PCA()
     trX = pca.fit_transform(trX)
     teX = pca.transform(teX)
 
@@ -54,7 +54,7 @@ def makePCA(data, classes, n_components):
     for i, j in enumerate(np.unique(y_set)):
         plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
                     c=cmap(i), label=j)
-    plt.title('Principal Component Analysis')
+    plt.title(str(classes))
     plt.xlabel('PC1')
     plt.ylabel('PC2')
     plt.legend()
@@ -67,15 +67,15 @@ def makePCA(data, classes, n_components):
     # append components
     components_columns = []
     explained_variance_columns = []
+    additional_info = [pca.n_samples_, pca.n_features_, pca.n_features_in_]
     for i in range(len(X_set[0])):
         components_columns.append("PC{}".format(i+1))
         explained_variance_columns.append("PC{} explained variance".format(i+1))
 
-    components = pd.DataFrame(X_set, columns=components_columns)
     explained_variance = pd.DataFrame(data = [pca.explained_variance_ratio_], columns = explained_variance_columns)
-    component_df = pd.concat([components, explained_variance], axis=1)
-    target = pd.DataFrame(y_set, columns=[classes])
-    component_df = pd.concat([component_df, target], axis=1)
+    additional_info = pd.DataFrame(data=[additional_info],
+                                   columns=["number of samples", "number of features", "number of features during fitting"])
+    component_df = pd.concat([explained_variance, additional_info], axis=1)
     result["file"] = component_df
 
     return result
