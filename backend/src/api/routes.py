@@ -110,14 +110,15 @@ def get_result(node_id):
             dict = calculation_node_dict[str(node_id)]
             model = dict["model"]
             original_sample = dict["original_file_sample"]
+            labels = dict["labels"]
 
-            result = predictor_validator(model, req, original_sample)
+            result = predictor_validator(model, req, original_sample, labels)
             if result[0].status_code == 200:
                 return request_handler(str(result[1]), 200)
             else:
                 return result[0]
         except Exception as ex:
-            return request_handler("This calculation cannot return a prediction.", 500)
+            return request_handler(ex, 500)
     else:
         return request_handler("Incorrect type of result expected.", 415)
 

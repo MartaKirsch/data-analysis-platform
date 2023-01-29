@@ -20,7 +20,7 @@ def makePCA(data, classes):
     data = data.to_numpy()
     data = pd.DataFrame(data, columns=columns)
     y, label = pd.factorize(data[classes])
-    data[classes] = y
+    data[classes] = pd.DataFrame(data=y)
 
     dataX, dataY = data.loc[:, data.columns != classes], data[classes]
 
@@ -36,10 +36,6 @@ def makePCA(data, classes):
     teX = pca.transform(teX)
 
     X_set, y_set = np.concatenate((trX, teX), axis=0), np.concatenate((label[trY], label[teY]), axis=0)
-    X1, X2 = np.meshgrid(np.arange(start=X_set[:, 0].min() - 1,
-                                   stop=X_set[:, 0].max() + 1),
-                         np.arange(start=X_set[:, 1].min() - 1,
-                                   stop=X_set[:, 1].max() + 1))
 
     # colormaps
     palette = sns.color_palette(None, len(data[classes].unique()))
@@ -47,8 +43,6 @@ def makePCA(data, classes):
 
     # create plot
     plt.figure(figsize=(5, 5))
-    plt.xlim(X1.min(), X1.max())
-    plt.ylim(X2.min(), X2.max())
 
     # draw points
     for i, j in enumerate(np.unique(y_set)):
@@ -67,14 +61,14 @@ def makePCA(data, classes):
     # append components
     components_columns = []
     explained_variance_columns = []
-    additional_info = [pca.n_samples_, pca.n_features_, pca.n_features_in_]
+    additional_info = [pca.n_samples_, pca.n_features_]
     for i in range(len(X_set[0])):
         components_columns.append("PC{}".format(i+1))
         explained_variance_columns.append("PC{} explained variance".format(i+1))
 
     explained_variance = pd.DataFrame(data = [pca.explained_variance_ratio_], columns = explained_variance_columns)
     additional_info = pd.DataFrame(data=[additional_info],
-                                   columns=["number of samples", "number of features", "number of features during fitting"])
+                                   columns=["number of samples", "number of features"])
     component_df = pd.concat([explained_variance, additional_info], axis=1)
     result["file"] = component_df
 

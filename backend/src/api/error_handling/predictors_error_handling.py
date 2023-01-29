@@ -9,7 +9,7 @@ sys.path.append('../')
 from ..result_nodes.predictors import predictor
 
 # sample = dict, original_sample = dataframe
-def predictor_validator(model, sample, original_sample):
+def predictor_validator(model, sample, original_sample, labels):
     # order sample according to original file
     original_columns = original_sample.columns
     sample_df = pd.DataFrame([sample])
@@ -22,7 +22,7 @@ def predictor_validator(model, sample, original_sample):
             if not (is_numeric_dtype(orgDataType[i]) and is_numeric_dtype(dataType[i])):
                 return [ErrorHandler.request_handler("Wrong data type in sample.", 422)]
     try:
-        result = predictor(model, ordered_sample)
+        result = predictor(model, ordered_sample, labels)
         return [ErrorHandler.request_handler("", 200), result[0]]
     except Exception as ex:
         return [ErrorHandler.request_handler(ex, 422)]

@@ -19,10 +19,9 @@ def makeNaiveBayes(data, classes):
 
     #transform class labels to allow for pca
     data = data.to_numpy()
-    data = DataProcessing.shuffleData(data)
     data = pd.DataFrame(data, columns=columns)
     y, label = pd.factorize(data[classes])
-    data[classes] = y
+    data[classes] = pd.DataFrame(data=y)
 
     dataX, dataY = data.loc[:, data.columns != classes], data[classes]
 
@@ -48,5 +47,5 @@ def makeNaiveBayes(data, classes):
     result["file"] = pd.concat([teX, target, preds, accuracy], axis=1)
     result["model"] = gnb
     result["original_file_sample"] = sample
-    result["prediction_properties"] = {"pred_type": "bayes", "labels": label}
+    result["labels"] = label
     return result
