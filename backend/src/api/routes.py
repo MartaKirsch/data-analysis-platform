@@ -17,17 +17,6 @@ FUNCTION_MAPPINGS = {
 calculation_node_dict = {}
 
 
-# basic error handling tbd
-@app.errorhandler(400)
-def resource_not_found(e):
-    return jsonify(error=str(e)), 400
-
-
-@app.errorhandler(500)
-def resource_not_found(e):
-    return jsonify(error=str(e)), 500
-
-
 def request_handler(message, status_code):
     response = jsonify({'response': message})
     response.status_code = status_code
@@ -114,7 +103,9 @@ def get_result(node_id):
 
             result = predictor_validator(model, req, original_sample, labels)
             if result[0].status_code == 200:
-                return request_handler(str(result[1]), 200)
+                res = jsonify(result[1])
+                res.status_code = 200
+                return res
             else:
                 return result[0]
         except Exception as ex:

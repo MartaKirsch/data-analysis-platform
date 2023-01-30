@@ -23,6 +23,6 @@ def predictor_validator(model, sample, original_sample, labels):
                 return [ErrorHandler.request_handler("Wrong data type in sample.", 422)]
     try:
         result = predictor(model, ordered_sample, labels)
-        return [ErrorHandler.request_handler("", 200), result[0]]
+        return [ErrorHandler.request_handler("", 200), result]
     except Exception as ex:
         return [ErrorHandler.request_handler(ex, 422)]
