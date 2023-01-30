@@ -31,20 +31,16 @@ def makeNaiveBayes(data, classes):
     #Gaussian Naive-Bayes
     gnb = GaussianNB()
     gnb.fit(trX, trY)
-    predY = gnb.predict(teX)
 
-    #return predictions for test set
-    preds = pd.DataFrame(label[pd.DataFrame(predY, columns = [classes])], columns = ["Predicted " + classes])
-    target = pd.DataFrame(label[pd.DataFrame(teY)], columns = [classes])
+    #get evaluation
+    eval = pd.DataFrame(pd.Series(gnb.class_count_), columns=["number of classes"])
+    eval["classes detected"] = label[pd.Series(gnb.classes_)]
+    eval["class prior probability (%)"] = pd.Series(np.round(gnb.class_prior_ * 100, 5))
+    eval["number of features"] = pd.Series(gnb.n_features_in_)
+    eval["mean accuracy (%)"] = pd.Series([round(gnb.score(teX, teY), 5) * 100])
+    eval.fillna('')
 
-    #calculate accuracy on test data
-    accuracy = pd.DataFrame([str(metrics.accuracy_score(teY, predY) * 100) + "%"], columns=["Accuracy"])
-
-    #reindex
-    target.index= preds.index = teX.index
-    accuracy.index = np.arange(teX.iloc[0].name, len(accuracy)+int(teX.iloc[0].name))
-
-    result["file"] = pd.concat([teX, target, preds, accuracy], axis=1)
+    result["file"] = eval
     result["model"] = gnb
     result["original_file_sample"] = sample
     result["labels"] = label
