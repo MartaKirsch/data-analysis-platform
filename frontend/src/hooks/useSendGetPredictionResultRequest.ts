@@ -5,11 +5,12 @@ import { GetResultRequest } from "../types/requests/GetResultRequest";
 import { isAxiosError } from "../types/responses/isAxiosError";
 import { isServerResponse } from "../types/responses/ServerResponse";
 
-type Response = { response: string };
+type Response = { predictedClass: string; predictedProbability: string };
 
 export const useSendGetPredictionResultRequest = () => {
   const [error, setError] = useState<string>();
   const [prediction, setPrediction] = useState<string>();
+  const [probability, setProbability] = useState<string>();
 
   const resetError = () => {
     setError(undefined);
@@ -23,7 +24,8 @@ export const useSendGetPredictionResultRequest = () => {
       return axios
         .post<Response>(`/result/${nodeId}`, request)
         .then(async (res) => {
-          setPrediction(res.data.response);
+          setPrediction(res.data.predictedClass);
+          setProbability(res.data.predictedProbability);
         })
         .catch((e) => {
           if (isAxiosError(e) && isServerResponse(e))
@@ -34,5 +36,11 @@ export const useSendGetPredictionResultRequest = () => {
     []
   );
 
-  return { sendGetPredictionResultRequest, error, prediction, resetError };
+  return {
+    sendGetPredictionResultRequest,
+    error,
+    prediction,
+    probability,
+    resetError,
+  };
 };

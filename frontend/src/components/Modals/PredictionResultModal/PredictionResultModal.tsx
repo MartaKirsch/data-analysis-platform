@@ -41,8 +41,13 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
 }) => {
   const { nodes, connections } = useBoardContext();
 
-  const { sendGetPredictionResultRequest, error, prediction, resetError } =
-    useSendGetPredictionResultRequest();
+  const {
+    sendGetPredictionResultRequest,
+    error,
+    prediction,
+    probability,
+    resetError,
+  } = useSendGetPredictionResultRequest();
 
   const {
     hasCorrectDataUploaded,
@@ -175,9 +180,14 @@ const PredictionResultModal: FC<PredictionResultModalProps> = ({
             </PredictionResultModalButton>
             {error && <ErrorMessageBar message={error} />}
             {prediction && (
-              <PredictionResultPrediction>
-                Prediction: {prediction}
-              </PredictionResultPrediction>
+              <>
+                <PredictionResultPrediction>
+                  Prediction: {prediction}
+                </PredictionResultPrediction>
+                <PredictionResultPrediction>
+                  Probability: {probability}
+                </PredictionResultPrediction>
+              </>
             )}
           </PredictionResultModalInnerBody>
         </PredictionResultModalBody>
