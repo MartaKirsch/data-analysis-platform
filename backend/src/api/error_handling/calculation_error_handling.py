@@ -22,7 +22,7 @@ def linear_regression_validator(data, request):
     if v_check_1.status_code == 200:
         if v_check_2.status_code == 200:
             result = makeLinReg(data, int(col_indexes[0]), int(col_indexes[1]))
-            return [ErrorHandler.request_handler("Success!", 422), result]
+            return [ErrorHandler.request_handler("Success!", 200), result]
         else:
             return [v_check_2]
     else:
