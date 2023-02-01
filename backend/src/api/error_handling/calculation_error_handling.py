@@ -22,7 +22,7 @@ def linear_regression_validator(data, request):
     if v_check_1.status_code == 200:
         if v_check_2.status_code == 200:
             result = makeLinReg(data, int(col_indexes[0]), int(col_indexes[1]))
-            return [ErrorHandler.request_handler("Success!", 422), result]
+            return [ErrorHandler.request_handler("Success!", 200), result]
         else:
             return [v_check_2]
     else:
@@ -69,7 +69,7 @@ def naive_bayes_validator(data, request):
                     except Exception as ex:
                         return ErrorHandler.request_handler(ex, 400)
                 else:
-                    return [ErrorHandler.request_handler("Too few classes.", 422)]
+                    return [ErrorHandler.request_handler("Too many or too few classes.", 422)]
             else:
                 return [v_check_3]
         else:
@@ -117,7 +117,7 @@ def random_forest_validator(data, request):
                     except Exception as ex:
                         return ErrorHandler.request_handler(ex, 400)
                 else:
-                    return [ErrorHandler.request_handler("Too few classes.", 422)]
+                    return [ErrorHandler.request_handler("Too many or too few classes.", 422)]
             else:
                 return [v_check_3]
         else:
