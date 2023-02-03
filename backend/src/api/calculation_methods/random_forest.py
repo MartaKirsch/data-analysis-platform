@@ -78,12 +78,13 @@ def makeRanForest(data, classes):  # input pandas dataframe
 
     # load data
     data = data.to_numpy()
-    data = DataProcessing.shuffleData(data)
     data = pd.DataFrame(data, columns=columns)
+    y, label = pd.factorize(data[classes])
+    data[classes] = pd.DataFrame(data=y)
     dataX, dataY = data.loc[:, data.columns != classes], data[classes]
 
     # split for train set and test set
-    trX, teX, trY, teY = train_test_split(dataX, dataY, test_size=0.3)
+    trX, teX, trY, teY = train_test_split(dataX, dataY, test_size=0.3, random_state = 0)
     result = {}
 
     # setting properties for classifier
@@ -113,8 +114,8 @@ def makeRanForest(data, classes):  # input pandas dataframe
     properties['train_score'] = train_score
     properties['test_score'] = test_score
     result['file'] = pd.DataFrame([properties])
-    result["prediction_properties"] = {"pred_type": "tree"}
     result["original_file_sample"] = sample
+    result["labels"] = label
 
     return result
 

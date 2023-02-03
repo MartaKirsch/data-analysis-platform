@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.debug = True
 CORS(app, expose_headers=["Content-Disposition"])
 
-from src import routes
+from .api import routes
 
 
 

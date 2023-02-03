@@ -17,17 +17,6 @@ FUNCTION_MAPPINGS = {
 calculation_node_dict = {}
 
 
-# basic error handling tbd
-@app.errorhandler(400)
-def resource_not_found(e):
-    return jsonify(error=str(e)), 400
-
-
-@app.errorhandler(500)
-def resource_not_found(e):
-    return jsonify(error=str(e)), 500
-
-
 def request_handler(message, status_code):
     response = jsonify({'response': message})
     response.status_code = status_code
@@ -48,15 +37,15 @@ def upload_file(node_id):
             # allow for multiple types of separators in csv
             try:
                 df_data = pd.read_csv(data, sep='[;,,]')
-            except Exception as ex:
+            except:
                 return request_handler("Could not read file.", 500)
             # check errors unique to functions
             result = FUNCTION_MAPPINGS[method](df_data, request)
-            if result[0] == True:
+            if result[0].status_code == 200:
                 calculation_node_dict[str(node_id)] = result[1]
-                return request_handler("Success!", 200)
+                return result[0]
             else:
-                return result[1]
+                return result[0]
         else:
             return request_handler("Wrong filetype.", 415)
     else:
@@ -110,15 +99,17 @@ def get_result(node_id):
             dict = calculation_node_dict[str(node_id)]
             model = dict["model"]
             original_sample = dict["original_file_sample"]
-            prediction_properties = dict["prediction_properties"]
+            labels = dict["labels"]
 
-            result = predictor_validator(model, req, original_sample, prediction_properties)
-            if result[0]:
-                return request_handler(str(result[1]), 200)
+            result = predictor_validator(model, req, original_sample, labels)
+            if result[0].status_code == 200:
+                res = jsonify(result[1])
+                res.status_code = 200
+                return res
             else:
-                return result[1]
+                return result[0]
         except Exception as ex:
-            return request_handler("This calculation cannot return a prediction.", 500)
+            return request_handler(ex, 500)
     else:
         return request_handler("Incorrect type of result expected.", 415)
 

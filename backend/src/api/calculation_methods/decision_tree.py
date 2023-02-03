@@ -8,7 +8,7 @@ from .data_processing import DataProcessing, fig2img
 
 
 def makeDecTree(data, classes): # input pandas dataframe
-    
+
     result = {}
     properties = {}
 
@@ -22,19 +22,20 @@ def makeDecTree(data, classes): # input pandas dataframe
 
     # load data
     data = data.to_numpy()
-    data = DataProcessing.shuffleData(data)
     data = pd.DataFrame(data, columns=columns)
+    y, label = pd.factorize(data[classes])
+    data[classes] = pd.DataFrame(data=y)
     dataX, dataY = data.loc[:, data.columns != classes], data[classes]
 
     # split for train set and test set
     trX, teX, trY, teY = train_test_split(dataX,dataY, test_size = 0.3)
-    
+
     # creating decision tree classifier
     tree_classifier = tree.DecisionTreeClassifier(random_state=0)
-    
+
     # getting all alphas coef
     alphas = tree_classifier.cost_complexity_pruning_path(trX,trY).ccp_alphas
-    
+
     # setting the best alphas coef
     classifiers = []
     for alpha in alphas:
@@ -47,7 +48,7 @@ def makeDecTree(data, classes): # input pandas dataframe
     test_scores = [i.score(teX, teY) for i in classifiers]
 
     bestTestIndex = np.argmax(test_scores)
-    
+
     if(train_scores[bestTestIndex] - test_scores[bestTestIndex] >= -0.05
        and abs(train_scores[0] - train_scores[bestTestIndex])<0.2):
         tree_classifier = classifiers[bestTestIndex]
@@ -58,7 +59,11 @@ def makeDecTree(data, classes): # input pandas dataframe
     test_score = tree_classifier.score(teX, teY)
     names = []
     for name in tree_classifier.classes_:
-        names.append(str(name))
+        names.append(int(name))
+
+    names = label[pd.DataFrame(names, columns=[classes])]
+    names = str(names.tolist())
+    names = [num for elem in names for num in elem]
 
     # set properties for result file
     properties["test_score"] = test_score
@@ -72,9 +77,9 @@ def makeDecTree(data, classes): # input pandas dataframe
     result["plot"] = plot
     result['model'] = tree_classifier
     result['file'] = pd.DataFrame([properties])
-    result["prediction_properties"] = {"pred_type": "tree"}
     result["original_file_sample"] = sample
-    
+    result["labels"] = label
+
     return result
 # result = {
 #    "plot":  PIL image
