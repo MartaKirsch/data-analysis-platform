@@ -69,7 +69,7 @@ def naive_bayes_validator(data, request):
                     except Exception as ex:
                         return ErrorHandler.request_handler(ex, 400)
                 else:
-                    return [ErrorHandler.request_handler("Too many or too few classes.", 422)]
+                    return [ErrorHandler.request_handler("Too few classes.", 422)]
             else:
                 return [v_check_3]
         else:
@@ -117,7 +117,7 @@ def random_forest_validator(data, request):
                     except Exception as ex:
                         return ErrorHandler.request_handler(ex, 400)
                 else:
-                    return [ErrorHandler.request_handler("Too many or too few classes.", 422)]
+                    return [ErrorHandler.request_handler("Too few classes.", 422)]
             else:
                 return [v_check_3]
         else:

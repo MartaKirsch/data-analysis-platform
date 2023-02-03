@@ -37,7 +37,6 @@ def upload_file(node_id):
             # allow for multiple types of separators in csv
             try:
                 df_data = pd.read_csv(data, sep='[;,,]')
-                df_data = df_data.fillna(df_data.median(numeric_only = True))
             except:
                 return request_handler("Could not read file.", 500)
             # check errors unique to functions
