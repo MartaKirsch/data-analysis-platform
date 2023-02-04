@@ -62,8 +62,8 @@ def makeDecTree(data, classes): # input pandas dataframe
         names.append(int(name))
 
     names = label[pd.DataFrame(names, columns=[classes])]
-    names = str(names.tolist())
-    names = [num for elem in names for num in elem]
+    names = names.tolist()
+    names = [str(num) for elem in names for num in elem]
 
     # set properties for result file
     properties["test_score"] = test_score

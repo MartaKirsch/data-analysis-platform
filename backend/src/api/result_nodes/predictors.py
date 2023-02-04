@@ -7,4 +7,4 @@ def predictor(model, sample, labels):
     prediction = model.predict(sample_arr)
     proba_pred = str(round(model.predict_proba(sample_arr).max()*100, 5)) + "%"
     # assign correct class label
-    return {"predictedClass": labels[prediction][0], "predictedProbability": proba_pred}
+    return {"predictedClass": str(labels[prediction][0]), "predictedProbability": proba_pred}
